@@ -1,0 +1,365 @@
+/* ── RESET ── */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;overflow:hidden;}
+
+/* ── KEYFRAMES ── */
+@keyframes crestPulse{0%{transform:scale(0.95);opacity:0}12%{opacity:0.7}68%{transform:scale(1.15);opacity:0}100%{transform:scale(0.95);opacity:0}}
+@keyframes orbGlow{0%,100%{opacity:0.85}50%{opacity:1}}
+@keyframes liveDot{0%,100%{opacity:1}50%{opacity:0.2}}
+@keyframes irisNavPulse{0%,100%{box-shadow:0 0 0 4px rgba(108,171,221,0.12),0 4px 20px rgba(108,171,221,0.22)}50%{box-shadow:0 0 0 8px rgba(108,171,221,0.06),0 4px 28px rgba(108,171,221,0.38)}}
+@keyframes irisHdrPulse{0%,100%{box-shadow:0 0 0 0 rgba(108,171,221,0)}50%{box-shadow:0 0 0 5px rgba(108,171,221,0.18)}}
+@keyframes irisGoldPulse{0%,100%{box-shadow:0 0 0 4px rgba(201,168,76,0.18),0 4px 24px rgba(201,168,76,0.35)}50%{box-shadow:0 0 0 10px rgba(201,168,76,0.08),0 4px 36px rgba(201,168,76,0.55)}}
+@keyframes liveBlink{0%,100%{opacity:1}50%{opacity:0.18}}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:0.15}}
+@keyframes liveRing{0%{transform:scale(1);opacity:0.6}100%{transform:scale(2.2);opacity:0}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes toastUp{0%{transform:translateY(110%);opacity:0}18%{opacity:1}100%{transform:translateY(0);opacity:1}}
+@keyframes toastIn{0%{transform:translateY(-110%);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes goalBurst{0%{opacity:0;transform:scale(0.3)}18%{opacity:0.7}100%{opacity:0;transform:scale(1)}}
+@keyframes goalNameIn{0%{opacity:0;transform:translateY(28px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes goalScoreIn{0%{opacity:0;transform:scale(0.72)}60%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+@keyframes varDot{0%,60%,100%{opacity:0.18;transform:scale(0.8)}30%{opacity:1;transform:scale(1)}}
+@keyframes slideUp{0%{transform:translateY(110%);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes rayRotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes scrRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@keyframes scrLeft{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+@keyframes scrUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes scrFade{from{opacity:0}to{opacity:1}}
+@keyframes scrTakeover{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+
+/* ── DEVICE ── */
+#device{width:390px;height:844px;position:relative;overflow:hidden;border-radius:18px;background:#0D0D0D;border:1px solid rgba(255,255,255,0.08);box-shadow:0 20px 80px rgba(0,0,0,0.8);flex-shrink:0;-webkit-transform:translateZ(0);transform:translateZ(0);-webkit-backface-visibility:hidden;}
+
+/* ── SCREENS ── */
+.screen{position:absolute;inset:0;background:#0D0D0D;overflow:hidden;display:none;-webkit-overflow-scrolling:touch;}
+.screen.active{display:block;}
+.screen.anim-right{animation:scrRight 0.3s ease-out forwards;}
+.screen.anim-left{animation:scrLeft 0.3s ease-out forwards;}
+.screen.anim-up{animation:scrUp 0.38s cubic-bezier(0.34,1.1,0.64,1) forwards;}
+.screen.anim-fade{animation:scrFade 0.25s ease-out forwards;}
+.screen.anim-takeover{animation:scrTakeover 0.4s cubic-bezier(0.34,1.1,0.64,1) forwards;}
+
+/* ── OVERLAYS ── */
+.overlay{position:absolute;inset:0;z-index:150;pointer-events:none;display:none;}
+.overlay.vis{display:block;pointer-events:all;}
+
+/* ── SHELL NAV ── */
+#shell-nav{position:absolute;bottom:16px;left:16px;right:16px;height:62px;background:rgba(8,13,22,0.97);border:1px solid rgba(255,255,255,0.09);border-radius:31px;display:flex;align-items:center;padding:0 6px;z-index:200;transition:opacity 0.2s,transform 0.2s;}
+#shell-nav.live{border-color:rgba(108,171,221,0.16);}
+#shell-nav.off{opacity:0;pointer-events:none;transform:translateY(12px);}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,0.34);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
+.ni.on{color:#6CABDD;}
+.ni svg{width:20px;height:20px;}
+.ni span{font-size:9px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;}
+.ni.on span{font-weight:600;}
+.ni-gap{width:60px;flex-shrink:0;}
+
+/* ── SHELL IRIS ── */
+#shell-iris{position:absolute;bottom:23px;left:50%;transform:translateX(-50%);width:52px;height:52px;background:#6CABDD;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;z-index:201;cursor:pointer;animation:irisNavPulse 2.8s ease-in-out infinite;-webkit-tap-highlight-color:transparent;transition:opacity 0.2s,transform 0.2s;}
+#shell-iris.off{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(12px);}
+#shell-iris span{font-size:7.5px;font-weight:700;letter-spacing:0.1em;color:white;text-transform:uppercase;opacity:0.88;}
+
+/* ── SIMULATE PANEL ── */
+#sim-panel{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:9999;}
+/* On narrow viewports (phone width) push sim-panel to the left of the device */
+@media(max-width:500px){#sim-panel{right:auto;left:4px;bottom:4px;}}
+#sim-toggle{width:46px;height:46px;background:#C9A84C;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:19px;box-shadow:0 4px 20px rgba(0,0,0,0.5),0 0 0 4px rgba(201,168,76,0.15);transition:transform 0.2s;}
+#sim-toggle.open{transform:rotate(45deg);}
+#sim-menu{background:rgba(6,9,14,0.97);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:12px;display:none;flex-direction:column;gap:4px;min-width:194px;box-shadow:0 8px 40px rgba(0,0,0,0.7);}
+#sim-menu.open{display:flex;}
+.sml{font-size:9px;font-weight:700;color:rgba(255,255,255,0.28);letter-spacing:0.18em;text-transform:uppercase;padding:6px 4px 2px;}
+.sb{padding:8px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:9px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);cursor:pointer;font-family:'Inter',sans-serif;text-align:left;transition:background 0.12s;display:flex;align-items:center;gap:7px;}
+.sb:hover{background:rgba(255,255,255,0.1);}
+.sb.gold{background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.25);color:#C9A84C;}
+.sb.blue{background:rgba(108,171,221,0.12);border-color:rgba(108,171,221,0.25);color:#6CABDD;}
+
+/* ── UTILS ── */
+[data-ns]{scrollbar-width:none;-ms-overflow-style:none;}
+[data-ns]::-webkit-scrollbar{display:none;}
+input,select,button,textarea{font-family:'Inter',sans-serif;}
+select{-webkit-appearance:none;appearance:none;color-scheme:dark;}
+select option{background-color:#1C2C4C;color:#fff;}
+input::placeholder{color:rgba(255,255,255,0.28);}
+input:focus,select:focus{border-color:rgba(108,171,221,0.55)!important;outline:none;}
+
+/* ── PLACEHOLDER SCREENS ── */
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+.ph-badge{font-size:9px;font-weight:700;color:#6CABDD;letter-spacing:0.2em;text-transform:uppercase;background:rgba(108,171,221,0.1);border:1px solid rgba(108,171,221,0.2);padding:4px 12px;border-radius:20px;}
+.ph-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.02em;text-align:center;padding:0 32px;}
+.ph-sub{font-size:13px;color:rgba(255,255,255,0.35);text-align:center;padding:0 32px;}
+.ph-back{margin-top:4px;padding:9px 20px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:10px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.6);cursor:pointer;}
+
+/* ── BACK ARROW ── */
+.back-arrow{width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;margin-left:-6px;flex-shrink:0;}
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHT MODE — toggled via body.light-mode
+═══════════════════════════════════════════════════════════ */
+
+/* Screen & device backgrounds */
+body.light-mode .screen { background: #EEF1F7 !important; }
+body.light-mode #device  { background: #EEF1F7 !important; }
+
+/* Primary card / tile surfaces */
+body.light-mode [style*="background:#111520"],
+body.light-mode [style*="background: #111520"] { background: #FFFFFF !important; }
+body.light-mode [style*="background:#0d1118"] { background: #FFFFFF !important; }
+body.light-mode [style*="background:#080d14"] { background: #F4F6FB !important; }
+body.light-mode [style*="background:#09080f"] { background: #F4F6FB !important; }
+body.light-mode [style*="background:#0e0906"] { background: #F5F6FA !important; }
+body.light-mode [style*="background:#0D0D0D"] { background: #EEF1F7 !important; }
+body.light-mode [style*="background:#000;"]   { background: #EEF1F7 !important; }
+body.light-mode [style*='background:#1C2C4C'] { background: #D2E4F7 !important; }
+
+/* Screen-root + full-bleed dark backgrounds */
+body.light-mode [style*="background:#060911"] { background: #EEF1F7 !important; }
+body.light-mode [style*="background:#06152b"] { background: #EAF1FA !important; }
+body.light-mode [style*="background:#060c14"] { background: #EEF1F7 !important; }
+body.light-mode [style*="background:#09080f"] { background: #EEF1F7 !important; }
+
+/* Inner cards / tiles (dark navy & tinted surfaces) */
+body.light-mode [style*="background:#0c111c"] { background: #FFFFFF !important; }
+body.light-mode [style*="background:#0e1422"] { background: #FFFFFF !important; }
+body.light-mode [style*="background:#0a1e3a"] { background: #EAF1FA !important; }
+body.light-mode [style*="background:#0e1c14"] { background: #F0F7F1 !important; }
+body.light-mode [style*="background:#0c1008"] { background: #F6F4ED !important; }
+body.light-mode [style*="background:#0a0800"] { background: #F6F4ED !important; }
+body.light-mode [style*="background:#1a2238"] { background: #E4E9F2 !important; }
+
+/* Slide-up overlay cards (scorer / VAR / substitution) */
+body.light-mode [style*="background:#0d1e38"] { background: #FFFFFF !important; }
+body.light-mode [style*="background:#0c1930"] { background: #FFFFFF !important; }
+body.light-mode [style*="background:#0c1522"] { background: #FFFFFF !important; }
+
+/* Keep white text/icons legible on accent-coloured chips & buttons */
+body.light-mode [style*="background:#6CABDD"][style*="color:#fff"],
+body.light-mode [style*="background:#22c55e"][style*="color:#fff"],
+body.light-mode [style*="background:#C9A84C"][style*="color:#fff"],
+body.light-mode [style*="background:#ef4444"][style*="color:#fff"],
+body.light-mode [style*="background:#e8a838"][style*="color:#fff"] { color: #fff !important; }
+
+/* Text — pure white → near-black */
+body.light-mode [style*="color:#fff"] { color: #0F172A !important; }
+/* Text — white opacity variants */
+body.light-mode [style*="color:rgba(255,255,255,0.85)"] { color: rgba(15,23,42,0.78) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.7)"]  { color: rgba(15,23,42,0.62) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.6)"]  { color: rgba(15,23,42,0.54) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.55)"] { color: rgba(15,23,42,0.5) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.5)"]  { color: rgba(15,23,42,0.45) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.45)"] { color: rgba(15,23,42,0.4) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.4)"]  { color: rgba(15,23,42,0.35) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.35)"] { color: rgba(15,23,42,0.3) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.3)"]  { color: rgba(15,23,42,0.26) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.25)"] { color: rgba(15,23,42,0.22) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.18)"] { color: rgba(15,23,42,0.18) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.15)"] { color: rgba(15,23,42,0.16) !important; }
+
+/* Card/tile borders */
+body.light-mode [style*="border:1px solid rgba(255,255,255,0.07)"] { border-color: rgba(0,0,0,0.09) !important; }
+body.light-mode [style*="border:1px solid rgba(255,255,255,0.08)"] { border-color: rgba(0,0,0,0.10) !important; }
+body.light-mode [style*="border:1px solid rgba(255,255,255,0.06)"] { border-color: rgba(0,0,0,0.07) !important; }
+body.light-mode [style*="border:1px solid rgba(255,255,255,0.1)"]  { border-color: rgba(0,0,0,0.11) !important; }
+
+/* Bottom nav */
+body.light-mode #shell-nav {
+  background: rgba(235,238,246,0.97) !important;
+  border-top-color: rgba(0,0,0,0.09) !important;
+}
+body.light-mode #shell-nav [style*="color:rgba(255,255,255,0.3)"] { color: rgba(0,0,0,0.3) !important; }
+
+/* Scroll fade gradients (bottom of scroll areas) */
+body.light-mode [style*="linear-gradient(0deg,#0D0D0D"] {
+  background: linear-gradient(0deg,#EEF1F7 40%,transparent 100%) !important;
+}
+body.light-mode [style*="linear-gradient(0deg,#000"] {
+  background: linear-gradient(0deg,#EEF1F7 40%,transparent 100%) !important;
+}
+
+/* Input / chat bar  */
+body.light-mode [style*="background:#0a0f18"] { background: #FFFFFF !important; }
+
+/* Shimmer / skeleton base */
+body.light-mode [style*="background:rgba(255,255,255,0.04)"] { background: rgba(0,0,0,0.04) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.06)"] { background: rgba(0,0,0,0.05) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.08)"] { background: rgba(0,0,0,0.06) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.1)"]  { background: rgba(0,0,0,0.07) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.12)"] { background: rgba(0,0,0,0.07) !important; }
+
+/* Pill / badge backgrounds that use rgba white */
+body.light-mode [style*="background:rgba(255,255,255,0.15)"] { background: rgba(0,0,0,0.06) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.2)"]  { background: rgba(0,0,0,0.07) !important; }
+
+/* Divider lines */
+body.light-mode [style*="border-bottom:1px solid rgba(255,255,255,0.04)"] { border-bottom-color: rgba(0,0,0,0.06) !important; }
+body.light-mode [style*="border-top:1px solid rgba(255,255,255,0.06)"]    { border-top-color:    rgba(0,0,0,0.08) !important; }
+body.light-mode [style*="border-top:1px solid rgba(255,255,255,0.07)"]    { border-top-color:    rgba(0,0,0,0.09) !important; }
+
+/* Preserve images — no colour change */
+body.light-mode img { filter: none !important; }
+
+/* Accent colours stay as-is (City blue, gold, green look great on light) */
+
+/* ═══════════════════════════════════════════════════════
+   HOME-NAV MODE  (body.home-nav)
+   Hides the persistent bottom bar; nav lives on home
+═══════════════════════════════════════════════════════ */
+
+/* Hide the bar completely */
+body.home-nav #shell-nav { display: none !important; }
+body.home-nav #shell-iris { display: none !important; }
+
+/* Extend all screens to the true bottom */
+body.home-nav .screen { padding-bottom: 0; }
+
+
+/* The grid tile itself */
+
+/* IRIS orb pulse inside tile */
+
+/* Scroll bottom padding when nav grid is shown */
+body.home-nav [data-ns] { padding-bottom: 20px; }
+
+/* ── LIGHT MODE: COMPREHENSIVE FIXES ──────────────────────── */
+
+/* Missing text opacity levels */
+body.light-mode [style*="color:rgba(255,255,255,0.82)"] { color: rgba(15,23,42,0.76) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.8)"]  { color: rgba(15,23,42,0.72) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.78)"] { color: rgba(15,23,42,0.70) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.75)"] { color: rgba(15,23,42,0.67) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.65)"] { color: rgba(15,23,42,0.58) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.38)"] { color: rgba(15,23,42,0.33) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.28)"] { color: rgba(15,23,42,0.25) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.26)"] { color: rgba(15,23,42,0.23) !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.22)"] { color: rgba(15,23,42,0.2)  !important; }
+body.light-mode [style*="color:rgba(255,255,255,0.2)"]  { color: rgba(15,23,42,0.18) !important; }
+
+/* ── SVG ICONS: stroke attributes ── */
+/* Catch-all for any SVG using rgba white strokes */
+body.light-mode svg[stroke*="255,255,255"] { stroke: rgba(15,23,42,0.55) !important; }
+body.light-mode svg[stroke="#fff"]          { stroke: rgba(15,23,42,0.75) !important; }
+
+/* Individual exact values (chevrons, back arrows, header icons) */
+body.light-mode [stroke="rgba(255,255,255,0.65)"] { stroke: rgba(15,23,42,0.58) !important; }
+body.light-mode [stroke="rgba(255,255,255,0.45)"] { stroke: rgba(15,23,42,0.4)  !important; }
+body.light-mode [stroke="rgba(255,255,255,0.4)"]  { stroke: rgba(15,23,42,0.36) !important; }
+body.light-mode [stroke="rgba(255,255,255,0.35)"] { stroke: rgba(15,23,42,0.3)  !important; }
+body.light-mode [stroke="rgba(255,255,255,0.3)"]  { stroke: rgba(15,23,42,0.26) !important; }
+body.light-mode [stroke="rgba(255,255,255,0.25)"] { stroke: rgba(15,23,42,0.22) !important; }
+body.light-mode [stroke="rgba(255,255,255,0.2)"]  { stroke: rgba(15,23,42,0.18) !important; }
+body.light-mode [stroke="rgba(255,255,255,0.15)"] { stroke: rgba(15,23,42,0.14) !important; }
+body.light-mode [stroke="rgba(255,255,255,0.12)"] { stroke: rgba(15,23,42,0.11) !important; }
+body.light-mode [stroke="rgba(255,255,255,0.1)"]  { stroke: rgba(15,23,42,0.09) !important; }
+body.light-mode [stroke="rgba(255,255,255,0.07)"] { stroke: rgba(15,23,42,0.08) !important; }
+
+/* Keep accent-colour strokes visible on light bg (darken slightly) */
+body.light-mode [stroke="rgba(108,171,221,0.6)"]  { stroke: rgba(60,120,190,0.85) !important; }
+body.light-mode [stroke="rgba(108,171,221,0.5)"]  { stroke: rgba(60,120,190,0.75) !important; }
+body.light-mode [stroke="rgba(108,171,221,0.4)"]  { stroke: rgba(60,120,190,0.65) !important; }
+body.light-mode [stroke="rgba(201,168,76,0.6)"]   { stroke: rgba(160,125,30,0.85) !important; }
+body.light-mode [stroke="rgba(201,168,76,0.5)"]   { stroke: rgba(160,125,30,0.75) !important; }
+body.light-mode [stroke="rgba(34,197,94,0.5)"]    { stroke: rgba(20,160,60,0.8)   !important; }
+
+/* ── SVG ICONS: fill attributes ── */
+body.light-mode [fill="rgba(255,255,255,0.35)"] { fill: rgba(15,23,42,0.3) !important; }
+body.light-mode [fill="rgba(255,255,255,0.3)"]  { fill: rgba(15,23,42,0.26) !important; }
+
+/* Preserve white fills inside coloured buttons/orbs
+   (IRIS orb white circles, white text on blue buttons, etc.) */
+body.light-mode [style*="background:#6CABDD"] [fill="white"],
+body.light-mode [style*="background:#6CABDD"] [stroke="white"],
+body.light-mode [style*="background:#C9A84C"] [fill="white"],
+body.light-mode [style*="background:#22c55e"] [fill="white"],
+body.light-mode button [fill="white"],
+body.light-mode button [stroke="white"]              { fill: white !important; stroke: white !important; }
+
+/* Status-bar battery: inner white bar */
+body.light-mode [style*="background:white;border-radius:1px"] { background: rgba(15,23,42,0.75) !important; }
+
+/* background:white used in signal/battery indicator */
+body.light-mode div[style*="background:white"] { background: rgba(15,23,42,0.7) !important; }
+
+/* ── currentColor inheritance fix ──
+   Elements that set color: white via class or context */
+body.light-mode #shell-nav .nav-label { color: inherit; }
+
+/* Pill / tag backgrounds that use white with low opacity */
+body.light-mode [style*="background:rgba(255,255,255,0.16)"] { background: rgba(15,23,42,0.08) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.14)"] { background: rgba(15,23,42,0.07) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.18)"] { background: rgba(15,23,42,0.09) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.22)"] { background: rgba(15,23,42,0.09) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.25)"] { background: rgba(15,23,42,0.09) !important; }
+
+/* Border-radius small white squares (battery icon body) */
+body.light-mode [style*="border:1.5px solid rgba(255,255,255,0.75)"] { 
+  border-color: rgba(15,23,42,0.55) !important; 
+}
+body.light-mode [style*="border:1px solid rgba(255,255,255,0.75)"] { 
+  border-color: rgba(15,23,42,0.55) !important; 
+}
+
+/* Scrollable gradient fades */
+body.light-mode [style*="linear-gradient(180deg,rgba(13,13,13"] {
+  background: linear-gradient(180deg, rgba(238,241,247,0) 0%, rgba(238,241,247,1) 100%) !important;
+}
+
+/* hn-tile labels in light mode */
+
+/* ── LIGHT MODE: SHELL-NAV & IRIS ── */
+
+/* Nav item icons and labels */
+body.light-mode .ni          { color: rgba(15,23,42,0.38) !important; }
+body.light-mode .ni.on       { color: #2e6fba !important; }
+body.light-mode #shell-nav   { background: rgba(236,239,248,0.97) !important; border-color: rgba(15,23,42,0.09) !important; }
+
+/* IRIS button: keep white on blue */
+body.light-mode #shell-iris  { background: #5a9fd4 !important; }
+body.light-mode #shell-iris span { color: white !important; }
+body.light-mode #shell-iris [fill="white"]   { fill: white !important; }
+body.light-mode #shell-iris [stroke="white"] { stroke: white !important; }
+
+/* Screen title text (large font 9:41 time) */
+body.light-mode [style*="font-size:14px;font-weight:600;color:#fff"] { color: rgba(15,23,42,0.7) !important; }
+
+/* Status bar container icons (signal bars use currentColor) */
+body.light-mode [style*="color:rgba(255,255,255,0.8)"] svg,
+body.light-mode [style*="color:rgba(255,255,255,0.8)"] div { color: rgba(15,23,42,0.6); }
+
+/* ── PRESERVE IRIS ORB CIRCLES (always on blue bg, must stay white) ── */
+body.light-mode circle[fill="white"]   { fill: white !important; }
+body.light-mode circle[stroke="white"] { stroke: rgba(255,255,255,0.55) !important; }
+
+/* Explicit stroke="#fff" (1 occurrence, header icon) */
+body.light-mode [stroke="#fff"] { stroke: rgba(15,23,42,0.6) !important; }
+
+/* Headers: inline color:#fff on bold text (9:41 time, screen titles) */
+body.light-mode [style*="font-size:14px;font-weight:600;color:#fff;"] { color: rgba(15,23,42,0.65) !important; }
+body.light-mode [style*="font-size:20px;font-weight:800;color:#fff;"] { color: #0F172A !important; }
+body.light-mode [style*="font-size:22px;font-weight:800;color:#fff;"] { color: #0F172A !important; }
+body.light-mode [style*="font-size:26px;font-weight:800;color:#fff;"] { color: #0F172A !important; }
+body.light-mode [style*="font-size:17px;font-weight:700;color:#fff;"] { color: #0F172A !important; }
+
+/* Profile avatar initials */
+body.light-mode [style*="background:#1C2C4C"] { background: #D2E4F7 !important; }
+
+/* Input placeholders */
+body.light-mode input::placeholder { color: rgba(15,23,42,0.35) !important; }
+body.light-mode input[style*="color:#fff"] { color: #0F172A !important; background: #fff !important; }
+
+/* Dot indicators / progress bars that use white */
+body.light-mode [style*="background:rgba(255,255,255,0.3);border-radius:2px"] { background: rgba(15,23,42,0.18) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.08);border-radius:3px"] { background: rgba(15,23,42,0.08) !important; }
+body.light-mode [style*="background:rgba(255,255,255,0.1);border-radius:3px"]  { background: rgba(15,23,42,0.09) !important; }
+
+/* "live" pill background */
+body.light-mode [style*="background:rgba(255,255,255,0.07);border-radius"] { background: rgba(15,23,42,0.06) !important; }
+
+.home-nav-chat-cta { display: none; }
+body.home-nav .home-nav-chat-cta { display: block; }
+
+/* ── IRIS FAB: only visible in home-nav mode (no persistent nav bar) ── */
+.iris-fab { display: none !important; }
+body.home-nav .iris-fab { display: flex !important; }
+
+/* ── HOME-NAV back arrow: only visible in home-nav mode ── */
+.home-nav-back { display: none; }
+body.home-nav .home-nav-back { display: flex; align-items: center; }

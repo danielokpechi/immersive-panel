@@ -1,0 +1,357 @@
+<div id="screen-quests-active" class="screen" style="background:#0D0D0D;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:#fff;">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:4px;"><div class="back-arrow" onclick="goBack('home-pre-match')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Quests</span></div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div onclick="navigate('rewards-screen','right')" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:4px 11px;cursor:pointer;"><span style="font-size:11px;font-weight:700;color:#C9A84C;">Rewards ✦</span></div>
+      <div style="background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.22);border-radius:8px;padding:3px 9px;display:flex;align-items:center;gap:5px;"><div style="width:4px;height:4px;border-radius:50%;background:#22c55e;animation:livePulse 1.2s ease-in-out infinite;"></div><span style="font-size:10px;font-weight:700;color:#22c55e;">ACTIVE</span></div>
+    </div>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:78px;overflow-y:auto;" data-ns>
+    <div style="padding:0 14px;display:flex;flex-direction:column;gap:10px;">
+      <!-- quest 1 active -->
+      <div onclick="navigate('quest-detail','right')" style="background:rgba(108,171,221,0.1);border:1.5px solid rgba(108,171,221,0.28);border-radius:12px;padding:14px;cursor:pointer;">
+        <div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:10px;background:rgba(108,171,221,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📋</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">Pre-match Brief</div><div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px;">Read the IRIS briefing before kickoff</div></div><div style="text-align:right;"><div style="font-size:12px;font-weight:700;color:#6CABDD;">50 XP</div><div style="font-size:9px;color:rgba(34,197,94,0.8);margin-top:2px;font-weight:600;">IN PROGRESS</div></div></div>
+      </div>
+      <div onclick="navigate('quest-detail','right')" style="background:rgba(108,171,221,0.07);border:1px solid rgba(108,171,221,0.15);border-radius:12px;padding:14px;cursor:pointer;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:10px;background:rgba(108,171,221,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🎯</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">Make a Prediction</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;">Lock in your score prediction</div></div><div style="font-size:12px;font-weight:700;color:rgba(108,171,221,0.6);">75 XP</div></div></div>
+      <div onclick="navigate('quest-detail','right')" style="background:rgba(108,171,221,0.07);border:1px solid rgba(108,171,221,0.15);border-radius:12px;padding:14px;cursor:pointer;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:10px;background:rgba(108,171,221,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">💬</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">First Chat Message</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;">Send your first message in Fan Chat</div></div><div style="font-size:12px;font-weight:700;color:rgba(108,171,221,0.6);">50 XP</div></div></div>
+      <div onclick="navigate('quest-detail','right')" style="background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.18);border-radius:12px;padding:14px;cursor:pointer;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:10px;background:rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">⚽</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">React to a Goal</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;">First 10 to react earn bonus XP</div></div><div style="font-size:12px;font-weight:700;color:rgba(201,168,76,0.7);">100 XP</div></div></div>
+      <div onclick="navigate('quest-detail','right')" style="background:rgba(108,171,221,0.07);border:1px solid rgba(108,171,221,0.15);border-radius:12px;padding:14px;cursor:pointer;"><div style="display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;border-radius:10px;background:rgba(108,171,221,0.1);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🕐</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">Full Match Attendance</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:2px;">Stay in chat for the full 90 minutes</div></div><div style="font-size:12px;font-weight:700;color:rgba(108,171,221,0.6);">150 XP</div></div></div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:78px;left:0;right:0;height:36px;background:linear-gradient(0deg,#0D0D0D 40%,transparent 100%);pointer-events:none;z-index:9;"></div>
+</div>
+
+<!-- ══════════════ PHASE 8 · PROFILE FULL ══════════════ -->
+<div id="screen-profile-full" class="screen" style="background:#0D0D0D;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:#fff;">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:4px;"><div class="back-arrow" onclick="goBack('profile-inactive')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Full Profile</span></div>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:78px;overflow-y:auto;" data-ns>
+    <!-- avatar + tier badge -->
+    <div style="display:flex;flex-direction:column;align-items:center;padding:20px 20px 16px;">
+      <div style="width:84px;height:84px;border-radius:50%;background:#1C2C4C;border:3px solid #C9A84C;display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+        <span style="font-size:28px;font-weight:800;color:#6CABDD;">DO</span>
+      </div>
+      <div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:5px;">Daniel Okpechi</div>
+      <div onclick="navigate('tier-status','right')" style="font-size:12px;font-weight:700;color:#C9A84C;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.28);padding:5px 14px;border-radius:12px;cursor:pointer;display:flex;align-items:center;gap:6px;">
+        <span>✦</span><span>Tier III · Loyal Blue</span><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="rgba(201,168,76,0.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </div>
+    <!-- all-time stats grid -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin:0 14px 16px;">
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:10px 8px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#6CABDD;">2,840</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">XP</div></div>
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:10px 8px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#fff;">12</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Matches</div></div>
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:10px 8px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#C9A84C;">18</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Quests</div></div>
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:11px;padding:10px 8px;text-align:center;"><div style="font-size:18px;font-weight:800;color:#22c55e;">7</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Badges</div></div>
+    </div>
+    <!-- tier progress -->
+    <div style="margin:0 14px 16px;background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div style="font-size:12px;font-weight:700;color:#fff;">Tier Progress</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">2,840 / 3,500 XP</div></div>
+      <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;"><div style="width:81%;height:100%;background:linear-gradient(90deg,#C9A84C,#e8c76a);border-radius:3px;"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;"><span style="font-size:11px;color:rgba(255,255,255,0.35);">660 XP to Tier IV</span><span onclick="navigate('tier-status','right')" style="font-size:11px;font-weight:700;color:#C9A84C;cursor:pointer;">View tiers →</span></div>
+    </div>
+    <!-- badges -->
+    <div style="margin:0 14px 16px;">
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">Badges Earned</div>
+      <div style="display:flex;gap:8px;overflow-x:auto;" data-ns>
+        <div style="flex-shrink:0;background:#111520;border:1px solid rgba(201,168,76,0.22);border-radius:12px;padding:10px 12px;text-align:center;min-width:66px;"><div style="font-size:22px;margin-bottom:4px;">🏆</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);">Cup Run</div></div>
+        <div style="flex-shrink:0;background:#111520;border:1px solid rgba(201,168,76,0.22);border-radius:12px;padding:10px 12px;text-align:center;min-width:66px;"><div style="font-size:22px;margin-bottom:4px;">⚡</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);">Early Bird</div></div>
+        <div style="flex-shrink:0;background:#111520;border:1px solid rgba(201,168,76,0.22);border-radius:12px;padding:10px 12px;text-align:center;min-width:66px;"><div style="font-size:22px;margin-bottom:4px;">🎯</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);">Oracle</div></div>
+        <div style="flex-shrink:0;background:#111520;border:1px solid rgba(201,168,76,0.22);border-radius:12px;padding:10px 12px;text-align:center;min-width:66px;"><div style="font-size:22px;margin-bottom:4px;">💬</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.5);">Chatterbox</div></div>
+        <div style="flex-shrink:0;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 12px;text-align:center;min-width:66px;opacity:0.4;"><div style="font-size:22px;margin-bottom:4px;">🔒</div><div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.4);">Tier IV</div></div>
+      </div>
+    </div>
+    <!-- full match history -->
+    <div style="margin:0 14px 12px;">
+      <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">Match History</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div onclick="navigate('match-history-detail','right')" style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;"><div><div style="font-size:13px;font-weight:700;color:#fff;">Man City 1–0 Real Madrid</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">24 Jun · EPL · Today</div></div><div style="display:flex;align-items:center;gap:8px;"><div style="font-size:11px;font-weight:700;color:#C9A84C;">+325 XP</div><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div onclick="navigate('match-history-detail','right')" style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;"><div><div style="font-size:13px;font-weight:700;color:#fff;">Man City 3–1 Chelsea</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">12 Apr · EPL</div></div><div style="display:flex;align-items:center;gap:8px;"><div style="font-size:11px;font-weight:700;color:#C9A84C;">+280 XP</div><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div onclick="navigate('match-history-detail','right')" style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;"><div><div style="font-size:13px;font-weight:700;color:#fff;">Man City 2–0 Real Madrid</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">9 Apr · UCL</div></div><div style="display:flex;align-items:center;gap:8px;"><div style="font-size:11px;font-weight:700;color:#C9A84C;">+310 XP</div><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div onclick="navigate('match-history-detail','right')" style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;"><div><div style="font-size:13px;font-weight:700;color:#fff;">Burnley 0–4 Man City</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">5 Apr · EPL</div></div><div style="display:flex;align-items:center;gap:8px;"><div style="font-size:11px;font-weight:700;color:#C9A84C;">+240 XP</div><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div onclick="navigate('match-history-detail','right')" style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;"><div><div style="font-size:13px;font-weight:700;color:#fff;">Man City 1–1 Man Utd</div><div style="font-size:11px;color:rgba(255,255,255,0.35);">1 Apr · EPL · Derby</div></div><div style="display:flex;align-items:center;gap:8px;"><div style="font-size:11px;font-weight:700;color:#C9A84C;">+190 XP</div><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:78px;left:0;right:0;height:36px;background:linear-gradient(0deg,#0D0D0D 40%,transparent 100%);pointer-events:none;z-index:9;"></div>
+</div>
+
+<!-- ══════════════ PHASE 8 · MATCH HISTORY DETAIL ══════════════ -->
+<div id="screen-match-history-detail" class="screen" style="background:#0D0D0D;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:#fff;">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;">
+    <div class="back-arrow" onclick="goBack('profile-full')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div>
+    <span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Match Summary</span>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:0;overflow-y:auto;" data-ns>
+    <div style="padding:0 16px 40px;">
+      <!-- match header card -->
+      <div style="background:linear-gradient(135deg,#0d1e38,#111520);border:1.5px solid rgba(108,171,221,0.2);border-radius:16px;padding:20px;margin-bottom:16px;text-align:center;">
+        <div style="font-size:11px;font-weight:700;color:rgba(108,171,221,0.7);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:10px;">Premier League · Matchday 34</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:10px;">
+          <div style="text-align:center;"><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:4px;">Man City</div><div style="font-size:40px;font-weight:900;color:#fff;line-height:1;">1</div></div>
+          <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.3);">–</div>
+          <div style="text-align:center;"><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:4px;">Real Madrid</div><div style="font-size:40px;font-weight:900;color:rgba(255,255,255,0.4);line-height:1;">0</div></div>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4);">24 Jun 2026 · Etihad Stadium · ATT 53,404</div>
+      </div>
+      <!-- your match stats -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px;">Your Matchday</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+          <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#C9A84C;">+325</div><div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px;">XP Earned</div></div>
+          <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#22c55e;">3</div><div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px;">Quests Done</div></div>
+          <div style="text-align:center;"><div style="font-size:20px;font-weight:800;color:#6CABDD;">2–0</div><div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px;">Prediction</div></div>
+        </div>
+      </div>
+      <!-- player ratings -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px;">Player Ratings</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.12);border:1.5px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🏆</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">Erling Haaland</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">Striker · 1 goal</div></div><div style="font-size:16px;font-weight:800;color:#C9A84C;">8.9</div></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(108,171,221,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">⚡</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">Phil Foden</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">Attacking Mid · 1 assist</div></div><div style="font-size:16px;font-weight:800;color:#6CABDD;">8.2</div></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(108,171,221,0.1);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">🧤</div><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">Ederson</div><div style="font-size:11px;color:rgba(255,255,255,0.4);">GK · 3 saves</div></div><div style="font-size:16px;font-weight:800;color:#6CABDD;">7.6</div></div>
+        </div>
+      </div>
+      <!-- IRIS verdict -->
+      <div style="background:rgba(108,171,221,0.07);border:1px solid rgba(108,171,221,0.18);border-radius:13px;padding:14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:28px;height:28px;border-radius:50%;background:#6CABDD;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none"><circle cx="12" cy="12" r="4" fill="white"/><circle cx="12" cy="12" r="8" stroke="white" stroke-width="1" opacity="0.38"/></svg></div><div style="font-size:12px;font-weight:700;color:#6CABDD;">IRIS Verdict</div></div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;">City dominated possession with 64% and created 1.8xG — a controlled professional win. Real Madrid sat too deep and never threatened Ederson seriously. Haaland's 64th-minute header was the difference.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PHASE 8 · TIER STATUS ══════════════ -->
+<div id="screen-tier-status" class="screen" style="background:#09080f;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.6);">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:4px;"><div class="back-arrow" onclick="goBack()"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Tier Status</span></div>
+    <div style="font-size:12px;font-weight:700;color:#C9A84C;">Tier III · Loyal Blue</div>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:0;overflow-y:auto;" data-ns>
+    <div style="padding:0 16px 40px;">
+      <!-- current tier hero -->
+      <div style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1.5px solid rgba(201,168,76,0.3);border-radius:16px;padding:24px;text-align:center;margin-bottom:16px;">
+        <div style="font-size:42px;margin-bottom:8px;">✦</div>
+        <div style="font-size:22px;font-weight:900;color:#C9A84C;margin-bottom:4px;">Tier III</div>
+        <div style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:14px;">Loyal Blue</div>
+        <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;margin-bottom:10px;"><div style="width:81%;height:100%;background:linear-gradient(90deg,#C9A84C,#e8c76a);border-radius:4px;"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.4);">
+          <span>2,840 XP</span><span>660 to Tier IV</span><span>3,500 XP</span>
+        </div>
+      </div>
+      <!-- current tier perks -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px;">Your Tier III Perks</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:7px;height:7px;border-radius:50%;background:#C9A84C;flex-shrink:0;"></div><span style="font-size:13px;color:rgba(255,255,255,0.7);">10% off in the City Store</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:7px;height:7px;border-radius:50%;background:#C9A84C;flex-shrink:0;"></div><span style="font-size:13px;color:rgba(255,255,255,0.7);">Priority queue at concourse bars</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:7px;height:7px;border-radius:50%;background:#C9A84C;flex-shrink:0;"></div><span style="font-size:13px;color:rgba(255,255,255,0.7);">Matchday drops access (some items)</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:7px;height:7px;border-radius:50%;background:#C9A84C;flex-shrink:0;"></div><span style="font-size:13px;color:rgba(255,255,255,0.7);">Early access to ticket resales</span></div>
+        </div>
+      </div>
+      <!-- next tier preview -->
+      <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:13px;padding:14px;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.12em;">Tier IV · Elite Blue · unlocks at 3,500 XP</div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;opacity:0.5;">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;"></div><span style="font-size:13px;color:rgba(255,255,255,0.5);">🔒 Player tunnel access (select matches)</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;"></div><span style="font-size:13px;color:rgba(255,255,255,0.5);">🔒 Full matchday drops catalogue</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);flex-shrink:0;"></div><span style="font-size:13px;color:rgba(255,255,255,0.5);">🔒 15% off City Store</span></div>
+        </div>
+      </div>
+      <!-- all tiers ladder -->
+      <div style="display:flex;gap:6px;margin-bottom:20px;">
+        <div style="flex:1;background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:8px 6px;text-align:center;opacity:0.5;"><div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);">I</div><div style="font-size:8px;color:rgba(255,255,255,0.25);">Blue</div></div>
+        <div style="flex:1;background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:8px 6px;text-align:center;opacity:0.6;"><div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.4);">II</div><div style="font-size:8px;color:rgba(255,255,255,0.3);">City Blue</div></div>
+        <div style="flex:1;background:rgba(201,168,76,0.1);border:1.5px solid rgba(201,168,76,0.4);border-radius:10px;padding:8px 6px;text-align:center;"><div style="font-size:10px;font-weight:800;color:#C9A84C;">III ★</div><div style="font-size:8px;color:rgba(201,168,76,0.7);">Loyal</div></div>
+        <div style="flex:1;background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:8px 6px;text-align:center;opacity:0.4;"><div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.3);">IV</div><div style="font-size:8px;color:rgba(255,255,255,0.25);">Elite</div></div>
+        <div style="flex:1;background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:8px 6px;text-align:center;opacity:0.3;"><div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.25);">V</div><div style="font-size:8px;color:rgba(255,255,255,0.2);">Legend</div></div>
+      </div>
+      <button onclick="navigate('tier-unlock','takeover')" style="width:100%;height:52px;background:rgba(201,168,76,0.12);border:1.5px solid rgba(201,168,76,0.35);border-radius:13px;font-size:14px;font-weight:700;color:#C9A84C;cursor:pointer;font-family:'Inter',sans-serif;">Simulate Tier Unlock →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PHASE 8 · TIER UNLOCK TAKEOVER ══════════════ -->
+<div id="screen-tier-unlock" class="screen" style="background:#0a0800;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 38%,rgba(201,168,76,0.22) 0%,transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 28px;gap:0;">
+    <!-- burst rings -->
+    <div style="position:relative;width:120px;height:120px;margin-bottom:28px;display:flex;align-items:center;justify-content:center;">
+      <div style="position:absolute;inset:-28px;border-radius:50%;border:1.5px solid rgba(201,168,76,0.12);animation:liveRing 2.2s ease-out infinite;"></div>
+      <div style="position:absolute;inset:-14px;border-radius:50%;border:1.5px solid rgba(201,168,76,0.2);animation:liveRing 2.2s ease-out 0.5s infinite;"></div>
+      <div style="width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.35),rgba(201,168,76,0.08));border:2px solid rgba(201,168,76,0.55);display:flex;align-items:center;justify-content:center;animation:irisGoldPulse 2.8s ease-in-out infinite;">
+        <span style="font-size:50px;">✦</span>
+      </div>
+    </div>
+    <div style="font-size:13px;font-weight:700;color:rgba(201,168,76,0.6);text-transform:uppercase;letter-spacing:0.16em;margin-bottom:10px;">Tier Unlocked</div>
+    <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-0.03em;text-align:center;margin-bottom:6px;">Elite Blue</div>
+    <div style="font-size:16px;font-weight:700;color:#C9A84C;margin-bottom:28px;">Tier IV</div>
+    <!-- new perks -->
+    <div style="width:100%;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.2);border-radius:14px;padding:16px;margin-bottom:28px;">
+      <div style="font-size:11px;font-weight:700;color:rgba(201,168,76,0.6);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px;">Newly Unlocked</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:28px;height:28px;border-radius:8px;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🚇</div><span style="font-size:13px;color:rgba(255,255,255,0.75);">Player tunnel access (select matches)</span></div>
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:28px;height:28px;border-radius:8px;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">🛍</div><span style="font-size:13px;color:rgba(255,255,255,0.75);">Full matchday drops catalogue</span></div>
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:28px;height:28px;border-radius:8px;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">💸</div><span style="font-size:13px;color:rgba(255,255,255,0.75);">15% off City Store (was 10%)</span></div>
+      </div>
+    </div>
+    <button onclick="navigate('profile-full','right')" style="width:100%;height:52px;background:#C9A84C;color:#0a0800;border:none;border-radius:13px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:0.02em;">View My Profile →</button>
+  </div>
+</div>
+
+<!-- ══════════════ PHASE 8 · QUEST DETAIL ══════════════ -->
+<div id="screen-quest-detail" class="screen" style="background:#0D0D0D;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:#fff;">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;">
+    <div class="back-arrow" onclick="goBack('quests-active')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div>
+    <span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Quest Detail</span>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:0;overflow-y:auto;" data-ns>
+    <div style="padding:0 16px 40px;">
+      <!-- quest hero -->
+      <div style="background:rgba(108,171,221,0.08);border:1.5px solid rgba(108,171,221,0.25);border-radius:16px;padding:24px;text-align:center;margin-bottom:16px;">
+        <div style="width:64px;height:64px;border-radius:16px;background:rgba(108,171,221,0.15);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 14px;">📋</div>
+        <div style="font-size:11px;font-weight:700;color:#6CABDD;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px;">Pre-match Quest</div>
+        <div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.02em;margin-bottom:10px;">Pre-match Brief</div>
+        <!-- status pill -->
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.22);border-radius:10px;padding:5px 12px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#22c55e;animation:livePulse 1.2s ease-in-out infinite;"></div>
+          <span style="font-size:11px;font-weight:700;color:#22c55e;">IN PROGRESS</span>
+        </div>
+      </div>
+      <!-- XP reward -->
+      <div style="background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">✦</span><span style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.7);">Reward on completion</span></div>
+        <div style="font-size:18px;font-weight:800;color:#C9A84C;">50 XP</div>
+      </div>
+      <!-- description -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">What to do</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:12px;">Read today's IRIS pre-match briefing in full. IRIS will walk you through the key tactical battles, lineup news, and what to watch out for in this match.</div>
+        <!-- progress -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;"><span style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.5);">Progress</span><span style="font-size:11px;font-weight:700;color:#6CABDD;">60%</span></div>
+        <div style="height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;"><div style="width:60%;height:100%;background:#6CABDD;border-radius:3px;"></div></div>
+      </div>
+      <!-- how to earn bonus -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:14px;margin-bottom:20px;">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">Bonus XP</div>
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:7px;height:7px;border-radius:50%;background:#C9A84C;flex-shrink:0;"></div><span style="font-size:12px;color:rgba(255,255,255,0.55);">Complete before kickoff for +10 bonus XP</span></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:7px;"><div style="width:7px;height:7px;border-radius:50%;background:#C9A84C;flex-shrink:0;"></div><span style="font-size:12px;color:rgba(255,255,255,0.55);">Share the IRIS briefing for an extra +5 XP</span></div>
+      </div>
+      <button onclick="navigate('iris-pre-match','up')" style="width:100%;height:52px;background:#6CABDD;color:#0D1520;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Open IRIS Briefing →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PHASE 8 · REWARDS SCREEN ══════════════ -->
+<div id="screen-rewards-screen" class="screen" style="background:#0D0D0D;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:#fff;">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:4px;"><div class="back-arrow" onclick="goBack('quests-active')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Rewards</span></div>
+    <div style="font-size:13px;font-weight:700;color:#C9A84C;">2,840 XP ✦</div>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:78px;overflow-y:auto;" data-ns>
+    <div style="padding:0 14px 32px;display:flex;flex-direction:column;gap:12px;">
+      <!-- intro strip -->
+      <div style="background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:10px;">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="rgba(201,168,76,0.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span style="font-size:12px;color:rgba(255,255,255,0.55);">Tap a reward to claim it · Some expire at FT</span>
+      </div>
+      <!-- reward 1: discount code -->
+      <div onclick="navigate('reward-claim','right')" style="background:#111520;border:1.5px solid rgba(201,168,76,0.28);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🏷️</div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;">10% Off City Store</div><div style="font-size:12px;color:rgba(255,255,255,0.45);">Code: LOYAL10 · Expires midnight</div></div>
+        <div style="text-align:right;"><div style="font-size:11px;font-weight:700;color:#22c55e;background:rgba(34,197,94,0.1);border-radius:6px;padding:3px 8px;">ACTIVE</div></div>
+      </div>
+      <!-- reward 2: badge -->
+      <div onclick="navigate('reward-claim','right')" style="background:#111520;border:1.5px solid rgba(108,171,221,0.22);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(108,171,221,0.1);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🛡️</div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;">Badge: City on the Road</div><div style="font-size:12px;color:rgba(255,255,255,0.45);">Attended away or away-game watch</div></div>
+        <div style="text-align:right;"><div style="font-size:11px;font-weight:700;color:#C9A84C;background:rgba(201,168,76,0.1);border-radius:6px;padding:3px 8px;">CLAIM</div></div>
+      </div>
+      <!-- reward 3: XP bonus -->
+      <div onclick="navigate('reward-claim','right')" style="background:#111520;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;">
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(201,168,76,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">⚡</div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;">+325 XP · Matchday Bonus</div><div style="font-size:12px;color:rgba(255,255,255,0.45);">Earned today · City 1–0 Real Madrid</div></div>
+        <div style="text-align:right;"><div style="font-size:11px;font-weight:700;color:rgba(34,197,94,0.8);background:rgba(34,197,94,0.08);border-radius:6px;padding:3px 8px;">APPLIED</div></div>
+      </div>
+      <!-- reward 4: locked -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;opacity:0.45;position:relative;">
+        <div style="position:absolute;top:10px;right:12px;font-size:12px;">🔒</div>
+        <div style="width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🎟️</div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:3px;">Priority Ticket Ballot</div><div style="font-size:12px;color:rgba(255,255,255,0.3);">Unlocks at Tier IV · Elite Blue</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:78px;left:0;right:0;height:36px;background:linear-gradient(0deg,#0D0D0D 40%,transparent 100%);pointer-events:none;z-index:9;"></div>
+</div>
+
+<!-- ══════════════ PHASE 8 · REWARD CLAIM ══════════════ -->
+<div id="screen-reward-claim" class="screen" style="background:#0D0D0D;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:#fff;">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;">
+    <div class="back-arrow" onclick="goBack('rewards-screen')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div>
+    <span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Claim Reward</span>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:0;overflow-y:auto;" data-ns>
+    <div style="padding:0 20px 40px;">
+      <!-- reward hero -->
+      <div style="background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.04));border:1.5px solid rgba(201,168,76,0.28);border-radius:16px;padding:28px 20px;text-align:center;margin-bottom:18px;">
+        <div style="font-size:52px;margin-bottom:14px;">🏷️</div>
+        <div style="font-size:11px;font-weight:700;color:#C9A84C;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:8px;">Tier III Reward</div>
+        <div style="font-size:26px;font-weight:900;color:#fff;letter-spacing:-0.02em;margin-bottom:8px;">10% Off City Store</div>
+        <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;display:inline-block;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">Your discount code</div>
+          <div style="font-size:22px;font-weight:900;color:#fff;letter-spacing:0.1em;font-family:monospace;">LOYAL10</div>
+        </div>
+      </div>
+      <!-- how to use -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:14px;margin-bottom:14px;">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">How to use</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:center;gap:8px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(108,171,221,0.12);border:1px solid rgba(108,171,221,0.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#6CABDD;flex-shrink:0;">1</div><span style="font-size:12px;color:rgba(255,255,255,0.6);">Visit any City Store or shop online at mancity.com/store</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(108,171,221,0.12);border:1px solid rgba(108,171,221,0.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#6CABDD;flex-shrink:0;">2</div><span style="font-size:12px;color:rgba(255,255,255,0.6);">Enter LOYAL10 at checkout</span></div>
+          <div style="display:flex;align-items:center;gap:8px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(108,171,221,0.12);border:1px solid rgba(108,171,221,0.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#6CABDD;flex-shrink:0;">3</div><span style="font-size:12px;color:rgba(255,255,255,0.6);">10% discount automatically applied</span></div>
+        </div>
+      </div>
+      <!-- expiry and terms -->
+      <div style="background:rgba(255,165,0,0.06);border:1px solid rgba(255,165,0,0.15);border-radius:10px;padding:10px 14px;margin-bottom:18px;">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,165,0,0.7);margin-bottom:4px;">Expires midnight tonight</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6;">One use only · Cannot be combined · Full price items only · Excludes matchday drops</div>
+      </div>
+      <button style="width:100%;height:52px;background:#C9A84C;color:#0a0800;border:none;border-radius:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px;">Copy Code: LOYAL10</button>
+      <button onclick="goBack('rewards-screen')" style="width:100%;height:44px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);cursor:pointer;font-family:'Inter',sans-serif;">Back to Rewards</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PLACEHOLDER · SHOP POST MATCH ══════════════ -->
+<div id="screen-shop-post-match" class="screen" style="background:#0D0D0D;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:#fff;">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:4px;"><div class="back-arrow" onclick="goBack('home-live')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Shop</span></div>
+    <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:8px;padding:3px 9px;font-size:10px;font-weight:700;color:#C9A84C;">MATCHDAY DROP</div>
+  </div>
+  <div style="padding:0 14px;">
+    <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.22);border-radius:14px;overflow:hidden;margin-bottom:14px;">
+      <div style="height:180px;background:linear-gradient(180deg,rgba(108,171,221,0.1),rgba(201,168,76,0.06));display:flex;align-items:center;justify-content:center;font-size:80px;">👕</div>
+      <div style="padding:16px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:8px;font-weight:700;color:#C9A84C;background:rgba(201,168,76,0.12);padding:2px 7px;border-radius:5px;letter-spacing:0.1em;text-transform:uppercase;">MATCHDAY DROP</span></div>
+        <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;">Haaland #9 Home Shirt</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:14px;">2025/26 · Player Issue · Signed Edition Available</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-size:22px;font-weight:800;color:#fff;">£89.99</div>
+          <button style="padding:10px 20px;background:#6CABDD;color:#0D1520;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Add to Bag</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:78px;left:0;right:0;height:36px;background:linear-gradient(0deg,#0D0D0D 40%,transparent 100%);pointer-events:none;z-index:9;"></div>
+</div>
+
+<!-- ══════════════ PLACEHOLDER · IRIS DEFAULT ══════════════ -->

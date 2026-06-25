@@ -1,0 +1,394 @@
+<div id="screen-home-halftime" class="screen" style="background:#060c14;">
+  <!-- status bar -->
+  <div style="height:52px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;">
+    <span style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.45);">9:41</span>
+    <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:4px 11px;"><span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.15em;">HALF TIME</span></div>
+  </div>
+  <!-- HT score block -->
+  <div style="padding:20px 22px 22px;text-align:center;">
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px;">
+      <div style="text-align:center;flex:1;"><div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.1em;margin-bottom:6px;">MCI</div><div style="font-size:64px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;">0</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="font-size:20px;font-weight:200;color:rgba(255,255,255,0.15);">–</div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:7px;padding:4px 10px;"><span style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.4);">HT</span></div>
+      </div>
+      <div style="text-align:center;flex:1;"><div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.1em;margin-bottom:6px;">ARS</div><div style="font-size:64px;font-weight:900;color:rgba(255,255,255,0.3);line-height:1;letter-spacing:-0.04em;">0</div></div>
+    </div>
+    <!-- xG strip -->
+    <div style="display:flex;justify-content:center;gap:0;background:rgba(255,255,255,0.04);border-radius:10px;overflow:hidden;">
+      <div style="flex:1;padding:9px;text-align:center;border-right:1px solid rgba(255,255,255,0.06);"><div style="font-size:14px;font-weight:800;color:#fff;">0.8</div><div style="font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;margin-top:1px;">xG City</div></div>
+      <div style="flex:1;padding:9px;text-align:center;border-right:1px solid rgba(255,255,255,0.06);"><div style="font-size:14px;font-weight:800;color:#fff;">4</div><div style="font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;margin-top:1px;">Shots</div></div>
+      <div style="flex:1;padding:9px;text-align:center;"><div style="font-size:14px;font-weight:800;color:rgba(255,255,255,0.4);">0.2</div><div style="font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.08em;margin-top:1px;">xG ARS</div></div>
+    </div>
+  </div>
+  <!-- scrollable content -->
+  <div style="position:absolute;top:240px;left:0;right:0;bottom:0;overflow-y:auto;" data-ns>
+    <div style="padding:0 14px 40px;">
+      <!-- IRIS analysis teaser -->
+      <div onclick="navigate('iris-halftime-summary','up')" style="background:linear-gradient(160deg,#0a1e3a,#0d2648);border:1.5px solid rgba(108,171,221,0.32);border-radius:14px;padding:14px 16px;margin-bottom:12px;cursor:pointer;overflow:hidden;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#6CABDD,rgba(108,171,221,0.2));"></div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="width:36px;height:36px;background:#6CABDD;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;animation:irisHdrPulse 2.8s ease-in-out infinite;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><circle cx="12" cy="12" r="4.5" fill="white" opacity="0.95"/><circle cx="12" cy="12" r="8.5" stroke="white" stroke-width="1" opacity="0.38"/></svg></div>
+          <div style="flex:1;"><div style="font-size:10px;font-weight:700;color:#6CABDD;letter-spacing:0.13em;text-transform:uppercase;margin-bottom:3px;">IRIS · Halftime Analysis</div><div style="font-size:14px;font-weight:700;color:#fff;">City dominating — finish needs to improve.</div></div>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+      <!-- 2×2 action grid -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+        <div onclick="navigate('food-ordering','right')" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:7px;">
+          <div style="font-size:24px;">🍟</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;">Order Food</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.35);">~15 min · No queue</div>
+        </div>
+        <div onclick="navigate('bathroom-queue','right')" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:7px;">
+          <div style="font-size:24px;">🚻</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;">Bathrooms</div>
+          <div style="font-size:11px;color:rgba(34,197,94,0.75);">Short wait nearby</div>
+        </div>
+        <div onclick="navigate('predictions-halftime','right')" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:7px;">
+          <div style="font-size:24px;">🎯</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;">Predictions</div>
+          <div style="font-size:11px;color:#C9A84C;">100 XP available</div>
+        </div>
+        <div onclick="navigate('chat-halftime','right')" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:7px;position:relative;">
+          <div style="position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:3px;"><div style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:livePulse 1.4s ease-in-out infinite;"></div><span style="font-size:9px;font-weight:700;color:rgba(34,197,94,0.7);">287</span></div>
+          <div style="font-size:24px;">💬</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;">Fan Chat</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.35);">Live · Join now</div>
+        </div>
+      </div>
+      <!-- halftime quest + secondary actions -->
+      <div onclick="navigate('halftime-quest','up')" style="background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.22);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="width:5px;height:5px;border-radius:50%;background:#C9A84C;flex-shrink:0;animation:livePulse 1.2s ease-in-out infinite;"></div>
+        <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#C9A84C;">Halftime Quest unlocked</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:1px;">Rate the first half · 75 XP</div></div>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <!-- photo pool -->
+      <div onclick="navigate('photo-pool-upload','right')" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <div style="font-size:22px;">📸</div>
+        <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">Fan Photo Pool</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1px;">Share your view from the stands</div></div>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <!-- secondary links row -->
+      <div style="display:flex;gap:8px;">
+        <div onclick="navigate('sponsor-deals','right')" style="flex:1;height:40px;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;"><span style="font-size:12px;color:rgba(255,255,255,0.4);">Partner Promos</span><div style="width:5px;height:5px;border-radius:50%;background:#C9A84C;animation:livePulse 1.4s ease-in-out infinite;"></div></div>
+        <div onclick="navigate('floor-plan','right')" style="flex:1;height:40px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span style="font-size:12px;color:rgba(255,255,255,0.4);">Stadium Map</span></div>
+        <div onclick="navigate('matchday-schedule','up')" style="flex:1;height:40px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><span style="font-size:12px;color:rgba(255,255,255,0.4);">Schedule</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PLACEHOLDER · HOME POST MATCH ══════════════ -->
+<!-- ══════════════ PHASE 6 · HOME POST-MATCH ══════════════ -->
+<div id="screen-home-post-match" class="screen" style="background:#000;">
+  <!-- status bar -->
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;">
+    <span style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.45);">9:41</span>
+    <div style="display:flex;align-items:center;gap:6px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.22);border-radius:10px;padding:4px 11px;"><div style="width:5px;height:5px;border-radius:50%;background:#C9A84C;"></div><span style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:0.15em;">FULL TIME</span></div>
+  </div>
+  <!-- compact score strip -->
+  <div style="padding:6px 22px 10px;display:flex;align-items:center;justify-content:center;gap:18px;">
+    <div style="text-align:center;"><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.1em;">MCI</div><div style="font-size:52px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;">1</div></div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="font-size:18px;font-weight:200;color:rgba(255,255,255,0.15);">–</div><div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:7px;padding:3px 8px;"><span style="font-size:11px;font-weight:700;color:rgba(201,168,76,0.7);">FT</span></div></div>
+    <div style="text-align:center;"><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.1em;">ARS</div><div style="font-size:52px;font-weight:900;color:rgba(255,255,255,0.22);line-height:1;letter-spacing:-0.04em;">0</div></div>
+  </div>
+  <!-- scrollable -->
+  <div style="position:absolute;top:152px;left:0;right:0;bottom:0;overflow-y:auto;padding-bottom:90px;" data-ns>
+
+    <!-- ── MATCH RECAP CARD CAROUSEL ── -->
+    <div style="margin:0 14px 18px;position:relative;height:340px;border-radius:18px;overflow:hidden;flex-shrink:0;">
+
+      <!-- RC 1: Result Card -->
+      <div id="rc-1" style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;">
+        <img src="man%20city%20images%20/25614291625815684.jpeg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.style.display='none'">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(6,14,32,0.55) 50%,rgba(6,14,32,0.97) 100%);"></div>
+        <div onclick="openCardFull(5);event.stopPropagation()" style="position:absolute;top:14px;right:14px;z-index:12;width:34px;height:34px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;">↗</div>
+        <div style="position:relative;z-index:4;padding:16px 18px;">
+          <div style="font-size:9px;font-weight:700;color:rgba(201,168,76,0.7);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:7px;">Full Time · Premier League</div>
+          <div style="font-size:48px;font-weight:900;color:#fff;letter-spacing:-0.04em;line-height:1;margin-bottom:4px;">1 – 0</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:10px;">Man City win · Etihad Stadium</div>
+          <div style="display:flex;gap:7px;margin-bottom:11px;">
+            <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(4px);border-radius:8px;padding:5px 10px;flex:1;text-align:center;"><div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:1px;">Goals</div><div style="font-size:14px;font-weight:900;color:#C9A84C;">⚽ Haaland 54'</div></div>
+            <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(4px);border-radius:8px;padding:5px 10px;flex:1;text-align:center;"><div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:1px;">XP Today</div><div style="font-size:14px;font-weight:900;color:#C9A84C;">+325</div></div>
+          </div>
+          <div style="display:flex;gap:5px;align-items:center;">
+            <div style="width:18px;height:4px;border-radius:2px;background:rgba(255,255,255,0.85);"></div>
+            <div onclick="rcGo(2);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(3);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(4);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(5);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+          </div>
+        </div>
+        <div onclick="rcGo(5)" style="position:absolute;left:0;top:0;width:38%;bottom:80px;z-index:6;cursor:w-resize;"></div>
+        <div onclick="rcGo(2)" style="position:absolute;right:0;top:0;width:62%;bottom:80px;z-index:6;cursor:e-resize;"></div>
+      </div>
+
+      <!-- RC 2: Haaland Goal -->
+      <div id="rc-2" style="position:absolute;inset:0;display:none;flex-direction:column;justify-content:flex-end;">
+        <img src="man%20city%20images%20/Erling%20Haaland%20_%20Manchester%20City%20_%20F%C3%BAtbol%20_%20Wallpaper%20_%20By%20%40livtorresec.jpeg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.style.display='none'">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(12,10,0,0.55) 55%,rgba(12,10,0,0.97) 100%);"></div>
+        <div onclick="openCardFull(6);event.stopPropagation()" style="position:absolute;top:14px;right:14px;z-index:12;width:34px;height:34px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;">↗</div>
+        <div style="position:relative;z-index:4;padding:16px 18px;">
+          <div style="font-size:9px;font-weight:700;color:rgba(201,168,76,0.7);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:6px;">The Goal · 54'</div>
+          <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-0.03em;line-height:1;margin-bottom:3px;">Haaland ⚡</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:10px;">Assisted by Foden · Tap-in · Right foot · xG 0.24</div>
+          <div style="display:flex;gap:7px;margin-bottom:11px;">
+            <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(4px);border-radius:8px;padding:5px 10px;flex:1;text-align:center;"><div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:1px;">Goals this season</div><div style="font-size:16px;font-weight:900;color:#C9A84C;">27</div></div>
+            <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(4px);border-radius:8px;padding:5px 10px;flex:1;text-align:center;"><div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:1px;">vs Real Madrid</div><div style="font-size:16px;font-weight:900;color:#fff;">8</div></div>
+          </div>
+          <div style="display:flex;gap:5px;align-items:center;">
+            <div onclick="rcGo(1);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div style="width:18px;height:4px;border-radius:2px;background:#C9A84C;"></div>
+            <div onclick="rcGo(3);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(4);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(5);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+          </div>
+        </div>
+        <div onclick="rcGo(1)" style="position:absolute;left:0;top:0;width:38%;bottom:80px;z-index:6;cursor:w-resize;"></div>
+        <div onclick="rcGo(3)" style="position:absolute;right:0;top:0;width:62%;bottom:80px;z-index:6;cursor:e-resize;"></div>
+      </div>
+
+      <!-- RC 3: Match Stats -->
+      <div id="rc-3" style="position:absolute;inset:0;display:none;flex-direction:column;justify-content:flex-end;">
+        <img src="man%20city%20images%20/100557004175719940.jpeg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.style.display='none'">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(6,14,32,0.6) 50%,rgba(6,14,32,0.97) 100%);"></div>
+        <div onclick="openCardFull(7);event.stopPropagation()" style="position:absolute;top:14px;right:14px;z-index:12;width:34px;height:34px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;">↗</div>
+        <div style="position:relative;z-index:4;padding:16px 18px;">
+          <div style="font-size:9px;font-weight:700;color:rgba(108,171,221,0.7);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:7px;">Match Stats</div>
+          <div style="font-size:26px;font-weight:900;color:#fff;letter-spacing:-0.02em;margin-bottom:10px;">Dominant<br>performance.</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:11px;">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:11px;font-weight:700;color:#6CABDD;width:30px;">62%</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;"><div style="height:100%;width:62%;background:#6CABDD;border-radius:3px;"></div></div><span style="font-size:10px;color:rgba(255,255,255,0.3);">Possession</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:11px;font-weight:700;color:#6CABDD;width:30px;">2.1</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;"><div style="height:100%;width:75%;background:#6CABDD;border-radius:3px;"></div></div><span style="font-size:10px;color:rgba(255,255,255,0.3);">xG (vs 0.3)</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:11px;font-weight:700;color:#6CABDD;width:30px;">8</span><div style="flex:1;height:5px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;"><div style="height:100%;width:80%;background:#6CABDD;border-radius:3px;"></div></div><span style="font-size:10px;color:rgba(255,255,255,0.3);">Shots on target</span></div>
+          </div>
+          <div style="display:flex;gap:5px;align-items:center;">
+            <div onclick="rcGo(1);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(2);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div style="width:18px;height:4px;border-radius:2px;background:#6CABDD;"></div>
+            <div onclick="rcGo(4);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(5);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+          </div>
+        </div>
+        <div onclick="rcGo(2)" style="position:absolute;left:0;top:0;width:38%;bottom:80px;z-index:6;cursor:w-resize;"></div>
+        <div onclick="rcGo(4)" style="position:absolute;right:0;top:0;width:62%;bottom:80px;z-index:6;cursor:e-resize;"></div>
+      </div>
+
+      <!-- RC 4: MOTM -->
+      <div id="rc-4" style="position:absolute;inset:0;display:none;flex-direction:column;justify-content:flex-end;">
+        <img src="man%20city%20images%20/Rayan%20Cherki%20Manchester%20City%202026.jpeg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.style.display='none'">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(14,10,0,0.6) 55%,rgba(14,10,0,0.97) 100%);"></div>
+        <div onclick="openCardFull(8);event.stopPropagation()" style="position:absolute;top:14px;right:14px;z-index:12;width:34px;height:34px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;">↗</div>
+        <div style="position:relative;z-index:4;padding:16px 18px;">
+          <div style="font-size:9px;font-weight:700;color:rgba(201,168,76,0.7);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:7px;">Man of the Match</div>
+          <div style="font-size:36px;font-weight:900;color:#fff;letter-spacing:-0.03em;line-height:1;margin-bottom:4px;">Haaland</div>
+          <div style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:10px;">Fan voted · 54% · IRIS 8.9/10</div>
+          <div style="display:flex;gap:7px;margin-bottom:11px;">
+            <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(4px);border-radius:8px;padding:5px 10px;flex:1;text-align:center;"><div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:1px;">Rating</div><div style="font-size:16px;font-weight:900;color:#C9A84C;">8.9</div></div>
+            <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(4px);border-radius:8px;padding:5px 10px;flex:1;text-align:center;"><div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:1px;">Fan votes</div><div style="font-size:16px;font-weight:900;color:#fff;">54%</div></div>
+            <div style="background:rgba(255,255,255,0.12);backdrop-filter:blur(4px);border-radius:8px;padding:5px 10px;flex:1;text-align:center;"><div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-bottom:1px;">xG</div><div style="font-size:16px;font-weight:900;color:#fff;">0.8</div></div>
+          </div>
+          <div style="display:flex;gap:5px;align-items:center;">
+            <div onclick="rcGo(1);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(2);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(3);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div style="width:18px;height:4px;border-radius:2px;background:#C9A84C;"></div>
+            <div onclick="rcGo(5);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+          </div>
+        </div>
+        <div onclick="rcGo(3)" style="position:absolute;left:0;top:0;width:38%;bottom:80px;z-index:6;cursor:w-resize;"></div>
+        <div onclick="rcGo(5)" style="position:absolute;right:0;top:0;width:62%;bottom:80px;z-index:6;cursor:e-resize;"></div>
+      </div>
+
+      <!-- RC 5: Your XP -->
+      <div id="rc-5" style="position:absolute;inset:0;display:none;flex-direction:column;justify-content:flex-end;">
+        <img src="man%20city%20images%20/223068987790622209.jpeg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.style.display='none'">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.05) 0%,rgba(10,6,18,0.6) 55%,rgba(10,6,18,0.97) 100%);"></div>
+        <div onclick="navigate('matchday-xp','up');event.stopPropagation()" style="position:absolute;top:14px;right:14px;z-index:12;width:34px;height:34px;background:rgba(0,0,0,0.5);border:1px solid rgba(201,168,76,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;">✦</div>
+        <div style="position:relative;z-index:4;padding:16px 18px;">
+          <div style="font-size:9px;font-weight:700;color:rgba(201,168,76,0.7);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:6px;">Your Matchday</div>
+          <div style="font-size:52px;font-weight:900;color:#C9A84C;letter-spacing:-0.04em;line-height:1;margin-bottom:3px;">+325 XP</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:10px;">Tier III · Loyal Blue · 835 XP to Tier IV</div>
+          <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;margin-bottom:11px;"><div style="height:100%;width:79%;background:linear-gradient(90deg,#C9A84C,#f0cc70);border-radius:3px;"></div></div>
+          <div style="display:flex;gap:5px;align-items:center;">
+            <div onclick="rcGo(1);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(2);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(3);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div onclick="rcGo(4);event.stopPropagation()" style="width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.3);cursor:pointer;z-index:12;position:relative;"></div>
+            <div style="width:18px;height:4px;border-radius:2px;background:rgba(201,168,76,0.8);"></div>
+          </div>
+        </div>
+        <div onclick="rcGo(4)" style="position:absolute;left:0;top:0;width:38%;bottom:80px;z-index:6;cursor:w-resize;"></div>
+        <div onclick="rcGo(1)" style="position:absolute;right:0;top:0;width:62%;bottom:80px;z-index:6;cursor:e-resize;"></div>
+      </div>
+
+    </div>
+
+    <!-- ── FAN PHOTO REEL ── -->
+    <div style="margin:0 14px 18px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;">
+        <div style="font-size:14px;font-weight:700;color:#fff;">Fan Photos</div>
+        <div onclick="navigate('photo-pool-upload','right')" style="font-size:12px;color:#6CABDD;cursor:pointer;font-weight:600;">View all 1,240 →</div>
+      </div>
+      <div style="display:flex;gap:8px;overflow-x:auto;" data-ns>
+        <div onclick="navigate('photo-pool-upload','right')" style="flex:none;width:120px;height:120px;border-radius:12px;overflow:hidden;cursor:pointer;position:relative;">
+          <img src="man%20city%20images%20/Mancity%20vs%20Real%20Madrid.jpeg" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#111520'">
+          <div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.5);border-radius:5px;padding:2px 5px;font-size:9px;font-weight:700;color:#fff;">Fan</div>
+        </div>
+        <div onclick="navigate('photo-pool-upload','right')" style="flex:none;width:120px;height:120px;border-radius:12px;overflow:hidden;cursor:pointer;position:relative;">
+          <img src="man%20city%20images%20/Manchester%20city%20vs%20Real%20Madrid.jpeg" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#111520'">
+          <div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.5);border-radius:5px;padding:2px 5px;font-size:9px;font-weight:700;color:#fff;">Fan</div>
+        </div>
+        <div onclick="navigate('photo-pool-upload','right')" style="flex:none;width:120px;height:120px;border-radius:12px;overflow:hidden;cursor:pointer;position:relative;">
+          <img src="man%20city%20images%20/_Real%20Madrid%20Vs%20Man%20City_%20Matchday%20design.jpeg" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.background='#111520'">
+<div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.5);border-radius:5px;padding:2px 5px;font-size:9px;font-weight:700;color:#fff;">Fan</div>
+        </div>
+        <div onclick="navigate('photo-pool-upload','right')" style="flex:none;width:120px;height:120px;border-radius:12px;background:rgba(108,171,221,0.08);border:1px solid rgba(108,171,221,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:4px;">
+          <span style="font-size:20px;">📸</span>
+          <span style="font-size:10px;font-weight:700;color:rgba(108,171,221,0.7);">+1,237 more</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ACTIONS ── -->
+    <div style="padding:0 14px;display:flex;flex-direction:column;gap:10px;">
+      <div onclick="navigate('matchday-recap','right')" style="background:#0d1118;border:1.5px solid rgba(108,171,221,0.2);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;overflow:hidden;position:relative;"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:#6CABDD;"></div><div style="flex:1;"><div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:2px;">📋 Matchday Recap</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">Goals · Ratings · IRIS analysis</div></div><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="rgba(108,171,221,0.5)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      <div onclick="navigate('matchday-xp','up')" style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04));border:1.5px solid rgba(201,168,76,0.32);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;"><div style="width:44px;height:44px;background:#C9A84C;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;animation:irisGoldPulse 2.4s ease-in-out infinite;"><span style="font-size:18px;font-weight:900;color:#000;">✦</span></div><div style="flex:1;"><div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:2px;">Rewards Unlocked</div><div style="font-size:12px;color:rgba(255,255,255,0.5);">+325 XP earned today · Tap to claim</div></div><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="rgba(201,168,76,0.6)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      <div onclick="navigate('iris-post-match','up')" style="background:#09080f;border:1px solid rgba(108,171,221,0.18);border-radius:14px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;"><div style="width:40px;height:40px;background:#6CABDD;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;animation:irisNavPulse 2.8s ease-in-out infinite;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none"><circle cx="12" cy="12" r="4.5" fill="white" opacity="0.95"/><circle cx="12" cy="12" r="8.5" stroke="white" stroke-width="1" opacity="0.38"/></svg></div><div style="flex:1;"><div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px;">IRIS Post-Match</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">Analysis · Player ratings · What changed</div></div><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="rgba(108,171,221,0.4)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      <div onclick="navigate('next-match-teaser','right')" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;"><div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">Next match: vs Chelsea</div><div style="font-size:11px;color:rgba(108,171,221,0.65);margin-top:1px;">Sat 28 Jun · Etihad Stadium</div></div><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></div>
+    </div>
+
+  </div>
+  </div>
+
+<!-- ══════════════ POLLS & QUIZZES ══════════════ -->
+<div id="screen-polls-quizzes" class="screen" style="background:#0D0D0D;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:#fff;">9:41</span></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:4px;">
+      <div class="back-arrow" onclick="goBack('home-pre-match')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div>
+      <span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Polls &amp; Quizzes</span>
+    </div>
+    <div style="font-size:11px;font-weight:700;color:#C9A84C;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.22);border-radius:8px;padding:4px 10px;">+250 XP available</div>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:0;overflow-y:auto;padding-bottom:40px;" data-ns>
+    <div style="padding:0 14px;display:flex;flex-direction:column;gap:12px;">
+
+      <!-- LIVE POLL: Man of the Match -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;">
+        <div style="height:2px;background:linear-gradient(90deg,#6CABDD,rgba(108,171,221,0.2));"></div>
+        <div style="padding:14px 16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+            <div style="display:flex;align-items:center;gap:6px;"><div style="width:6px;height:6px;border-radius:50%;background:#ef4444;animation:livePulse 1s ease-in-out infinite;"></div><span style="font-size:9px;font-weight:700;color:#ef4444;letter-spacing:0.14em;">LIVE POLL</span></div>
+            <span style="font-size:10px;color:rgba(255,255,255,0.3);">2,341 votes</span>
+          </div>
+          <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:14px;">Who will score first?</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+            <div onclick="this.style.background='rgba(108,171,221,0.15)';this.style.borderColor='rgba(108,171,221,0.4)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:700;color:#fff;">⚡ Haaland</span>
+              <div style="display:flex;align-items:center;gap:8px;"><div style="height:5px;width:80px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;"><div style="height:100%;width:58%;background:#6CABDD;border-radius:3px;"></div></div><span style="font-size:12px;font-weight:700;color:#6CABDD;">58%</span></div>
+            </div>
+            <div onclick="this.style.background='rgba(108,171,221,0.15)';this.style.borderColor='rgba(108,171,221,0.4)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);">Foden</span>
+              <div style="display:flex;align-items:center;gap:8px;"><div style="height:5px;width:80px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;"><div style="height:100%;width:22%;background:rgba(108,171,221,0.4);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.45);">22%</span></div>
+            </div>
+            <div onclick="this.style.background='rgba(108,171,221,0.15)';this.style.borderColor='rgba(108,171,221,0.4)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);">Other City player</span>
+              <div style="display:flex;align-items:center;gap:8px;"><div style="height:5px;width:80px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;"><div style="height:100%;width:12%;background:rgba(108,171,221,0.25);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.35);">12%</span></div>
+            </div>
+            <div onclick="this.style.background='rgba(239,68,68,0.1)';this.style.borderColor='rgba(239,68,68,0.3)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">
+              <span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.8);">Real Madrid player</span>
+              <div style="display:flex;align-items:center;gap:8px;"><div style="height:5px;width:80px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;"><div style="height:100%;width:8%;background:rgba(239,68,68,0.4);border-radius:3px;"></div></div><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.35);">8%</span></div>
+            </div>
+          </div>
+          <div style="text-align:center;"><span style="font-size:11px;font-weight:700;color:#C9A84C;">Vote to earn +75 XP</span></div>
+        </div>
+      </div>
+
+      <!-- QUIZ: Football Knowledge -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;">
+        <div style="height:2px;background:linear-gradient(90deg,#C9A84C,rgba(201,168,76,0.2));"></div>
+        <div style="padding:14px 16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;">
+            <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:9px;font-weight:700;color:#C9A84C;letter-spacing:0.14em;">🎓 QUIZ</span></div>
+            <span style="font-size:10px;color:rgba(255,255,255,0.3);">Question 1 of 3</span>
+          </div>
+          <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:4px;">How many goals has Haaland scored against Real Madrid in all competitions?</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:14px;">All competitions · All clubs</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+            <div onclick="quizAnswer(this,false)" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;cursor:pointer;"><span style="font-size:13px;color:#fff;">A  ·  8 goals</span></div>
+            <div onclick="quizAnswer(this,true)"  style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;cursor:pointer;"><span style="font-size:13px;color:#fff;">B  ·  12 goals</span></div>
+            <div onclick="quizAnswer(this,false)" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;cursor:pointer;"><span style="font-size:13px;color:#fff;">C  ·  7 goals</span></div>
+            <div onclick="quizAnswer(this,false)" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 14px;cursor:pointer;"><span style="font-size:13px;color:#fff;">D  ·  15 goals</span></div>
+          </div>
+          <div style="text-align:center;"><span style="font-size:11px;font-weight:700;color:#C9A84C;">Correct answer = +50 XP</span></div>
+        </div>
+      </div>
+
+      <!-- PREDICTION POLL -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.08);border-radius:14px;overflow:hidden;">
+        <div style="height:2px;background:linear-gradient(90deg,rgba(160,120,255,0.8),rgba(160,120,255,0.1));"></div>
+        <div style="padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><span style="font-size:9px;font-weight:700;color:rgba(160,120,255,0.7);letter-spacing:0.14em;">🔮 PREDICTION</span></div>
+          <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:14px;">Pick your scoreline</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:12px;">
+            <div onclick="this.style.background='rgba(160,120,255,0.2)';this.style.borderColor='rgba(160,120,255,0.5)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;"><div style="font-size:16px;font-weight:900;color:#fff;">1–0</div><div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">31%</div></div>
+            <div onclick="this.style.background='rgba(160,120,255,0.2)';this.style.borderColor='rgba(160,120,255,0.5)'" style="background:rgba(160,120,255,0.1);border:1.5px solid rgba(160,120,255,0.35);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;"><div style="font-size:16px;font-weight:900;color:rgba(200,170,255,0.9);">2–0</div><div style="font-size:9px;color:rgba(160,120,255,0.6);margin-top:2px;">IRIS pick</div></div>
+            <div onclick="this.style.background='rgba(160,120,255,0.2)';this.style.borderColor='rgba(160,120,255,0.5)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;"><div style="font-size:16px;font-weight:900;color:#fff;">2–1</div><div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">18%</div></div>
+            <div onclick="this.style.background='rgba(160,120,255,0.2)';this.style.borderColor='rgba(160,120,255,0.5)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;"><div style="font-size:16px;font-weight:900;color:#fff;">3–0</div><div style="font-size:9px;color:rgba(255,255,255,0.35);margin-top:2px;">11%</div></div>
+            <div onclick="this.style.background='rgba(239,68,68,0.15)';this.style.borderColor='rgba(239,68,68,0.35)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;"><div style="font-size:16px;font-weight:900;color:rgba(255,255,255,0.6);">0–1</div><div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:2px;">8%</div></div>
+            <div onclick="this.style.background='rgba(255,255,255,0.08)';this.style.borderColor='rgba(255,255,255,0.25)'" style="background:rgba(255,255,255,0.04);border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;"><div style="font-size:16px;font-weight:900;color:rgba(255,255,255,0.6);">Other</div><div style="font-size:9px;color:rgba(255,255,255,0.3);margin-top:2px;">7%</div></div>
+          </div>
+          <div style="text-align:center;"><span style="font-size:11px;font-weight:700;color:#C9A84C;">Exact score = +225 XP</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ POST-MATCH GAMIFICATION ══════════════ -->
+<div id="screen-matchday-xp" class="screen" style="background:#000;">
+  <div style="height:46px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);">9:41</span><div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.22);border-radius:8px;padding:4px 10px;"><span style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:0.15em;">FULL TIME</span></div></div>
+  <div style="padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:4px;"><div class="back-arrow" onclick="goBack('home-post-match')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div><span style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Your Matchday</span></div>
+    <span style="font-size:14px;font-weight:900;color:#C9A84C;letter-spacing:-0.02em;">+325 XP</span>
+  </div>
+  <div style="position:absolute;top:98px;left:0;right:0;bottom:0;overflow-y:auto;padding-bottom:40px;" data-ns>
+    <div style="padding:0 14px;display:flex;flex-direction:column;gap:12px;">
+      <!-- XP earned hero -->
+      <div style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.03));border:1.5px solid rgba(201,168,76,0.3);border-radius:16px;padding:20px;text-align:center;">
+        <div style="font-size:11px;font-weight:700;color:rgba(201,168,76,0.5);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px;">XP Earned Today</div>
+        <div style="font-size:68px;font-weight:900;color:#C9A84C;letter-spacing:-0.04em;line-height:1;margin-bottom:4px;">325</div>
+        <div style="font-size:14px;color:rgba(255,255,255,0.4);">Tier III  ·  Loyal Blue  ·  3,165 total XP</div>
+        <!-- tier progress bar -->
+        <div style="margin:14px 0 4px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.35);">Tier III</span><span style="font-size:10px;font-weight:700;color:rgba(201,168,76,0.6);">Tier IV at 4,000 XP</span></div>
+          <div style="height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;"><div style="height:100%;width:79%;background:linear-gradient(90deg,#C9A84C,#f0cc70);border-radius:4px;animation:shimmer 2s linear infinite;background-size:200% 100%;"></div></div>
+        </div>
+        <div style="font-size:11px;color:rgba(201,168,76,0.5);margin-top:4px;">835 XP until Tier IV</div>
+      </div>
+      <!-- quests completed -->
+      <div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:12px;">Quests Completed</div>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(34,197,94,0.15);border:1.5px solid rgba(34,197,94,0.4);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#22c55e;">✓</div><div style="flex:1;"><span style="font-size:13px;font-weight:600;color:#fff;">Made a prediction</span></div><span style="font-size:12px;font-weight:700;color:#C9A84C;">+225 XP</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(34,197,94,0.15);border:1.5px solid rgba(34,197,94,0.4);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#22c55e;">✓</div><div style="flex:1;"><span style="font-size:13px;font-weight:600;color:#fff;">Voted in MOTM poll</span></div><span style="font-size:12px;font-weight:700;color:#C9A84C;">+50 XP</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(34,197,94,0.15);border:1.5px solid rgba(34,197,94,0.4);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#22c55e;">✓</div><div style="flex:1;"><span style="font-size:13px;font-weight:600;color:#fff;">Read IRIS briefing</span></div><span style="font-size:12px;font-weight:700;color:#C9A84C;">+50 XP</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(34,197,94,0.15);border:1.5px solid rgba(34,197,94,0.4);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#22c55e;">✓</div><div style="flex:1;"><span style="font-size:13px;font-weight:600;color:#fff;">Ordered food at halftime</span></div><span style="font-size:12px;font-weight:700;color:#C9A84C;">+25 XP</span></div>
+          <div style="display:flex;align-items:center;gap:10px;"><div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.3);">○</div><div style="flex:1;"><span style="font-size:13px;font-weight:600;color:rgba(255,255,255,0.4);">Shared a photo</span></div><span style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.2);">+75 XP</span></div>
+        </div>
+      </div>
+      <!-- share achievement -->
+      <button onclick="shareCurrentCard()" style="height:52px;background:linear-gradient(135deg,#C9A84C,#ddb94a);color:#000;border:none;border-radius:13px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:-0.01em;">Share my matchday  ↗</button>
+      <!-- photo pool CTA -->
+      <div onclick="navigate('photo-pool-upload','right')" style="background:#0d1118;border:1px solid rgba(108,171,221,0.2);border-radius:12px;padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">📸</span>
+        <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#fff;">View fan photo pool</div><div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:1px;">1,240 photos · Download your favourites</div></div>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PHASE 6 · MATCHDAY RECAP ══════════════ -->

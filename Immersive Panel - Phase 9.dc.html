@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* IRIS identity colour: soft periwinkle, distinct from City blue */
+    :root { --iris: #A090E0; --iris-dim: rgba(160,144,224,0.65); --iris-bg: rgba(160,144,224,0.09); --iris-border: rgba(160,144,224,0.28); }
+
+    @keyframes irisNavPulse {
+      0%,100%{box-shadow:0 0 0 4px rgba(108,171,221,0.12),0 4px 20px rgba(108,171,221,0.22)}
+      50%    {box-shadow:0 0 0 8px rgba(108,171,221,0.06),0 4px 28px rgba(108,171,221,0.38)}
+    }
+    @keyframes irisOrbPulse {
+      0%,100%{box-shadow:0 0 0 0 rgba(160,144,224,0);opacity:0.92}
+      50%    {box-shadow:0 0 0 12px rgba(160,144,224,0);opacity:1}
+    }
+    @keyframes irisGlow {
+      0%,100%{opacity:0.55} 50%{opacity:1}
+    }
+    @keyframes orbFloat {
+      0%,100%{transform:translateY(0px)}
+      50%    {transform:translateY(-6px)}
+    }
+    @keyframes orbRing1 {
+      0%  {transform:scale(1);   opacity:0.5}
+      100%{transform:scale(2.2); opacity:0}
+    }
+    @keyframes orbRing2 {
+      0%  {transform:scale(1);   opacity:0.35}
+      100%{transform:scale(2.8); opacity:0}
+    }
+    @keyframes shimmer {
+      0%  {background-position:-200% center}
+      100%{background-position: 200% center}
+    }
+    @keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.18} }
+    @keyframes typingDot {
+      0%,60%,100%{opacity:0.22;transform:scale(0.85)}
+      30%         {opacity:1;   transform:scale(1)}
+    }
+    @keyframes resultsGrow {
+      0%  {width:0%}
+      100%{width:var(--w,50%)}
+    }
+    [data-noscroll]{scrollbar-width:none;-ms-overflow-style:none}
+    [data-noscroll]::-webkit-scrollbar{display:none}
+    button,input{font-family:'Inter',sans-serif}
+
+    /* tier badge colours */
+    .tier-entry  { color:rgba(108,171,221,0.7); }
+    .tier-loyal  { color:rgba(201,168,76,0.8); }
+    .tier-legend { color:#C9A84C; }
+  </style>
+</helmet>
+
+<!-- ══════════════════════════════════════════════════════
+     IMMERSIVE PANEL — PHASE 9: IRIS & FAN CHAT
+══════════════════════════════════════════════════════ -->
+<div style="background:#e2e1db; width:max-content; min-width:100%; min-height:100vh; padding:52px; box-sizing:border-box; font-family:'Inter',sans-serif;">
+
+  <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:40px;">
+    <div style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.24em; text-transform:uppercase;">Manchester City FC</div>
+    <div style="width:1px; height:10px; background:rgba(0,0,0,0.2);"></div>
+    <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.14em; text-transform:uppercase;">Immersive Panel — Phase 9: IRIS &amp; Fan Chat</div>
+  </div>
+
+  <div style="display:flex; gap:36px; align-items:flex-start; flex-wrap:wrap;">
+
+
+    <!-- ══════════════════════════════════════
+         S1 · IRIS DEFAULT
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">01 · IRIS — Default</div>
+      <div style="width:390px; height:844px; background:#09080f; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(160,144,224,0.2); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <!-- ambient glow -->
+        <div style="position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:380px; height:380px; border-radius:50%; background:radial-gradient(circle,rgba(160,144,224,0.1) 0%,transparent 70%); filter:blur(40px); pointer-events:none;"></div>
+
+        <!-- status bar -->
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-size:14px; font-weight:600; color:#fff;">9:41</span>
+          <div style="display:flex; align-items:center; gap:5px; color:rgba(255,255,255,0.8);"><svg width="16" height="11" viewBox="0 0 16 11"><rect x="0" y="7" width="3" height="4" rx="0.5" fill="currentColor"/><rect x="4.3" y="4.5" width="3" height="6.5" rx="0.5" fill="currentColor"/><rect x="8.6" y="2" width="3" height="9" rx="0.5" fill="currentColor"/></svg></div>
+        </div>
+
+        <!-- IRIS orb header -->
+        <div style="display:flex; flex-direction:column; align-items:center; padding:18px 0 22px;">
+          <!-- orb -->
+          <div style="position:relative; width:96px; height:96px; display:flex; align-items:center; justify-content:center; margin-bottom:14px;">
+            <!-- outer rings -->
+            <div style="position:absolute; width:96px; height:96px; border-radius:50%; border:1.5px solid rgba(160,144,224,0.25); animation:orbRing1 3.2s ease-out infinite;"></div>
+            <div style="position:absolute; width:96px; height:96px; border-radius:50%; border:1px solid rgba(160,144,224,0.14); animation:orbRing2 3.2s ease-out infinite 0.8s;"></div>
+            <!-- glow -->
+            <div style="position:absolute; width:72px; height:72px; border-radius:50%; background:radial-gradient(circle,rgba(160,144,224,0.22) 0%,transparent 70%); filter:blur(12px);"></div>
+            <!-- orb body -->
+            <div style="width:64px; height:64px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7) 0%,rgba(180,160,240,0.9) 30%,rgba(130,100,200,1) 65%,rgba(80,60,140,0.85) 100%); animation:orbFloat 4s ease-in-out infinite; box-shadow:0 0 28px rgba(160,144,224,0.5),0 0 60px rgba(160,144,224,0.2);">
+              <!-- specular -->
+              <div style="position:absolute; top:14px; left:16px; width:16px; height:11px; border-radius:50%; background:rgba(255,255,255,0.55); transform:rotate(-20deg);"></div>
+            </div>
+          </div>
+
+          <div style="font-size:22px; font-weight:800; color:#fff; letter-spacing:0.04em; margin-bottom:4px;">IRIS</div>
+          <div style="font-size:13px; color:rgba(160,144,224,0.7); letter-spacing:0.08em;">Powered by BoltOS</div>
+        </div>
+
+        <!-- greeting -->
+        <div style="padding:0 22px; margin-bottom:20px;">
+          <div style="background:rgba(160,144,224,0.08); border:1px solid rgba(160,144,224,0.22); border-radius:14px; border-top-left-radius:4px; padding:16px 16px 14px; position:relative;">
+            <div style="position:absolute; top:0; left:0; right:0; height:1.5px; background:linear-gradient(90deg,rgba(160,144,224,0.8) 0%,transparent 100%); border-radius:14px 14px 0 0;"></div>
+            <div style="font-size:15px; color:rgba(255,255,255,0.85); line-height:1.65; margin-bottom:10px;">Good afternoon, Jamie. City kick off in just over 90 minutes. I've got everything you need to know. Where would you like to start?</div>
+            <div style="font-size:11px; color:rgba(160,144,224,0.5); font-weight:600; letter-spacing:0.08em;">IRIS · Pre-match</div>
+          </div>
+        </div>
+
+        <!-- suggested prompts -->
+        <div style="padding:0 22px; margin-bottom:auto;">
+          <div style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.32); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px;">Ask IRIS</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09); border-radius:10px; padding:13px 16px; cursor:pointer; display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-size:14px; color:rgba(255,255,255,0.75);">Who is starting today?</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="rgba(160,144,224,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09); border-radius:10px; padding:13px 16px; cursor:pointer; display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-size:14px; color:rgba(255,255,255,0.75);">What's our record against Arsenal?</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="rgba(160,144,224,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+            <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.09); border-radius:10px; padding:13px 16px; cursor:pointer; display:flex; align-items:center; justify-content:space-between;">
+              <span style="font-size:14px; color:rgba(255,255,255,0.75);">Who should I watch today?</span>
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="rgba(160,144,224,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- input -->
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:12px 20px 28px; background:linear-gradient(0deg,#09080f 55%,transparent 100%);">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="flex:1; height:46px; background:rgba(255,255,255,0.05); border:1px solid rgba(160,144,224,0.25); border-radius:23px; display:flex; align-items:center; padding:0 16px; gap:10px;">
+              <span style="font-size:14px; color:rgba(255,255,255,0.28); flex:1;">Ask me anything…</span>
+              <div style="width:8px; height:8px; border-radius:50%; background:#A090E0; animation:irisGlow 2s ease-in-out infinite;"></div>
+            </div>
+            <div style="width:46px; height:46px; background:#A090E0; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S2 · IRIS CONVERSATION STATE
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">02 · IRIS — Conversation</div>
+      <div style="width:390px; height:844px; background:#09080f; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(160,144,224,0.18); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <!-- status bar + header -->
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center; justify-content:space-between;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            <div style="width:32px; height:32px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); box-shadow:0 0 12px rgba(160,144,224,0.5);"></div>
+            <span style="font-size:18px; font-weight:800; color:#fff; letter-spacing:0.02em;">IRIS</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:5px;"><div style="width:6px; height:6px; border-radius:50%; background:#A090E0; animation:irisGlow 2s ease-in-out infinite;"></div><span style="font-size:11px; color:rgba(160,144,224,0.7);">Listening</span></div>
+        </div>
+
+        <!-- messages -->
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:88px; overflow-y:auto; padding:0 18px;" data-noscroll>
+          <div style="display:flex; flex-direction:column; gap:14px; padding-bottom:10px;">
+
+            <!-- IRIS opening -->
+            <div style="display:flex; gap:9px; align-items:flex-end;">
+              <div style="width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0; box-shadow:0 0 10px rgba(160,144,224,0.4);"></div>
+              <div style="max-width:280px; background:rgba(160,144,224,0.09); border:1px solid rgba(160,144,224,0.2); border-radius:14px 14px 14px 4px; padding:12px 14px;">
+                <div style="font-size:14px; color:rgba(255,255,255,0.82); line-height:1.6;">Ready when you are. Arsenal have lost their last three away games — today is a must-win for them, which makes them dangerous in the first 20 minutes. City should absorb early and strike late.</div>
+              </div>
+            </div>
+
+            <!-- Fan message -->
+            <div style="display:flex; justify-content:flex-end;">
+              <div style="max-width:270px; background:#6CABDD; border-radius:14px 14px 4px 14px; padding:12px 14px;">
+                <div style="font-size:14px; color:#06152b; line-height:1.6; font-weight:500;">What's Haaland's record against Arsenal specifically?</div>
+              </div>
+            </div>
+
+            <!-- IRIS response -->
+            <div style="display:flex; gap:9px; align-items:flex-end;">
+              <div style="width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0; box-shadow:0 0 10px rgba(160,144,224,0.4);"></div>
+              <div style="max-width:300px;">
+                <div style="background:rgba(160,144,224,0.09); border:1px solid rgba(160,144,224,0.2); border-radius:14px 14px 14px 4px; padding:14px 14px 12px;">
+                  <div style="font-size:14px; color:rgba(255,255,255,0.85); line-height:1.65; margin-bottom:10px;">Exceptional. Haaland has scored in each of his last four appearances against Arsenal in all competitions.</div>
+                  <div style="display:flex; gap:8px; margin-bottom:10px;">
+                    <div style="flex:1; background:rgba(108,171,221,0.1); border:1px solid rgba(108,171,221,0.22); border-radius:8px; padding:8px 10px; text-align:center;"><div style="font-size:20px; font-weight:900; color:#6CABDD; line-height:1;">5</div><div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Goals</div></div>
+                    <div style="flex:1; background:rgba(255,255,255,0.05); border-radius:8px; padding:8px 10px; text-align:center;"><div style="font-size:20px; font-weight:900; color:#fff; line-height:1;">4</div><div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Apps</div></div>
+                    <div style="flex:1; background:rgba(255,255,255,0.05); border-radius:8px; padding:8px 10px; text-align:center;"><div style="font-size:20px; font-weight:900; color:#fff; line-height:1;">1.25</div><div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Per game</div></div>
+                  </div>
+                  <div style="font-size:14px; color:rgba(255,255,255,0.75); line-height:1.6;">Arsenal's high defensive line is exactly the kind of shape he punishes. If Foden gets space to play that through ball, it's almost certainly a goal.</div>
+                  <div style="font-size:10px; font-weight:600; color:rgba(160,144,224,0.5); letter-spacing:0.08em; margin-top:8px;">IRIS · Pre-match</div>
+                </div>
+
+                <!-- follow-up prompts -->
+                <div style="display:flex; gap:7px; margin-top:8px; flex-wrap:wrap;">
+                  <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.8);">More on Foden</span></div>
+                  <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.8);">Arsenal's defence</span></div>
+                  <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.8);">Title implications</span></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- input -->
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:10px 18px 24px; background:linear-gradient(0deg,#09080f 50%,transparent 100%);">
+          <div style="display:flex; gap:10px; align-items:center;"><div style="flex:1; height:44px; background:rgba(255,255,255,0.05); border:1px solid rgba(160,144,224,0.22); border-radius:22px; display:flex; align-items:center; padding:0 14px;"><span style="font-size:14px; color:rgba(255,255,255,0.28);">Ask me anything…</span></div><div style="width:44px; height:44px; background:#A090E0; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S3 · IRIS PRE-MATCH BRIEFING
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">03 · IRIS — Pre-match Briefing</div>
+      <div style="width:390px; height:844px; background:#09080f; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(160,144,224,0.18); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; gap:10px;">
+          <div style="width:32px; height:32px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); box-shadow:0 0 12px rgba(160,144,224,0.5);"></div>
+          <span style="font-size:18px; font-weight:800; color:#fff;">IRIS</span>
+          <div style="padding:2px 9px; background:rgba(160,144,224,0.12); border:1px solid rgba(160,144,224,0.25); border-radius:10px; margin-left:4px;"><span style="font-size:10px; font-weight:700; color:#A090E0; letter-spacing:0.12em; text-transform:uppercase;">Pre-match briefing</span></div>
+        </div>
+
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:88px; overflow-y:auto; padding:0 18px;" data-noscroll>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+
+            <!-- IRIS briefing card -->
+            <div style="display:flex; gap:9px; align-items:flex-start;">
+              <div style="width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0; margin-top:2px; box-shadow:0 0 10px rgba(160,144,224,0.4);"></div>
+              <div style="flex:1; background:rgba(160,144,224,0.09); border:1px solid rgba(160,144,224,0.22); border-radius:14px 14px 14px 4px; overflow:hidden;">
+                <div style="height:2px; background:linear-gradient(90deg,#A090E0,rgba(160,144,224,0.2));"></div>
+                <div style="padding:14px 14px 12px;">
+                  <div style="font-size:10px; font-weight:700; color:rgba(160,144,224,0.65); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:8px;">Today's briefing</div>
+                  <div style="font-size:20px; font-weight:800; color:#fff; line-height:1.15; letter-spacing:-0.015em; margin-bottom:12px;">Win today and City go top. Here's everything you need.</div>
+
+                  <div style="font-size:14px; color:rgba(255,255,255,0.72); line-height:1.65; margin-bottom:12px;">City head into this match in career-best form — unbeaten in 11, with the best xG record in Europe over the last 8 matches. Guardiola has rotated minimally, which tells you everything about how seriously he's treating this.</div>
+
+                  <div style="display:flex; gap:8px; margin-bottom:12px;">
+                    <div style="flex:1; background:rgba(108,171,221,0.1); border:1px solid rgba(108,171,221,0.2); border-radius:8px; padding:10px; text-align:center;"><div style="font-size:18px; font-weight:800; color:#6CABDD; line-height:1;">7–1–1</div><div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">vs Arsenal last 9</div></div>
+                    <div style="flex:1; background:rgba(255,255,255,0.05); border-radius:8px; padding:10px; text-align:center;"><div style="font-size:18px; font-weight:800; color:#fff; line-height:1;">2.1</div><div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">City xG avg</div></div>
+                  </div>
+
+                  <div style="font-size:14px; color:rgba(255,255,255,0.72); line-height:1.65; margin-bottom:14px;">Watch the first fifteen minutes. Arsenal need a fast start — Arteta will have them pressing high. City's response to that early press will set the tone for the whole match. If they get through it, this is ours.</div>
+
+                  <div style="font-size:13px; font-weight:600; color:rgba(255,255,255,0.75); margin-bottom:10px;">What do you want to know more about?</div>
+                  <div style="display:flex; gap:7px; flex-wrap:wrap;">
+                    <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.85);">Lineup detail</span></div>
+                    <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.85);">The opposition</span></div>
+                    <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.85);">Referee today</span></div>
+                    <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.85);">What's at stake</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:10px 18px 24px; background:linear-gradient(0deg,#09080f 50%,transparent 100%);">
+          <div style="display:flex; gap:10px; align-items:center;"><div style="flex:1; height:44px; background:rgba(255,255,255,0.05); border:1px solid rgba(160,144,224,0.22); border-radius:22px; display:flex; align-items:center; padding:0 14px;"><span style="font-size:14px; color:rgba(255,255,255,0.28);">Ask me anything…</span></div><div style="width:44px; height:44px; background:#A090E0; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S4 · IRIS REACTIVE GOAL STATE
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">04 · IRIS — Goal Reaction</div>
+      <div style="width:390px; height:844px; background:#09080f; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(160,144,224,0.18); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; gap:10px;"><div style="width:32px; height:32px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); box-shadow:0 0 12px rgba(160,144,224,0.5);"></div><span style="font-size:18px; font-weight:800; color:#fff;">IRIS</span></div>
+
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:88px; overflow-y:auto; padding:0 18px;" data-noscroll>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+
+            <!-- previous context msgs faded -->
+            <div style="display:flex; gap:9px; align-items:flex-end; opacity:0.38;"><div style="width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0;"></div><div style="max-width:260px; background:rgba(160,144,224,0.06); border:1px solid rgba(160,144,224,0.1); border-radius:14px 14px 14px 4px; padding:11px 13px;"><div style="font-size:13px; color:rgba(255,255,255,0.6); line-height:1.55;">City are controlling this. Arsenal have touched the ball in City's half just 14 times. Watch Haaland — he's about to demand the ball.</div></div></div>
+
+            <!-- GOAL REACTION -->
+            <div style="display:flex; gap:9px; align-items:flex-start;">
+              <div style="width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0; margin-top:2px; box-shadow:0 0 10px rgba(160,144,224,0.4);"></div>
+              <div style="flex:1;">
+                <!-- goal card within IRIS -->
+                <div style="background:linear-gradient(135deg,#0a1e3a 0%,#0e2a52 100%); border:1.5px solid rgba(108,171,221,0.35); border-radius:14px 14px 14px 4px; overflow:hidden; margin-bottom:2px;">
+                  <div style="height:2px; background:linear-gradient(90deg,#6CABDD,rgba(108,171,221,0.3)); animation:shimmer 2s linear infinite; background-size:200% 100%;"></div>
+                  <div style="padding:14px 16px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;"><span style="font-size:18px;">⚽</span><span style="font-size:13px; font-weight:700; color:#6CABDD; letter-spacing:0.12em; text-transform:uppercase;">Goal · 54' · MCI 1–0 ARS</span></div>
+                    <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-0.025em; line-height:1; margin-bottom:4px;">Haaland.</div>
+                    <div style="font-size:14px; color:rgba(255,255,255,0.55);">Assist: Phil Foden</div>
+                  </div>
+                </div>
+
+                <!-- IRIS reaction text -->
+                <div style="background:rgba(160,144,224,0.09); border:1px solid rgba(160,144,224,0.2); border-radius:4px 14px 14px 14px; padding:14px 14px 12px;">
+                  <div style="font-size:15px; color:rgba(255,255,255,0.88); line-height:1.65; margin-bottom:10px;">There it is. Foden's weight of pass was perfect — Haaland didn't even need to break stride. <span style="font-weight:700; color:#6CABDD;">Five goals now in six appearances against Arsenal.</span> No other player in Europe's top five leagues has that record against this side.</div>
+                  <div style="font-size:14px; color:rgba(255,255,255,0.65); line-height:1.6; margin-bottom:10px;">City's xG at the point of the goal was 1.4. Arsenal's was 0.1. The scoreline was coming. Expect Guardiola to sit deep now and manage this home.</div>
+                  <div style="font-size:10px; font-weight:600; color:rgba(160,144,224,0.5); letter-spacing:0.08em; margin-bottom:10px;">IRIS · Live · 54'</div>
+                  <div style="display:flex; gap:7px; flex-wrap:wrap;">
+                    <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.85);">More on Haaland</span></div>
+                    <div style="padding:6px 11px; background:rgba(160,144,224,0.1); border:1px solid rgba(160,144,224,0.22); border-radius:18px; cursor:pointer;"><span style="font-size:12px; color:rgba(160,144,224,0.85);">What now for Arsenal?</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:10px 18px 24px; background:linear-gradient(0deg,#09080f 50%,transparent 100%);">
+          <div style="display:flex; gap:10px; align-items:center;"><div style="flex:1; height:44px; background:rgba(255,255,255,0.05); border:1px solid rgba(160,144,224,0.22); border-radius:22px; display:flex; align-items:center; padding:0 14px;"><span style="font-size:14px; color:rgba(255,255,255,0.28);">Ask me anything…</span></div><div style="width:44px; height:44px; background:#A090E0; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S5 · IRIS VAR STATE
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">05 · IRIS — VAR State</div>
+      <div style="width:390px; height:844px; background:#09080f; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(160,144,224,0.18); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; gap:10px;"><div style="width:32px; height:32px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); box-shadow:0 0 12px rgba(160,144,224,0.5);"></div><span style="font-size:18px; font-weight:800; color:#fff;">IRIS</span></div>
+
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:88px; overflow-y:auto; padding:0 18px;" data-noscroll>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+
+            <!-- VAR announced -->
+            <div style="display:flex; gap:9px; align-items:flex-start;">
+              <div style="width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0; margin-top:2px; box-shadow:0 0 10px rgba(160,144,224,0.4);"></div>
+              <div style="flex:1; background:rgba(160,144,224,0.09); border:1px solid rgba(160,144,224,0.2); border-radius:14px 14px 14px 4px; padding:14px 14px 12px;">
+                <div style="font-size:10px; font-weight:700; color:rgba(255,255,255,0.45); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:8px;">VAR · Under review · 31'</div>
+                <div style="font-size:15px; font-weight:700; color:#fff; line-height:1.25; margin-bottom:10px;">VAR is checking a possible handball in the City box.</div>
+                <div style="font-size:14px; color:rgba(255,255,255,0.7); line-height:1.65; margin-bottom:10px;">The ball appeared to strike an Arsenal player's arm in the build-up to their attack. The referee sent play on, but VAR are now reviewing whether the arm was in an unnatural position.</div>
+                <div style="font-size:14px; color:rgba(255,255,255,0.7); line-height:1.65; margin-bottom:12px;">Under current IFAB rules, the arm needs to be clearly unnatural and away from the body. From what I saw, it looked close to the body — <span style="font-weight:700; color:#6CABDD;">the original decision should stand.</span></div>
+
+                <!-- waiting indicator -->
+                <div style="display:flex; align-items:center; gap:10px; padding:10px 12px; background:rgba(255,255,255,0.04); border-radius:10px; margin-bottom:8px;">
+                  <div style="display:flex; gap:5px;">
+                    <div style="width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.55); animation:typingDot 1.8s ease-in-out infinite 0s;"></div>
+                    <div style="width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.55); animation:typingDot 1.8s ease-in-out infinite 0.3s;"></div>
+                    <div style="width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.55); animation:typingDot 1.8s ease-in-out infinite 0.6s;"></div>
+                    <div style="width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.55); animation:typingDot 1.8s ease-in-out infinite 0.9s;"></div>
+                  </div>
+                  <span style="font-size:12px; color:rgba(255,255,255,0.45);">Awaiting decision · Avg review time 78s</span>
+                </div>
+                <div style="font-size:10px; font-weight:600; color:rgba(160,144,224,0.5); letter-spacing:0.08em;">IRIS · Live · 31'</div>
+              </div>
+            </div>
+
+            <!-- IRIS outcome message -->
+            <div style="display:flex; gap:9px; align-items:flex-start;">
+              <div style="width:28px; height:28px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0; margin-top:2px; box-shadow:0 0 10px rgba(160,144,224,0.4);"></div>
+              <div style="flex:1; background:rgba(160,144,224,0.09); border:1px solid rgba(160,144,224,0.2); border-radius:14px 14px 14px 4px; padding:14px 14px 12px;">
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;"><div style="width:18px; height:18px; border-radius:50%; background:rgba(34,197,94,0.2); border:1.5px solid rgba(34,197,94,0.5); display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="rgba(34,197,94,0.9)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:12px; font-weight:700; color:rgba(34,197,94,0.85); letter-spacing:0.1em; text-transform:uppercase;">Decision — No penalty</span></div>
+                <div style="font-size:14px; color:rgba(255,255,255,0.78); line-height:1.65;">VAR has confirmed: no penalty. The arm was deemed in a natural position. Correct call. City keep the clean sheet intact. Play resumes.</div>
+                <div style="font-size:10px; font-weight:600; color:rgba(160,144,224,0.5); letter-spacing:0.08em; margin-top:8px;">IRIS · Live · 33'</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:10px 18px 24px; background:linear-gradient(0deg,#09080f 50%,transparent 100%);">
+          <div style="display:flex; gap:10px; align-items:center;"><div style="flex:1; height:44px; background:rgba(255,255,255,0.05); border:1px solid rgba(160,144,224,0.22); border-radius:22px; display:flex; align-items:center; padding:0 14px;"><span style="font-size:14px; color:rgba(255,255,255,0.28);">Ask me anything…</span></div><div style="width:44px; height:44px; background:#A090E0; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S6 · FAN CHAT LIVE DEFAULT
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">06 · Fan Chat — Live Default</div>
+      <div style="width:390px; height:844px; background:#080d14; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(108,171,221,0.18); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <!-- status bar -->
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center; justify-content:space-between;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+
+        <!-- live bar -->
+        <div style="margin:0 14px 10px; background:linear-gradient(135deg,#0e2040 0%,#1a3a6a 50%,#0e2040 100%); border:1.5px solid rgba(108,171,221,0.32); border-radius:12px; padding:8px 14px; display:flex; align-items:center; justify-content:space-between;">
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:6px; height:6px; border-radius:50%; background:#6CABDD; animation:livePulse 1.1s ease-in-out infinite;"></div><span style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.18em; text-transform:uppercase;">Live</span></div>
+          <div style="font-size:18px; font-weight:900; color:#fff; letter-spacing:-0.02em;"><span style="color:#6CABDD;">1</span>–<span style="color:rgba(255,255,255,0.45);">0</span></div>
+          <span style="font-size:14px; font-weight:700; color:rgba(255,255,255,0.7);">67'</span>
+          <div style="width:32px; height:32px; background:rgba(160,144,224,0.14); border:1px solid rgba(160,144,224,0.28); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;"><div style="width:10px; height:10px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.8),rgba(130,100,200,1) 65%);"></div></div>
+        </div>
+
+        <!-- chat header -->
+        <div style="padding:0 18px; display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:5px; height:5px; border-radius:50%; background:#22c55e; animation:livePulse 1.4s ease-in-out infinite;"></div><span style="font-size:11px; font-weight:600; color:rgba(255,255,255,0.45); letter-spacing:0.12em; text-transform:uppercase;">Fan Chat</span><span style="font-size:11px; font-weight:700; color:rgba(34,197,94,0.75);">312 active</span></div>
+        </div>
+
+        <!-- messages -->
+        <div style="position:absolute; top:196px; left:0; right:0; bottom:88px; overflow-y:auto; padding:0 14px;" data-noscroll>
+          <div style="display:flex; flex-direction:column; gap:10px; padding-bottom:8px;">
+
+            <!-- fan with tier badge -->
+            <div style="display:flex; gap:8px; align-items:flex-end;">
+              <div style="width:30px; height:30px; border-radius:50%; background:#1C2C4C; border:2px solid #C9A84C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:9px; font-weight:700; color:#C9A84C;">MN</span></div>
+              <div>
+                <div style="display:flex; align-items:center; gap:5px; margin-bottom:2px;">
+                  <span style="font-size:11px; font-weight:700; color:rgba(108,171,221,0.8);">MikeNorthEnd</span>
+                  <!-- Legend tier badge -->
+                  <svg viewBox="0 0 12 12" width="12" height="12"><polygon points="6 1 7.5 4.2 11 4.7 8.5 7.1 9.1 10.5 6 8.8 2.9 10.5 3.5 7.1 1 4.7 4.5 4.2 6 1" fill="#C9A84C" opacity="0.85"/></svg>
+                  <span style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.3);">· 67'</span>
+                </div>
+                <div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:10px 13px; max-width:262px;"><span style="font-size:14px; color:rgba(255,255,255,0.85);">GET IN!!!! That is three points written all over it 🔵🔵</span></div>
+              </div>
+            </div>
+
+            <!-- IRIS inline stat -->
+            <div style="background:rgba(160,144,224,0.08); border:1.5px solid rgba(160,144,224,0.22); border-radius:12px; overflow:hidden; padding:10px 13px; display:flex; gap:9px; align-items:center;">
+              <div style="width:24px; height:24px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0;"></div>
+              <span style="font-size:13px; color:rgba(255,255,255,0.78);"><span style="font-weight:700; color:#A090E0;">IRIS</span> · Arsenal have had 0 shots on target in the second half. City's xG lead is now 1.8.</span>
+            </div>
+
+            <!-- regular fan -->
+            <div style="display:flex; gap:8px; align-items:flex-end;">
+              <div style="width:30px; height:30px; border-radius:50%; background:#1a2818; border:1.5px solid rgba(108,171,221,0.3); flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:9px; font-weight:700; color:#6CABDD;">CF</span></div>
+              <div>
+                <div style="display:flex; align-items:center; gap:5px; margin-bottom:2px;"><span style="font-size:11px; font-weight:700; color:rgba(108,171,221,0.75);">CityFan_97</span>
+                <!-- Tier I dot -->
+                <div style="width:6px; height:6px; border-radius:50%; background:rgba(108,171,221,0.6);"></div>
+                <span style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.3);">· 66'</span></div>
+                <div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:10px 13px; max-width:262px;"><span style="font-size:14px; color:rgba(255,255,255,0.85);">Arsenal look completely lost. How are they only one down?</span></div>
+              </div>
+            </div>
+
+            <!-- own message -->
+            <div style="display:flex; justify-content:flex-end;">
+              <div>
+                <div style="display:flex; align-items:center; gap:5px; margin-bottom:2px; justify-content:flex-end;"><span style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.3);">65' ·</span><span style="font-size:11px; font-weight:700; color:rgba(108,171,221,0.75);">You</span><div style="width:8px; height:8px; border-radius:50%; background:rgba(201,168,76,0.7);"></div></div>
+                <div style="background:#6CABDD; border-radius:10px 10px 3px 10px; padding:10px 13px; max-width:248px;"><span style="font-size:14px; color:#06152b; font-weight:500;">Bernardo Silva on. Guardiola managing this perfectly 👏</span></div>
+              </div>
+            </div>
+
+            <!-- fan with Loyal tier -->
+            <div style="display:flex; gap:8px; align-items:flex-end;">
+              <div style="width:30px; height:30px; border-radius:50%; background:#1C2C4C; border:1.5px solid rgba(201,168,76,0.35); flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:9px; font-weight:700; color:rgba(201,168,76,0.8);">SK</span></div>
+              <div>
+                <div style="display:flex; align-items:center; gap:5px; margin-bottom:2px;"><span style="font-size:11px; font-weight:700; color:rgba(108,171,221,0.75);">SkyBlueKev</span><div style="width:8px; height:8px; border-radius:50%; background:rgba(201,168,76,0.7);"></div><span style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.3);">· 65'</span></div>
+                <div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:10px 13px; max-width:262px;"><span style="font-size:14px; color:rgba(255,255,255,0.85);">Foden doing whatever he wants today. 10/10 performance 🤌</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- nav fade + input -->
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:8px 14px 18px; background:linear-gradient(0deg,#080d14 40%,transparent 100%);">
+          <div style="display:flex; gap:10px; align-items:center;">
+            <div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09); flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;">😄</div>
+            <div style="flex:1; height:44px; background:#111520; border:1px solid rgba(255,255,255,0.1); border-radius:22px; display:flex; align-items:center; padding:0 14px;"><span style="font-size:14px; color:rgba(255,255,255,0.28);">Shout something…</span></div>
+            <div style="width:44px; height:44px; background:#6CABDD; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#06152b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S7 · FAN CHAT GOAL EVENT CARD
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">07 · Chat — Goal Card Inline</div>
+      <div style="width:390px; height:844px; background:#080d14; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(108,171,221,0.18); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="margin:0 14px 10px; background:linear-gradient(135deg,#0e2040 0%,#1a3a6a 50%,#0e2040 100%); border:1.5px solid rgba(108,171,221,0.32); border-radius:12px; padding:8px 14px; display:flex; align-items:center; justify-content:space-between;"><div style="display:flex; align-items:center; gap:6px;"><div style="width:6px; height:6px; border-radius:50%; background:#6CABDD; animation:livePulse 1.1s ease-in-out infinite;"></div><span style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.18em; text-transform:uppercase;">Live</span></div><div style="font-size:18px; font-weight:900; color:#fff;"><span style="color:#6CABDD;">1</span>–<span style="color:rgba(255,255,255,0.45);">0</span></div><span style="font-size:14px; font-weight:700; color:rgba(255,255,255,0.7);">55'</span></div>
+
+        <div style="position:absolute; top:140px; left:0; right:0; bottom:80px; overflow-y:auto; padding:0 14px;" data-noscroll>
+          <div style="display:flex; flex-direction:column; gap:10px; padding-bottom:8px;">
+
+            <!-- pre-goal messages -->
+            <div style="display:flex; gap:8px; align-items:flex-end; opacity:0.55;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#1C2C4C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:8px; font-weight:700; color:#6CABDD;">MN</span></div>
+              <div><div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:9px 12px; max-width:252px;"><span style="font-size:14px; color:rgba(255,255,255,0.82);">Haaland is starting to look dangerous…</span></div></div>
+            </div>
+
+            <!-- GOAL EVENT CARD — full width, unmissable -->
+            <div style="background:linear-gradient(135deg,#0a1e3a 0%,#0e2a52 80%,#1a3a6a 100%); border:2px solid rgba(108,171,221,0.45); border-radius:16px; overflow:hidden;">
+              <div style="height:3px; background:linear-gradient(90deg,#6CABDD,rgba(108,171,221,0.3)); animation:shimmer 2s linear infinite; background-size:200% 100%;"></div>
+              <div style="padding:16px 18px 14px;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                  <div style="width:38px; height:38px; border-radius:50%; background:rgba(108,171,221,0.2); border:2px solid #6CABDD; display:flex; align-items:center; justify-content:center; font-size:18px;">⚽</div>
+                  <div><div style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1px;">Goal · 54'</div><div style="font-size:22px; font-weight:900; color:#fff; letter-spacing:-0.02em; line-height:1.1;">Haaland</div></div>
+                  <div style="margin-left:auto; text-align:right;"><div style="font-size:32px; font-weight:900; color:#fff; letter-spacing:-0.04em; line-height:1;"><span style="color:#6CABDD;">1</span>–<span style="color:rgba(255,255,255,0.4);">0</span></div></div>
+                </div>
+                <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:12px;">Assist: P. Foden · Man City · Premier League</div>
+                <div style="display:flex; gap:9px;">
+                  <button style="flex:1; height:38px; background:#6CABDD; border:none; border-radius:9px; font-size:13px; font-weight:700; color:#06152b; cursor:pointer;">React 🔵</button>
+                  <button style="flex:1; height:38px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:9px; font-size:13px; font-weight:600; color:rgba(255,255,255,0.7); cursor:pointer;">View scorer</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- post-goal explosion -->
+            <div style="display:flex; gap:8px; align-items:flex-end;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#1C2C4C; border:2px solid #C9A84C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:8px; font-weight:700; color:#C9A84C;">MN</span></div>
+              <div><div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:9px 12px; max-width:252px;"><span style="font-size:14px; color:rgba(255,255,255,0.85);">YESSSSS!!!! GET IN HAALAND!! 🔵🔵🔵🔵</span></div></div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:flex-end;">
+              <div style="width:28px; height:28px; border-radius:50%; background:#1a2818; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:8px; font-weight:700; color:#6CABDD;">CF</span></div>
+              <div><div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:9px 12px; max-width:252px;"><span style="font-size:14px; color:rgba(255,255,255,0.85);">The whole stadium just left the ground 🙌</span></div></div>
+            </div>
+            <div style="display:flex; justify-content:flex-end;">
+              <div style="background:#6CABDD; border-radius:10px 10px 3px 10px; padding:9px 12px; max-width:200px;"><span style="font-size:14px; color:#06152b; font-weight:600;">That is what we came for!! 💙</span></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:8px 14px 18px; background:linear-gradient(0deg,#080d14 40%,transparent 100%);">
+          <div style="display:flex; gap:10px; align-items:center;"><div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09); flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;">😄</div><div style="flex:1; height:44px; background:#111520; border:1px solid rgba(255,255,255,0.1); border-radius:22px; display:flex; align-items:center; padding:0 14px;"><span style="font-size:14px; color:rgba(255,255,255,0.28);">Shout something…</span></div><div style="width:44px; height:44px; background:#6CABDD; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#06152b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S8 · FAN CHAT — MATCH ARCHIVE
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">08 · Chat — Match Archive</div>
+      <div style="width:390px; height:844px; background:#080d14; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(108,171,221,0.18); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center; justify-content:space-between;"><span style="font-size:14px; font-weight:600; color:#fff;">17:08</span><div style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px;"><span style="font-size:11px; font-weight:600; color:rgba(255,255,255,0.55);">Full time</span></div></div>
+
+        <div style="padding:0 14px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between;"><div style="display:flex; align-items:center; gap:6px;"><span style="font-size:11px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.1em; text-transform:uppercase;">Chat Archive</span></div><span style="font-size:11px; color:rgba(108,171,221,0.7);">94 events · 1,847 messages</span></div>
+
+        <div style="position:absolute; top:118px; left:0; right:0; bottom:0; overflow-y:auto; padding:0 14px 30px;" data-noscroll>
+          <div style="display:flex; flex-direction:column; gap:9px;">
+
+            <!-- KO marker -->
+            <div style="text-align:center; margin:4px 0 8px;"><span style="font-size:10px; font-weight:700; color:rgba(255,255,255,0.32); background:rgba(255,255,255,0.05); padding:4px 12px; border-radius:10px; letter-spacing:0.14em; text-transform:uppercase;">Kickoff · 15:00</span></div>
+
+            <!-- sub event compact -->
+            <div style="background:rgba(108,171,221,0.07); border:1px solid rgba(108,171,221,0.18); border-radius:12px; padding:9px 13px; display:flex; align-items:center; gap:10px;">
+              <svg viewBox="0 0 20 20" width="14" height="14"><path d="M4 5l4-4 4 4" fill="none" stroke="#6CABDD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 15l-4 4-4-4" fill="none" stroke="rgba(108,171,221,0.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="font-size:12px; font-weight:700; color:#6CABDD; margin-right:4px;">12'</span><span style="font-size:13px; color:rgba(255,255,255,0.65);">Walker on · Akanji off — injury</span>
+            </div>
+
+            <!-- fan msg -->
+            <div style="display:flex; gap:8px; align-items:flex-end;"><div style="width:26px; height:26px; border-radius:50%; background:#1C2C4C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:7px; font-weight:700; color:#6CABDD;">MN</span></div><div><div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:8px 11px; max-width:250px;"><span style="font-size:13px; color:rgba(255,255,255,0.82);">Hope Akanji is okay 🤞</span></div></div></div>
+
+            <!-- VAR compact -->
+            <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:9px 13px; display:flex; align-items:center; gap:10px;">
+              <span style="font-size:11px; font-weight:800; color:rgba(255,255,255,0.6);">VAR</span>
+              <span style="font-size:12px; font-weight:700; color:rgba(255,255,255,0.5); margin-right:4px;">31'</span><span style="font-size:13px; color:rgba(255,255,255,0.55);">Handball review · No penalty — original decision stands</span>
+            </div>
+
+            <!-- yellow card compact -->
+            <div style="background:rgba(255,200,0,0.08); border:1px solid rgba(255,200,0,0.22); border-radius:12px; padding:9px 13px; display:flex; align-items:center; gap:10px;">
+              <div style="width:10px; height:14px; background:#FFCC00; border-radius:2px; flex-shrink:0;"></div>
+              <span style="font-size:12px; font-weight:700; color:rgba(255,200,0,0.85); margin-right:4px;">44'</span><span style="font-size:13px; color:rgba(255,255,255,0.65);">T. Partey — Arsenal · Yellow card</span>
+            </div>
+
+            <!-- fan msg -->
+            <div style="display:flex; gap:8px; align-items:flex-end;"><div style="width:26px; height:26px; border-radius:50%; background:#1a2818; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:7px; font-weight:700; color:#6CABDD;">CF</span></div><div><div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:8px 11px; max-width:250px;"><span style="font-size:13px; color:rgba(255,255,255,0.82);">One more and he's out next game! 😬</span></div></div></div>
+
+            <!-- GOAL CARD compact -->
+            <div style="background:linear-gradient(135deg,#0a1e3a 0%,#0e2a52 100%); border:1.5px solid rgba(108,171,221,0.35); border-radius:14px; padding:12px 15px; display:flex; align-items:center; gap:10px;">
+              <span style="font-size:20px;">⚽</span>
+              <div style="flex:1;"><span style="font-size:13px; font-weight:700; color:#6CABDD; margin-right:6px;">54'</span><span style="font-size:15px; font-weight:800; color:#fff;">Haaland</span><span style="font-size:13px; color:rgba(255,255,255,0.5);"> (Foden)</span></div>
+              <span style="font-size:20px; font-weight:900; color:#fff; letter-spacing:-0.04em;"><span style="color:#6CABDD;">1</span>–0</span>
+            </div>
+
+            <!-- post goal fan msgs -->
+            <div style="display:flex; gap:8px; align-items:flex-end;"><div style="width:26px; height:26px; border-radius:50%; background:#1C2C4C; border:1.5px solid #C9A84C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:7px; font-weight:700; color:#C9A84C;">MN</span></div><div><div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:8px 11px; max-width:250px;"><span style="font-size:13px; color:rgba(255,255,255,0.85);">YESSSS!!! HAALAND!!! 🔵🔵🔵</span></div></div></div>
+
+            <!-- sub compact -->
+            <div style="background:rgba(108,171,221,0.07); border:1px solid rgba(108,171,221,0.18); border-radius:12px; padding:9px 13px; display:flex; align-items:center; gap:10px;"><svg viewBox="0 0 20 20" width="14" height="14"><path d="M4 5l4-4 4 4" fill="none" stroke="#6CABDD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 15l-4 4-4-4" fill="none" stroke="rgba(108,171,221,0.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-size:12px; font-weight:700; color:#6CABDD; margin-right:4px;">62'</span><span style="font-size:13px; color:rgba(255,255,255,0.65);">Bernardo Silva on · Kovačić off</span></div>
+
+            <!-- HT-style marker -->
+            <div style="text-align:center; margin:4px 0;"><span style="font-size:10px; font-weight:700; color:rgba(108,171,221,0.55); background:rgba(108,171,221,0.08); padding:4px 12px; border-radius:10px; letter-spacing:0.12em; text-transform:uppercase;">Goal 2 · 73' · Doku (Haaland) · 2–0</span></div>
+            <div style="text-align:center; margin:4px 0;"><span style="font-size:10px; font-weight:700; color:rgba(108,171,221,0.55); background:rgba(108,171,221,0.08); padding:4px 12px; border-radius:10px; letter-spacing:0.12em; text-transform:uppercase;">Goal 3 · 88' · Foden · 3–0</span></div>
+            <div style="text-align:center; margin:4px 0;"><span style="font-size:10px; font-weight:700; color:rgba(34,197,94,0.7); background:rgba(34,197,94,0.08); padding:4px 12px; border-radius:10px; letter-spacing:0.14em; text-transform:uppercase;">Full Time · City 3–0 Arsenal</span></div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S9 · FAN CHAT TRIVIA + POLL CARDS
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">09 · Chat — Trivia &amp; Poll Cards</div>
+      <div style="width:390px; height:844px; background:#080d14; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(108,171,221,0.18); box-shadow:0 8px 48px rgba(0,0,0,0.8);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center; justify-content:space-between;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span><div style="padding:4px 10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px;"><span style="font-size:12px; font-weight:700; color:#fff;">12:08</span><span style="font-size:10px; color:rgba(255,255,255,0.4); margin-left:4px;">to 2nd half</span></div></div>
+
+        <div style="padding:0 14px; margin-bottom:6px; display:flex; align-items:center; justify-content:space-between;"><div style="display:flex; align-items:center; gap:6px;"><div style="width:5px; height:5px; border-radius:50%; background:#22c55e; animation:livePulse 1.4s ease-in-out infinite;"></div><span style="font-size:11px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.1em; text-transform:uppercase;">Halftime Chat</span><span style="font-size:11px; font-weight:700; color:rgba(34,197,94,0.7);">312 active</span></div></div>
+
+        <div style="position:absolute; top:118px; left:0; right:0; bottom:80px; overflow-y:auto; padding:0 14px;" data-noscroll>
+          <div style="display:flex; flex-direction:column; gap:10px; padding-bottom:8px;">
+
+            <!-- fan message -->
+            <div style="display:flex; gap:8px; align-items:flex-end;"><div style="width:28px; height:28px; border-radius:50%; background:#1C2C4C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:8px; font-weight:700; color:#6CABDD;">MN</span></div><div><div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:9px 12px; max-width:252px;"><span style="font-size:14px; color:rgba(255,255,255,0.82);">Dominant half. 1–0 but should be three. Haaland was immense.</span></div></div></div>
+
+            <!-- TRIVIA CARD from IRIS -->
+            <div style="background:rgba(160,144,224,0.08); border:1.5px solid rgba(160,144,224,0.28); border-radius:16px; overflow:hidden;">
+              <div style="height:2px; background:linear-gradient(90deg,#A090E0,rgba(160,144,224,0.25));"></div>
+              <div style="padding:14px 15px 13px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                  <div style="display:flex; align-items:center; gap:7px;"><div style="width:22px; height:22px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0;"></div><span style="font-size:10px; font-weight:700; color:#A090E0; letter-spacing:0.14em; text-transform:uppercase;">IRIS Trivia</span></div>
+                  <div style="display:flex; align-items:center; gap:7px;"><span style="font-size:11px; color:rgba(255,255,255,0.4);">0:58</span><div style="padding:2px 8px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.25); border-radius:8px;"><span style="font-size:11px; font-weight:700; color:#C9A84C;">+75 XP</span></div></div>
+                </div>
+                <div style="font-size:15px; font-weight:700; color:#fff; line-height:1.3; margin-bottom:12px;">How many home goals has Haaland scored at the Etihad this season?</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:4px;">
+                  <div style="height:38px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:9px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><span style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.65);">12</span></div>
+                  <div style="height:38px; background:#6CABDD; border-radius:9px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><span style="font-size:14px; font-weight:700; color:#06152b;">16 ✓</span></div>
+                  <div style="height:38px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:9px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><span style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.65);">18</span></div>
+                  <div style="height:38px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:9px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><span style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.65);">14</span></div>
+                </div>
+                <!-- answered state -->
+                <div style="padding:8px 10px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.22); border-radius:9px; display:flex; align-items:center; gap:8px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="rgba(34,197,94,0.9)" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:12px; font-weight:700; color:rgba(34,197,94,0.85);">Correct! +75 XP added to your total</span></div>
+              </div>
+            </div>
+
+            <!-- fan message -->
+            <div style="display:flex; gap:8px; align-items:flex-end;"><div style="width:28px; height:28px; border-radius:50%; background:#1a2818; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><span style="font-size:8px; font-weight:700; color:#6CABDD;">CF</span></div><div><div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:10px 10px 10px 3px; padding:9px 12px; max-width:252px;"><span style="font-size:14px; color:rgba(255,255,255,0.82);">16 goals at home! He's ridiculous 😂</span></div></div></div>
+
+            <!-- POLL CARD from IRIS -->
+            <div style="background:rgba(160,144,224,0.08); border:1.5px solid rgba(160,144,224,0.22); border-radius:16px; overflow:hidden;">
+              <div style="height:2px; background:linear-gradient(90deg,#A090E0,rgba(160,144,224,0.25));"></div>
+              <div style="padding:14px 15px 13px;">
+                <div style="display:flex; align-items:center; gap:7px; margin-bottom:10px;"><div style="width:22px; height:22px; border-radius:50%; background:radial-gradient(circle at 36% 33%,rgba(220,215,255,0.7),rgba(130,100,200,1) 65%); flex-shrink:0;"></div><span style="font-size:10px; font-weight:700; color:#A090E0; letter-spacing:0.14em; text-transform:uppercase;">IRIS Poll · 203 votes</span></div>
+                <div style="font-size:15px; font-weight:700; color:#fff; line-height:1.3; margin-bottom:12px;">Rate the first half</div>
+
+                <!-- option 1 — voted, results shown -->
+                <div style="margin-bottom:8px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><span style="font-size:13px; font-weight:600; color:#6CABDD;">Brilliant — 9/10</span><span style="font-size:12px; font-weight:700; color:#6CABDD;">61%</span></div>
+                  <div style="height:8px; background:rgba(255,255,255,0.07); border-radius:4px; overflow:hidden;"><div style="width:61%; height:100%; background:#6CABDD; border-radius:4px;"></div></div>
+                </div>
+                <div style="margin-bottom:8px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><span style="font-size:13px; font-weight:600; color:rgba(255,255,255,0.65);">Good — 7/10</span><span style="font-size:12px; font-weight:700; color:rgba(255,255,255,0.5);">29%</span></div>
+                  <div style="height:8px; background:rgba(255,255,255,0.07); border-radius:4px; overflow:hidden;"><div style="width:29%; height:100%; background:rgba(255,255,255,0.3); border-radius:4px;"></div></div>
+                </div>
+                <div style="margin-bottom:4px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><span style="font-size:13px; font-weight:600; color:rgba(255,255,255,0.5);">Could do better</span><span style="font-size:12px; font-weight:700; color:rgba(255,255,255,0.4);">10%</span></div>
+                  <div style="height:8px; background:rgba(255,255,255,0.07); border-radius:4px; overflow:hidden;"><div style="width:10%; height:100%; background:rgba(255,255,255,0.2); border-radius:4px;"></div></div>
+                </div>
+
+                <div style="font-size:11px; color:rgba(255,255,255,0.32); margin-top:8px;">203 fans voted · You voted Brilliant</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="position:absolute; bottom:0; left:0; right:0; padding:8px 14px 18px; background:linear-gradient(0deg,#080d14 40%,transparent 100%);">
+          <div style="display:flex; gap:10px; align-items:center;"><div style="width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.09); flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px;">😄</div><div style="flex:1; height:44px; background:#111520; border:1px solid rgba(255,255,255,0.1); border-radius:22px; display:flex; align-items:center; padding:0 14px;"><span style="font-size:14px; color:rgba(255,255,255,0.28);">Say something at halftime…</span></div><div style="width:44px; height:44px; background:#6CABDD; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#06152b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div></div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

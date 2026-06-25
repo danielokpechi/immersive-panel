@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    @keyframes irisNavPulse {
+      0%,100%{box-shadow:0 0 0 4px rgba(108,171,221,0.12),0 4px 20px rgba(108,171,221,0.22)}
+      50%    {box-shadow:0 0 0 8px rgba(108,171,221,0.06),0 4px 28px rgba(108,171,221,0.38)}
+    }
+    @keyframes goldPulse {
+      0%,100%{box-shadow:0 0 0 4px rgba(201,168,76,0.16),0 4px 28px rgba(201,168,76,0.28)}
+      50%    {box-shadow:0 0 0 10px rgba(201,168,76,0.06),0 4px 40px rgba(201,168,76,0.52)}
+    }
+    @keyframes shimmer {
+      0%  {background-position:-200% center}
+      100%{background-position: 200% center}
+    }
+    @keyframes rayRotate {
+      from{transform:rotate(0deg)} to{transform:rotate(360deg)}
+    }
+    @keyframes goldTickIn {
+      0%  {transform:scale(0) rotate(-20deg);opacity:0}
+      65% {transform:scale(1.18) rotate(4deg)}
+      100%{transform:scale(1) rotate(0);opacity:1}
+    }
+    @keyframes tierBadgeIn {
+      0%  {transform:scale(0.4) translateY(30px);opacity:0}
+      60% {transform:scale(1.08) translateY(-6px)}
+      100%{transform:scale(1) translateY(0);opacity:1}
+    }
+    @keyframes counterUp {
+      0%  {opacity:0;transform:translateY(12px)}
+      100%{opacity:1;transform:translateY(0)}
+    }
+    @keyframes livePulse { 0%,100%{opacity:1} 50%{opacity:0.18} }
+    [data-noscroll]{scrollbar-width:none;-ms-overflow-style:none}
+    [data-noscroll]::-webkit-scrollbar{display:none}
+    button,input{font-family:'Inter',sans-serif}
+  </style>
+</helmet>
+
+<!-- ══════════════════════════════════════════════════════
+     IMMERSIVE PANEL — PHASE 8: PROFILE & QUESTS
+══════════════════════════════════════════════════════ -->
+<div style="background:#e2e1db; width:max-content; min-width:100%; min-height:100vh; padding:52px; box-sizing:border-box; font-family:'Inter',sans-serif;">
+
+  <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:40px;">
+    <div style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.24em; text-transform:uppercase;">Manchester City FC</div>
+    <div style="width:1px; height:10px; background:rgba(0,0,0,0.2);"></div>
+    <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.14em; text-transform:uppercase;">Immersive Panel — Phase 8: Profile &amp; Quests</div>
+  </div>
+
+  <div style="display:flex; gap:36px; align-items:flex-start; flex-wrap:wrap;">
+
+
+    <!-- ══════════════════════════════════════
+         S1 · PROFILE FULL VIEW
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">01 · Profile</div>
+      <div style="width:390px; height:844px; background:#0D0D0D; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); box-shadow:0 8px 48px rgba(0,0,0,0.7);">
+
+        <!-- status bar -->
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-size:14px; font-weight:600; color:#fff;">9:41</span>
+          <div style="display:flex; align-items:center; gap:5px; color:rgba(255,255,255,0.8);"><svg width="16" height="11" viewBox="0 0 16 11"><rect x="0" y="7" width="3" height="4" rx="0.5" fill="currentColor"/><rect x="4.3" y="4.5" width="3" height="6.5" rx="0.5" fill="currentColor"/><rect x="8.6" y="2" width="3" height="9" rx="0.5" fill="currentColor"/></svg><div style="display:flex; align-items:center; gap:1px;"><div style="width:22px; height:11px; border:1.5px solid rgba(255,255,255,0.75); border-radius:3px; padding:2px; box-sizing:border-box;"><div style="width:65%; height:100%; background:white; border-radius:1px;"></div></div><div style="width:2px; height:5px; background:rgba(255,255,255,0.5); border-radius:0 1px 1px 0;"></div></div></div>
+        </div>
+
+        <!-- header -->
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; justify-content:space-between;">
+          <span style="font-size:20px; font-weight:800; color:#fff; letter-spacing:-0.02em;">Profile</span>
+          <div style="width:36px; height:36px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        </div>
+
+        <!-- scroll -->
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:78px; overflow-y:auto; padding-bottom:12px;" data-noscroll>
+
+          <!-- identity section -->
+          <div style="padding:20px 20px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; background:linear-gradient(180deg,rgba(28,44,76,0.18) 0%,transparent 100%);">
+            <div style="width:84px; height:84px; border-radius:50%; background:#1C2C4C; border:3px solid #C9A84C; display:flex; align-items:center; justify-content:center; margin-bottom:13px; position:relative; animation:goldPulse 3s ease-in-out infinite;">
+              <span style="font-size:28px; font-weight:700; color:#C9A84C;">JB</span>
+              <div style="position:absolute; inset:-7px; border-radius:50%; border:1px solid rgba(201,168,76,0.18);"></div>
+            </div>
+            <div style="font-size:26px; font-weight:800; color:#fff; letter-spacing:-0.02em; margin-bottom:6px;">Jamie Barnes</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.42); margin-bottom:10px;">Member since Aug 2023 · North Stand</div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <div style="padding:5px 14px; background:rgba(201,168,76,0.12); border:1.5px solid rgba(201,168,76,0.3); border-radius:20px;"><span style="font-size:12px; font-weight:700; color:#C9A84C; letter-spacing:0.12em; text-transform:uppercase;">Tier III · Loyal Blue</span></div>
+            </div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.38);">23 matches attended · 3,180 XP</div>
+          </div>
+
+          <!-- tier progress -->
+          <div style="margin:0 20px 16px; background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:14px; padding:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <div style="font-size:12px; font-weight:700; color:#C9A84C;">Tier III — Loyal Blue</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.4);">3,180 / 3,500 XP</div>
+            </div>
+            <div style="height:7px; background:rgba(201,168,76,0.12); border-radius:4px; overflow:hidden; margin-bottom:8px;">
+              <div style="width:91%; height:100%; background:linear-gradient(90deg,#C9A84C,#e8c96a); border-radius:4px;"></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; animation:livePulse 1.8s ease-in-out infinite;"></div>
+              <span style="font-size:12px; color:rgba(201,168,76,0.8); font-weight:600;">320 XP to Tier IV — Legend Blue. 2 more matches.</span>
+            </div>
+          </div>
+
+          <!-- stats row -->
+          <div style="margin:0 20px 16px; display:flex; gap:10px;">
+            <div style="flex:1; background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:13px 10px; text-align:center;">
+              <div style="font-size:26px; font-weight:900; color:#fff; letter-spacing:-0.02em; line-height:1; margin-bottom:3px;">3,180</div>
+              <div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.12em; text-transform:uppercase;">XP total</div>
+            </div>
+            <div style="flex:1; background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:13px 10px; text-align:center;">
+              <div style="font-size:26px; font-weight:900; color:#fff; letter-spacing:-0.02em; line-height:1; margin-bottom:3px;">23</div>
+              <div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.12em; text-transform:uppercase;">Matches</div>
+            </div>
+            <div style="flex:1; background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:13px 10px; text-align:center;">
+              <div style="font-size:26px; font-weight:900; color:#fff; letter-spacing:-0.02em; line-height:1; margin-bottom:3px;">22</div>
+              <div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.12em; text-transform:uppercase;">Quests</div>
+            </div>
+          </div>
+
+          <!-- XP breakdown -->
+          <div style="margin:0 20px 16px; background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:14px 16px;">
+            <div style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:12px;">XP breakdown</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; align-items:center; gap:10px;"><span style="font-size:13px; color:rgba(255,255,255,0.65); flex:1;">Quests completed</span><div style="height:4px; width:80px; background:rgba(255,255,255,0.06); border-radius:2px;"><div style="width:78%; height:100%; background:#6CABDD; border-radius:2px;"></div></div><span style="font-size:13px; font-weight:700; color:#6CABDD; width:44px; text-align:right;">1,480</span></div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="font-size:13px; color:rgba(255,255,255,0.65); flex:1;">Predictions</span><div style="height:4px; width:80px; background:rgba(255,255,255,0.06); border-radius:2px;"><div style="width:55%; height:100%; background:#6CABDD; border-radius:2px;"></div></div><span style="font-size:13px; font-weight:700; color:#6CABDD; width:44px; text-align:right;">900</span></div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="font-size:13px; color:rgba(255,255,255,0.65); flex:1;">Chat &amp; reactions</span><div style="height:4px; width:80px; background:rgba(255,255,255,0.06); border-radius:2px;"><div style="width:38%; height:100%; background:#6CABDD; border-radius:2px;"></div></div><span style="font-size:13px; font-weight:700; color:#6CABDD; width:44px; text-align:right;">560</span></div>
+              <div style="display:flex; align-items:center; gap:10px;"><span style="font-size:13px; color:rgba(255,255,255,0.65); flex:1;">Photos uploaded</span><div style="height:4px; width:80px; background:rgba(255,255,255,0.06); border-radius:2px;"><div style="width:15%; height:100%; background:#6CABDD; border-radius:2px;"></div></div><span style="font-size:13px; font-weight:700; color:#6CABDD; width:44px; text-align:right;">240</span></div>
+            </div>
+          </div>
+
+          <!-- match history -->
+          <div style="padding:0 20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <div style="font-size:11px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.16em; text-transform:uppercase;">Match History</div>
+              <span style="font-size:11px; font-weight:600; color:#6CABDD; cursor:pointer;">See all →</span>
+            </div>
+            <div style="background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden;">
+
+              <div style="padding:13px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer;">
+                <div style="flex-shrink:0; width:42px; text-align:center;"><div style="font-size:11px; color:rgba(255,255,255,0.35);">24 Jun</div></div>
+                <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff;">vs Arsenal</div><div style="font-size:11px; color:rgba(255,255,255,0.38); margin-top:1px;">4 quests · 2/2 predictions · +340 XP</div></div>
+                <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;"><div style="padding:2px 8px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.22); border-radius:6px;"><span style="font-size:11px; font-weight:700; color:rgba(34,197,94,0.85);">W 3–0</span></div></div>
+              </div>
+
+              <div style="padding:13px 16px; display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer;">
+                <div style="flex-shrink:0; width:42px; text-align:center;"><div style="font-size:11px; color:rgba(255,255,255,0.35);">28 May</div></div>
+                <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff;">vs Chelsea</div><div style="font-size:11px; color:rgba(255,255,255,0.38); margin-top:1px;">3 quests · 1/2 predictions · +210 XP</div></div>
+                <div style="padding:2px 8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:6px;"><span style="font-size:11px; font-weight:700; color:rgba(255,255,255,0.55);">D 1–1</span></div>
+              </div>
+
+              <div style="padding:13px 16px; display:flex; align-items:center; gap:10px; cursor:pointer;">
+                <div style="flex-shrink:0; width:42px; text-align:center;"><div style="font-size:11px; color:rgba(255,255,255,0.35);">4 May</div></div>
+                <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff;">vs Tottenham</div><div style="font-size:11px; color:rgba(255,255,255,0.38); margin-top:1px;">5 quests · 2/2 predictions · +380 XP</div></div>
+                <div style="padding:2px 8px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.22); border-radius:6px;"><span style="font-size:11px; font-weight:700; color:rgba(34,197,94,0.85);">W 4–0</span></div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- nav -->
+        <div style="position:absolute; bottom:16px; left:16px; right:16px; height:62px; background:rgba(8,13,22,0.95); border:1px solid rgba(255,255,255,0.09); border-radius:31px; display:flex; align-items:center; padding:0 6px; z-index:10;">
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; color:rgba(255,255,255,0.34); cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span style="font-size:9px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase;">Home</span></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; color:rgba(255,255,255,0.34); cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span style="font-size:9px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase;">Chat</span></div>
+          <div style="width:60px; flex-shrink:0;"></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; color:rgba(255,255,255,0.34); cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span style="font-size:9px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase;">Shop</span></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; color:#6CABDD; cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span style="font-size:9px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">Me</span></div>
+        </div>
+        <div style="position:absolute; bottom:23px; left:50%; transform:translateX(-50%); width:52px; height:52px; background:#6CABDD; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; animation:irisNavPulse 2.8s ease-in-out infinite; z-index:11; cursor:pointer;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="12" r="5" fill="white" opacity="0.95"/><circle cx="12" cy="12" r="9.5" stroke="white" stroke-width="1.25" opacity="0.32"/></svg><span style="font-size:7.5px; font-weight:700; letter-spacing:0.1em; color:white; text-transform:uppercase; opacity:0.88; margin-top:1px;">IRIS</span></div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S2 · MATCH HISTORY DETAIL
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">02 · Match Detail</div>
+      <div style="width:390px; height:844px; background:#0D0D0D; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); box-shadow:0 8px 48px rgba(0,0,0,0.7);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; gap:10px; cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span style="font-size:15px; font-weight:500; color:rgba(255,255,255,0.6);">Match History</span></div>
+
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:0; overflow-y:auto; padding:0 20px 40px;" data-noscroll>
+
+          <!-- match header -->
+          <div style="background:linear-gradient(135deg,#0a1e3a 0%,#0e2a52 100%); border:1px solid rgba(108,171,221,0.22); border-radius:16px; padding:18px; margin-bottom:16px;">
+            <div style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:12px;">Sat 24 June 2026 · Premier League</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+              <span style="font-size:22px; font-weight:900; color:#fff; letter-spacing:-0.02em;">Man City</span>
+              <div style="text-align:center;"><div style="font-size:40px; font-weight:900; color:#fff; letter-spacing:-0.04em; line-height:1;"><span style="color:#6CABDD;">3</span><span style="font-weight:300; color:rgba(255,255,255,0.3); font-size:24px; margin:0 4px;">–</span><span style="color:rgba(255,255,255,0.45);">0</span></div><div style="padding:3px 10px; background:rgba(34,197,94,0.14); border:1px solid rgba(34,197,94,0.28); border-radius:10px; display:inline-block; margin-top:5px;"><span style="font-size:10px; font-weight:700; color:rgba(34,197,94,0.9); letter-spacing:0.1em; text-transform:uppercase;">Win</span></div></div>
+              <span style="font-size:22px; font-weight:900; color:rgba(255,255,255,0.5); letter-spacing:-0.02em;">Arsenal</span>
+            </div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.4); text-align:center;">Etihad Stadium · North Stand</div>
+          </div>
+
+          <!-- your match XP -->
+          <div style="background:rgba(201,168,76,0.08); border:1.5px solid rgba(201,168,76,0.22); border-radius:14px; padding:14px 16px; margin-bottom:14px;">
+            <div style="font-size:10px; font-weight:700; color:#C9A84C; letter-spacing:0.18em; text-transform:uppercase; margin-bottom:10px;">Your matchday</div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+              <div style="flex:1; text-align:center; background:rgba(255,255,255,0.04); border-radius:10px; padding:10px;"><div style="font-size:26px; font-weight:900; color:#C9A84C; letter-spacing:-0.02em;">340</div><div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">XP earned</div></div>
+              <div style="flex:1; text-align:center; background:rgba(255,255,255,0.04); border-radius:10px; padding:10px;"><div style="font-size:26px; font-weight:900; color:#fff; letter-spacing:-0.02em;">4/5</div><div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Quests</div></div>
+              <div style="flex:1; text-align:center; background:rgba(255,255,255,0.04); border-radius:10px; padding:10px;"><div style="font-size:26px; font-weight:900; color:rgba(34,197,94,0.9); letter-spacing:-0.02em;">2/2</div><div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.1em; text-transform:uppercase; margin-top:2px;">Predict</div></div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:5px;">
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:rgba(255,255,255,0.5);"><span>Quests completed</span><span style="color:#C9A84C;">+225 XP</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:rgba(255,255,255,0.5);"><span>Both predictions correct</span><span style="color:#C9A84C;">+75 XP</span></div>
+              <div style="display:flex; justify-content:space-between; font-size:12px; color:rgba(255,255,255,0.5);"><span>Chat &amp; reactions</span><span style="color:#C9A84C;">+40 XP</span></div>
+            </div>
+          </div>
+
+          <!-- quests completed -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:9px;">Quests completed</div>
+            <div style="display:flex; flex-direction:column; gap:7px;">
+              <div style="background:#111520; border:1px solid rgba(34,197,94,0.2); border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:10px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(34,197,94,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.8); flex:1;">Pre-match Brief</span><span style="font-size:12px; font-weight:700; color:#C9A84C;">+50 XP</span></div>
+              <div style="background:#111520; border:1px solid rgba(34,197,94,0.2); border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:10px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(34,197,94,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.8); flex:1;">First Celebration</span><span style="font-size:12px; font-weight:700; color:#C9A84C;">+100 XP</span></div>
+              <div style="background:#111520; border:1px solid rgba(34,197,94,0.2); border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:10px;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(34,197,94,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.8); flex:1;">Full 90</span><span style="font-size:12px; font-weight:700; color:#C9A84C;">+150 XP</span></div>
+            </div>
+          </div>
+
+          <!-- IRIS line -->
+          <div style="padding:13px 15px; background:rgba(108,171,221,0.07); border-left:3px solid #6CABDD; border-radius:0 10px 10px 0;">
+            <div style="font-size:10px; font-weight:700; color:rgba(108,171,221,0.65); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:4px;">IRIS remembers</div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.72); line-height:1.55; font-style:italic;">You celebrated Haaland's 54th minute goal within four seconds — one of the fastest reactions in the stadium. City went top of the league that afternoon.</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S3 · TIER STATUS SCREEN
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">03 · Tier Status</div>
+      <div style="width:390px; height:844px; background:#0D0D0D; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); box-shadow:0 8px 48px rgba(0,0,0,0.7);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; gap:10px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span style="font-size:20px; font-weight:800; color:#fff; letter-spacing:-0.02em;">Tiers</span></div>
+
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:0; overflow-y:auto; padding:0 20px 40px;" data-noscroll>
+
+          <div style="font-size:14px; color:rgba(255,255,255,0.42); line-height:1.6; margin-bottom:22px;">Every match you attend, every quest you complete — it all builds toward something real.</div>
+
+          <!-- Tier I -->
+          <div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:18px; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:13px; margin-bottom:14px;">
+              <div style="width:48px; height:48px; border-radius:12px; background:rgba(108,171,221,0.1); border:1.5px solid rgba(108,171,221,0.28); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#6CABDD" stroke-width="1.75"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+              <div>
+                <div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:2px;">Entry · 0 XP</div>
+                <div style="font-size:20px; font-weight:800; color:#fff; line-height:1.1;">Tier I — City Blue</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#6CABDD; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Access to the Immersive Panel</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#6CABDD; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">IRIS match briefing</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#6CABDD; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Fan chat &amp; predictions</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#6CABDD; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">10% partner discounts</span></div>
+            </div>
+          </div>
+
+          <!-- Tier II -->
+          <div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:18px; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:13px; margin-bottom:14px;">
+              <div style="width:48px; height:48px; border-radius:12px; background:rgba(108,171,221,0.12); border:1.5px solid rgba(108,171,221,0.35); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#6CABDD" stroke-width="1.75"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><polygon points="12 5 14.18 9.36 19 10.06 15.5 13.46 16.36 18.27 12 16 7.64 18.27 8.5 13.46 5 10.06 9.82 9.36 12 5" fill="rgba(108,171,221,0.2)"/></svg></div>
+              <div>
+                <div style="font-size:9px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:2px;">1,500 XP · ~5 matches</div>
+                <div style="font-size:20px; font-weight:800; color:#fff; line-height:1.1;">Tier II — True Blue</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#6CABDD; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Everything in Tier I</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#6CABDD; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Exclusive matchday shop drops</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#6CABDD; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Priority food ordering queue</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#6CABDD; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">20% PUMA kit discount</span></div>
+            </div>
+          </div>
+
+          <!-- Tier III — current -->
+          <div style="background:rgba(201,168,76,0.07); border:2px solid rgba(201,168,76,0.32); border-radius:16px; padding:18px; margin-bottom:12px; position:relative;">
+            <div style="position:absolute; top:-10px; right:14px; padding:2px 10px; background:#C9A84C; border-radius:10px;"><span style="font-size:10px; font-weight:700; color:#0a0800; letter-spacing:0.1em; text-transform:uppercase;">You are here</span></div>
+            <div style="display:flex; align-items:center; gap:13px; margin-bottom:14px;">
+              <div style="width:48px; height:48px; border-radius:12px; background:rgba(201,168,76,0.15); border:1.5px solid #C9A84C; display:flex; align-items:center; justify-content:center; flex-shrink:0; animation:goldPulse 2.8s ease-in-out infinite;"><svg viewBox="0 0 24 24" width="22" height="22" fill="#C9A84C"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+              <div>
+                <div style="font-size:9px; font-weight:600; color:rgba(201,168,76,0.65); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:2px;">3,000 XP · ~10 matches</div>
+                <div style="font-size:20px; font-weight:800; color:#fff; line-height:1.1;">Tier III — Loyal Blue</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.7);">Everything in Tier II</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.7);">Milestone reward unlocked per tier</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.7);">Signed item access twice a season</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.7);">Emirates Skywards double miles</span></div>
+            </div>
+          </div>
+
+          <!-- Tier IV — Legend -->
+          <div style="background:rgba(201,168,76,0.04); border:1.5px solid rgba(201,168,76,0.18); border-radius:16px; padding:18px; opacity:0.78;">
+            <div style="display:flex; align-items:center; gap:13px; margin-bottom:14px;">
+              <div style="width:48px; height:48px; border-radius:12px; background:rgba(201,168,76,0.1); border:1.5px solid rgba(201,168,76,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="22" height="22"><polygon points="12 1 15.5 8.2 23 9.3 17.5 14.6 18.9 22.1 12 18.4 5.1 22.1 6.5 14.6 1 9.3 8.5 8.2 12 1" fill="none" stroke="#C9A84C" stroke-width="1.5"/><polygon points="12 1 15.5 8.2 23 9.3 17.5 14.6 18.9 22.1 12 18.4 5.1 22.1 6.5 14.6 1 9.3 8.5 8.2 12 1" fill="rgba(201,168,76,0.15)"/></svg></div>
+              <div>
+                <div style="font-size:9px; font-weight:600; color:rgba(201,168,76,0.55); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:2px;">3,500 XP · ~12 matches</div>
+                <div style="font-size:20px; font-weight:800; color:#C9A84C; line-height:1.1;">Tier IV — Legend Blue</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Player tunnel access post-match</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Signed match worn items</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Exclusive sponsor events · Puma, Emirates</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Priority Emirates seat upgrade access</span></div>
+              <div style="display:flex; gap:8px; align-items:center;"><div style="width:5px; height:5px; border-radius:50%; background:#C9A84C; flex-shrink:0;"></div><span style="font-size:13px; color:rgba(255,255,255,0.6);">Annual dinner with club legends</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S4 · QUESTS MATCHDAY ACTIVE
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">04 · Quests — Matchday Active</div>
+      <div style="width:390px; height:844px; background:#0D0D0D; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); box-shadow:0 8px 48px rgba(0,0,0,0.7);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; justify-content:space-between;"><div style="display:flex; align-items:center; gap:10px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span style="font-size:20px; font-weight:800; color:#fff; letter-spacing:-0.02em;">Quests</span></div><div style="padding:4px 10px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.28); border-radius:10px;"><span style="font-size:13px; font-weight:700; color:#C9A84C;">375 XP</span><span style="font-size:10px; color:rgba(201,168,76,0.6); margin-left:4px;">today</span></div></div>
+
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:0; overflow-y:auto; padding:0 20px 40px;" data-noscroll>
+
+          <!-- tier progress mini -->
+          <div style="background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:12px 14px; margin-bottom:18px; display:flex; align-items:center; gap:12px;">
+            <div style="flex:1;"><div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span style="font-size:11px; font-weight:700; color:#C9A84C;">Tier III · 3,180 XP</span><span style="font-size:11px; color:rgba(255,255,255,0.38);">/ 3,500</span></div><div style="height:5px; background:rgba(201,168,76,0.12); border-radius:3px;"><div style="width:91%; height:100%; background:linear-gradient(90deg,#C9A84C,#e8c96a); border-radius:3px;"></div></div></div>
+          </div>
+
+          <!-- PRE-MATCH -->
+          <div style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">Pre-match</div>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:18px;">
+
+            <!-- completed -->
+            <div style="background:#111520; border:1px solid rgba(34,197,94,0.22); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(34,197,94,0.12); border:1.5px solid rgba(34,197,94,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(34,197,94,0.9)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:rgba(255,255,255,0.65); margin-bottom:1px; text-decoration:line-through;">Pre-match Brief</div><div style="font-size:11px; color:rgba(34,197,94,0.7);">Completed · +50 XP</div></div>
+              <div style="padding:3px 8px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.2); border-radius:8px;"><span style="font-size:12px; font-weight:700; color:rgba(34,197,94,0.8);">+50</span></div>
+            </div>
+
+            <!-- completed -->
+            <div style="background:#111520; border:1px solid rgba(34,197,94,0.22); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(34,197,94,0.12); border:1.5px solid rgba(34,197,94,0.3); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(34,197,94,0.9)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:rgba(255,255,255,0.65); margin-bottom:1px; text-decoration:line-through;">Lock in Predictions</div><div style="font-size:11px; color:rgba(34,197,94,0.7);">Completed · +75 XP</div></div>
+              <div style="padding:3px 8px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.2); border-radius:8px;"><span style="font-size:12px; font-weight:700; color:rgba(34,197,94,0.8);">+75</span></div>
+            </div>
+          </div>
+
+          <!-- LIVE -->
+          <div style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">Live match</div>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:18px;">
+
+            <!-- active -->
+            <div style="background:rgba(108,171,221,0.08); border:1.5px solid rgba(108,171,221,0.3); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; cursor:pointer;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(108,171,221,0.15); border:1.5px solid #6CABDD; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><div style="width:8px; height:8px; border-radius:50%; background:#6CABDD; animation:livePulse 1.2s ease-in-out infinite;"></div></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:2px;">First Celebration</div><div style="font-size:11px; color:rgba(108,171,221,0.7);">React within 10s of a City goal</div></div>
+              <div style="padding:3px 8px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.25); border-radius:8px;"><span style="font-size:12px; font-weight:700; color:#C9A84C;">100 XP</span></div>
+            </div>
+
+            <!-- active -->
+            <div style="background:rgba(108,171,221,0.08); border:1.5px solid rgba(108,171,221,0.3); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; cursor:pointer;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(108,171,221,0.15); border:1.5px solid #6CABDD; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><div style="width:8px; height:8px; border-radius:50%; background:#6CABDD; animation:livePulse 1.2s ease-in-out infinite;"></div></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:2px;">Full 90</div><div style="font-size:11px; color:rgba(108,171,221,0.7);">Stay active for the full match</div><div style="margin-top:6px; height:4px; background:rgba(255,255,255,0.07); border-radius:2px;"><div style="width:74%; height:100%; background:#6CABDD; border-radius:2px;"></div></div></div>
+              <div style="padding:3px 8px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.25); border-radius:8px;"><span style="font-size:12px; font-weight:700; color:#C9A84C;">150 XP</span></div>
+            </div>
+          </div>
+
+          <!-- HALFTIME -->
+          <div style="font-size:10px; font-weight:700; color:rgba(255,255,255,0.3); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">Halftime — Coming</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; opacity:0.6;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.45); margin-bottom:1px;">IRIS Trivia</div><div style="font-size:11px; color:rgba(255,255,255,0.28);">Unlocks at halftime</div></div>
+              <div style="padding:3px 8px; background:rgba(255,255,255,0.05); border-radius:8px;"><span style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.3);">75 XP</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S5 · QUESTS INACTIVE
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">05 · Quests — Inactive</div>
+      <div style="width:390px; height:844px; background:#0D0D0D; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); box-shadow:0 8px 48px rgba(0,0,0,0.7);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center;"><span style="font-size:20px; font-weight:800; color:#fff; letter-spacing:-0.02em;">Quests</span></div>
+
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:78px; overflow-y:auto; padding:0 20px 12px;" data-noscroll>
+
+          <!-- streak card -->
+          <div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px 16px; margin-bottom:14px; display:flex; align-items:center; gap:12px;">
+            <div style="width:44px; height:44px; border-radius:12px; background:rgba(255,160,0,0.1); border:1px solid rgba(255,160,0,0.25); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:22px;">⚡</div>
+            <div style="flex:1;">
+              <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:3px;">4 Match Streak</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.45); margin-bottom:7px;">Keep attending to protect your streak</div>
+              <div style="height:4px; background:rgba(255,160,0,0.12); border-radius:2px;"><div style="width:80%; height:100%; background:linear-gradient(90deg,rgba(255,160,0,0.7),rgba(255,200,0,0.9)); border-radius:2px;"></div></div>
+            </div>
+            <div style="font-size:24px; font-weight:900; color:rgba(255,180,0,0.8); letter-spacing:-0.02em;">×4</div>
+          </div>
+
+          <!-- season quest -->
+          <div style="background:#111520; border:1px solid rgba(108,171,221,0.2); border-radius:14px; padding:14px 16px; margin-bottom:14px;">
+            <div style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.16em; text-transform:uppercase; margin-bottom:7px;">Season quest</div>
+            <div style="font-size:16px; font-weight:700; color:#fff; margin-bottom:8px;">Attend 10 matches this season</div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span style="font-size:12px; color:rgba(255,255,255,0.45);">7 of 10 matches attended</span><span style="font-size:12px; font-weight:700; color:#6CABDD;">+500 XP on completion</span></div>
+            <div style="height:6px; background:rgba(108,171,221,0.1); border-radius:3px;"><div style="width:70%; height:100%; background:#6CABDD; border-radius:3px;"></div></div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.35); margin-top:6px;">3 more matches to unlock</div>
+          </div>
+
+          <!-- next match quests locked -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:9px;">
+            <div style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.16em; text-transform:uppercase;">Next match — vs Liverpool</div>
+            <span style="font-size:11px; color:rgba(255,255,255,0.3);">Wed 25 Jun</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:18px;">
+            <div style="background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; opacity:0.6;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.45);">Pre-match Brief</div><div style="font-size:11px; color:rgba(255,255,255,0.25);">Unlocks matchday</div></div>
+              <span style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.25);">50 XP</span>
+            </div>
+            <div style="background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; opacity:0.6;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.45);">First Celebration</div><div style="font-size:11px; color:rgba(255,255,255,0.25);">Unlocks matchday</div></div>
+              <span style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.25);">100 XP</span>
+            </div>
+            <div style="background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:12px; opacity:0.6;">
+              <div style="width:36px; height:36px; border-radius:10px; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.45);">Full 90</div><div style="font-size:11px; color:rgba(255,255,255,0.25);">Unlocks matchday</div></div>
+              <span style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.25);">150 XP</span>
+            </div>
+          </div>
+
+          <!-- nudge -->
+          <div style="background:rgba(108,171,221,0.07); border:1px solid rgba(108,171,221,0.18); border-radius:12px; padding:13px 16px; text-align:center;">
+            <div style="font-size:15px; font-weight:700; color:#fff; margin-bottom:4px;">Wednesday. Anfield. Title race.</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.45);">375 XP available. Your streak is on the line.</div>
+          </div>
+
+        </div>
+
+        <div style="position:absolute; bottom:16px; left:16px; right:16px; height:62px; background:rgba(8,13,22,0.95); border:1px solid rgba(255,255,255,0.09); border-radius:31px; display:flex; align-items:center; padding:0 6px; z-index:10;">
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; color:rgba(255,255,255,0.34); cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span style="font-size:9px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase;">Home</span></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; color:rgba(255,255,255,0.34); cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span style="font-size:9px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase;">Chat</span></div>
+          <div style="width:60px; flex-shrink:0;"></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; color:rgba(255,255,255,0.34); cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span style="font-size:9px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase;">Shop</span></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; color:#6CABDD; cursor:pointer;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span style="font-size:9px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">Me</span></div>
+        </div>
+        <div style="position:absolute; bottom:23px; left:50%; transform:translateX(-50%); width:52px; height:52px; background:#6CABDD; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; animation:irisNavPulse 2.8s ease-in-out infinite; z-index:11; cursor:pointer;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="12" r="5" fill="white" opacity="0.95"/><circle cx="12" cy="12" r="9.5" stroke="white" stroke-width="1.25" opacity="0.32"/></svg><span style="font-size:7.5px; font-weight:700; letter-spacing:0.1em; color:white; text-transform:uppercase; opacity:0.88; margin-top:1px;">IRIS</span></div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S6 · QUEST DETAIL
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">06 · Quest Detail</div>
+      <div style="width:390px; height:844px; background:#0D0D0D; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); box-shadow:0 8px 48px rgba(0,0,0,0.7); display:flex; flex-direction:column;">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; gap:10px; cursor:pointer; flex-shrink:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span style="font-size:15px; font-weight:500; color:rgba(255,255,255,0.6);">Quests</span></div>
+
+        <div style="flex:1; overflow-y:auto; padding:0 20px 40px;" data-noscroll>
+
+          <!-- quest hero -->
+          <div style="background:rgba(108,171,221,0.08); border:1.5px solid rgba(108,171,221,0.28); border-radius:16px; padding:22px; margin-bottom:18px; position:relative; overflow:hidden;">
+            <div style="position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent 0%,#6CABDD 50%,transparent 100%); background-size:200% 100%; animation:shimmer 2s linear infinite; opacity:0.7;"></div>
+            <div style="display:flex; align-items:center; gap:7px; margin-bottom:12px;">
+              <div style="width:8px; height:8px; border-radius:50%; background:#6CABDD; animation:livePulse 1.2s ease-in-out infinite;"></div>
+              <span style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.2em; text-transform:uppercase;">Active quest</span>
+            </div>
+            <div style="font-size:26px; font-weight:900; color:#fff; line-height:1.1; letter-spacing:-0.02em; margin-bottom:8px;">First Celebration</div>
+            <div style="font-size:15px; color:rgba(255,255,255,0.55); line-height:1.6;">Be one of the first fans to react in the chat within 10 seconds of a City goal being scored.</div>
+          </div>
+
+          <!-- what to do -->
+          <div style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.38); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:10px;">What to do</div>
+          <div style="background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:14px 16px; margin-bottom:16px;">
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; gap:12px; align-items:flex-start;"><div style="width:24px; height:24px; border-radius:50%; background:#6CABDD; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#0D1520;">1</div><span style="font-size:14px; color:rgba(255,255,255,0.72); line-height:1.5; padding-top:2px;">Stay in the Fan Chat during the match</span></div>
+              <div style="display:flex; gap:12px; align-items:flex-start;"><div style="width:24px; height:24px; border-radius:50%; background:#6CABDD; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#0D1520;">2</div><span style="font-size:14px; color:rgba(255,255,255,0.72); line-height:1.5; padding-top:2px;">When City score, send a message in the chat within 10 seconds</span></div>
+              <div style="display:flex; gap:12px; align-items:flex-start;"><div style="width:24px; height:24px; border-radius:50%; background:#6CABDD; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#0D1520;">3</div><span style="font-size:14px; color:rgba(255,255,255,0.72); line-height:1.5; padding-top:2px;">First 10 to react earn bonus XP — speed matters</span></div>
+            </div>
+          </div>
+
+          <!-- reward -->
+          <div style="display:flex; gap:12px; margin-bottom:18px;">
+            <div style="flex:1; background:rgba(201,168,76,0.1); border:1.5px solid rgba(201,168,76,0.25); border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:32px; font-weight:900; color:#C9A84C; letter-spacing:-0.02em; line-height:1;">100</div>
+              <div style="font-size:9px; font-weight:700; color:rgba(201,168,76,0.65); letter-spacing:0.12em; text-transform:uppercase; margin-top:3px;">XP reward</div>
+            </div>
+            <div style="flex:1; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:32px; font-weight:900; color:#C9A84C; letter-spacing:-0.02em; line-height:1;">+50</div>
+              <div style="font-size:9px; font-weight:700; color:rgba(255,255,255,0.38); letter-spacing:0.12em; text-transform:uppercase; margin-top:3px;">First 10 bonus</div>
+            </div>
+          </div>
+
+          <!-- related feature -->
+          <div style="background:rgba(108,171,221,0.07); border:1px solid rgba(108,171,221,0.18); border-radius:12px; padding:12px 14px; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#6CABDD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span style="font-size:13px; color:rgba(255,255,255,0.62);">This quest is completed in <span style="font-weight:700; color:#6CABDD;">Fan Chat</span></span>
+          </div>
+
+          <button style="width:100%; height:52px; background:#6CABDD; border:none; border-radius:10px; font-size:15px; font-weight:700; color:#0D1520; cursor:pointer; letter-spacing:0.03em;">Go to Fan Chat</button>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S7 · REWARDS SCREEN
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">07 · Rewards</div>
+      <div style="width:390px; height:844px; background:#0D0D0D; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); box-shadow:0 8px 48px rgba(0,0,0,0.7);">
+
+        <div style="height:46px; padding:0 22px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="padding:0 20px; height:52px; display:flex; align-items:center; justify-content:space-between;"><div style="display:flex; align-items:center; gap:10px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span style="font-size:20px; font-weight:800; color:#fff; letter-spacing:-0.02em;">Rewards</span></div></div>
+
+        <div style="position:absolute; top:98px; left:0; right:0; bottom:0; overflow-y:auto; padding:0 20px 40px;" data-noscroll>
+
+          <!-- Tier I rewards -->
+          <div style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">Tier I — City Blue</div>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;">
+            <div style="background:#111520; border:1px solid rgba(34,197,94,0.22); border-radius:12px; padding:13px 16px; display:flex; align-items:center; gap:12px; cursor:pointer;">
+              <div style="width:38px; height:38px; border-radius:10px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:18px;">🎫</div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:1px;">Digital matchday badge</div><div style="font-size:11px; color:rgba(34,197,94,0.7);">Unlocked</div></div>
+              <div style="height:32px; padding:0 12px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); border-radius:8px; display:flex; align-items:center; cursor:pointer;"><span style="font-size:12px; font-weight:700; color:rgba(34,197,94,0.85);">View</span></div>
+            </div>
+            <div style="background:#111520; border:1px solid rgba(34,197,94,0.22); border-radius:12px; padding:13px 16px; display:flex; align-items:center; gap:12px; cursor:pointer;">
+              <div style="width:38px; height:38px; border-radius:10px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.25); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:18px;">%</div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:1px;">10% partner discount</div><div style="font-size:11px; color:rgba(34,197,94,0.7);">Unlocked · Valid matchday</div></div>
+              <div style="height:32px; padding:0 12px; background:#6CABDD; border-radius:8px; display:flex; align-items:center; cursor:pointer;"><span style="font-size:12px; font-weight:700; color:#0D1520;">Claim</span></div>
+            </div>
+          </div>
+
+          <!-- Tier II rewards -->
+          <div style="font-size:10px; font-weight:700; color:#6CABDD; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">Tier II — True Blue</div>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;">
+            <div style="background:#111520; border:1px solid rgba(34,197,94,0.2); border-radius:12px; padding:13px 16px; display:flex; align-items:center; gap:12px; cursor:pointer;">
+              <div style="width:38px; height:38px; border-radius:10px; background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.22); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:18px;">👕</div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:1px;">20% PUMA kit discount</div><div style="font-size:11px; color:rgba(34,197,94,0.7);">Unlocked · Expires 30 days</div></div>
+              <div style="height:32px; padding:0 12px; background:#6CABDD; border-radius:8px; display:flex; align-items:center; cursor:pointer;"><span style="font-size:12px; font-weight:700; color:#0D1520;">Claim</span></div>
+            </div>
+            <div style="background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:13px 16px; display:flex; align-items:center; gap:12px; opacity:0.55;">
+              <div style="width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,0.05); flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.45);">Priority food ordering</div><div style="font-size:11px; color:rgba(255,255,255,0.28);">Reach Tier II to unlock</div></div>
+            </div>
+          </div>
+
+          <!-- Tier III — current -->
+          <div style="font-size:10px; font-weight:700; color:#C9A84C; letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">Tier III — Loyal Blue ★ You are here</div>
+          <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;">
+            <div style="background:rgba(201,168,76,0.08); border:1.5px solid rgba(201,168,76,0.28); border-radius:12px; padding:13px 16px; display:flex; align-items:center; gap:12px; cursor:pointer;">
+              <div style="width:38px; height:38px; border-radius:10px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.3); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:18px;">🎁</div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:1px;">Loyal Blue Kit Discount</div><div style="font-size:11px; color:#C9A84C;">Unlocked · Tap to claim</div></div>
+              <div style="height:32px; padding:0 12px; background:#C9A84C; border-radius:8px; display:flex; align-items:center; cursor:pointer;"><span style="font-size:12px; font-weight:700; color:#0a0800;">Claim</span></div>
+            </div>
+            <div style="background:#111520; border:1px solid rgba(255,255,255,0.06); border-radius:12px; padding:13px 16px; display:flex; align-items:center; gap:12px; opacity:0.55;">
+              <div style="width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,0.05); flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.45);">Emirates double miles</div><div style="font-size:11px; color:rgba(255,255,255,0.28);">Next milestone</div></div>
+            </div>
+          </div>
+
+          <!-- Tier IV locked -->
+          <div style="font-size:10px; font-weight:700; color:rgba(201,168,76,0.5); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:8px;">Tier IV — Legend Blue</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(201,168,76,0.12); border-radius:12px; padding:13px 16px; display:flex; align-items:center; gap:12px; opacity:0.5;">
+              <div style="width:38px; height:38px; border-radius:10px; background:rgba(201,168,76,0.06); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:18px;">🏟</div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.45);">Player tunnel access</div><div style="font-size:11px; color:rgba(201,168,76,0.45);">320 XP away · Tier IV</div></div>
+            </div>
+            <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(201,168,76,0.12); border-radius:12px; padding:13px 16px; display:flex; align-items:center; gap:12px; opacity:0.5;">
+              <div style="width:38px; height:38px; border-radius:10px; background:rgba(201,168,76,0.06); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:18px;">✍️</div>
+              <div style="flex:1;"><div style="font-size:14px; font-weight:600; color:rgba(255,255,255,0.45);">Signed match worn item</div><div style="font-size:11px; color:rgba(201,168,76,0.45);">Tier IV</div></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S8 · REWARD CLAIM SCREEN
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">08 · Reward Claim</div>
+      <div style="width:390px; height:844px; background:#0D0D0D; border-radius:18px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.08); box-shadow:0 8px 48px rgba(0,0,0,0.7); display:flex; flex-direction:column; align-items:center; padding:0 24px 40px;">
+
+        <div style="width:100%; height:46px; display:flex; align-items:center;"><span style="font-size:14px; font-weight:600; color:#fff;">9:41</span></div>
+        <div style="width:100%; height:52px; display:flex; align-items:center; gap:10px; cursor:pointer; flex-shrink:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span style="font-size:15px; font-weight:500; color:rgba(255,255,255,0.6);">Rewards</span></div>
+
+        <!-- gold tick -->
+        <div style="width:80px; height:80px; border-radius:50%; background:rgba(201,168,76,0.12); border:2.5px solid #C9A84C; display:flex; align-items:center; justify-content:center; margin:24px 0 18px; animation:goldTickIn 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+
+        <div style="font-size:11px; font-weight:700; color:rgba(201,168,76,0.6); letter-spacing:0.22em; text-transform:uppercase; margin-bottom:6px; text-align:center;">Reward claimed</div>
+        <div style="font-size:28px; font-weight:900; color:#fff; letter-spacing:-0.025em; text-align:center; margin-bottom:8px;">Loyal Blue Kit Discount</div>
+        <div style="font-size:14px; color:rgba(255,255,255,0.45); text-align:center; line-height:1.6; margin-bottom:24px;">25% off your next PUMA Manchester City kit. In-store or online. One use only. Valid for 30 days.</div>
+
+        <!-- code -->
+        <div style="width:100%; background:#111520; border:1.5px dashed rgba(201,168,76,0.45); border-radius:14px; padding:18px; text-align:center; margin-bottom:18px;">
+          <div style="font-size:10px; font-weight:600; color:rgba(201,168,76,0.55); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:8px;">Your code</div>
+          <div style="font-size:26px; font-weight:800; color:#C9A84C; letter-spacing:0.16em; font-variant-numeric:tabular-nums;">CITY-LB3-8821</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.35); margin-top:6px;">Show at till or enter at checkout</div>
+        </div>
+
+        <!-- QR placeholder -->
+        <div style="width:140px; height:140px; background:#111520; border:1px solid rgba(255,255,255,0.07); border-radius:14px; margin-bottom:18px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h.01M14 18h.01M18 14h.01M18 18h.01M18 21h.01M21 14h.01M21 18h.01"/></svg>
+          <span style="font-size:10px; color:rgba(255,255,255,0.35);">QR code</span>
+        </div>
+
+        <!-- notes -->
+        <div style="width:100%; background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.18); border-radius:12px; padding:12px 14px; margin-bottom:20px;">
+          <div style="font-size:13px; color:rgba(255,255,255,0.62); line-height:1.55; text-align:center; font-style:italic;">This reward was earned through your loyalty. Not purchased, not gifted — built match by match.</div>
+        </div>
+
+        <div style="width:100%; display:flex; gap:10px;">
+          <button style="flex:1; height:48px; background:#6CABDD; border:none; border-radius:10px; font-size:14px; font-weight:700; color:#0D1520; cursor:pointer;">Share</button>
+          <button style="flex:1; height:48px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:10px; font-size:14px; font-weight:600; color:rgba(255,255,255,0.6); cursor:pointer;">Save to wallet</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════
+         S9 · TIER UNLOCK FULL SCREEN
+    ══════════════════════════════════════ -->
+    <div style="flex:none; width:390px;">
+      <div style="font-size:10px; font-weight:600; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; padding-left:2px;">09 · Tier Unlock</div>
+      <div style="width:390px; height:844px; background:#0a0800; border-radius:18px; overflow:hidden; position:relative; border:1.5px solid rgba(201,168,76,0.4); box-shadow:0 0 100px rgba(201,168,76,0.25),0 8px 48px rgba(0,0,0,0.9);">
+
+        <!-- GOLD BURST -->
+        <div style="position:absolute; inset:0; overflow:hidden; pointer-events:none;">
+          <svg width="390" height="844" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg" style="position:absolute; inset:0;">
+            <defs>
+              <radialGradient id="goldBurst9" cx="50%" cy="44%" r="58%">
+                <stop offset="0%"  stop-color="#2a1e00" stop-opacity="1"/>
+                <stop offset="42%" stop-color="#130e00" stop-opacity="0.95"/>
+                <stop offset="100%"stop-color="#0a0800" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="390" height="844" fill="#0a0800"/>
+            <g style="transform-origin:195px 370px; animation:rayRotate 20s linear infinite;">
+              <line x1="195" y1="370" x2="390" y2="0"   stroke="rgba(201,168,76,0.08)" stroke-width="55"/>
+              <line x1="195" y1="370" x2="0"   y2="0"   stroke="rgba(201,168,76,0.07)" stroke-width="55"/>
+              <line x1="195" y1="370" x2="390" y2="844" stroke="rgba(201,168,76,0.06)" stroke-width="55"/>
+              <line x1="195" y1="370" x2="0"   y2="844" stroke="rgba(201,168,76,0.07)" stroke-width="55"/>
+              <line x1="195" y1="370" x2="195" y2="0"   stroke="rgba(201,168,76,0.09)" stroke-width="34"/>
+              <line x1="195" y1="370" x2="195" y2="844" stroke="rgba(201,168,76,0.06)" stroke-width="28"/>
+              <line x1="195" y1="370" x2="380" y2="460" stroke="rgba(201,168,76,0.05)" stroke-width="22"/>
+              <line x1="195" y1="370" x2="10"  y2="460" stroke="rgba(201,168,76,0.05)" stroke-width="22"/>
+              <line x1="195" y1="370" x2="350" y2="180" stroke="rgba(201,168,76,0.04)" stroke-width="18"/>
+              <line x1="195" y1="370" x2="40"  y2="180" stroke="rgba(201,168,76,0.04)" stroke-width="18"/>
+            </g>
+            <rect width="390" height="844" fill="url(#goldBurst9)"/>
+          </svg>
+        </div>
+
+        <!-- ambient glow -->
+        <div style="position:absolute; top:200px; left:50%; transform:translateX(-50%); width:360px; height:360px; border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,0.18) 0%,transparent 70%); filter:blur(40px); pointer-events:none;"></div>
+
+        <!-- top label -->
+        <div style="position:absolute; top:54px; left:0; right:0; text-align:center; z-index:2;">
+          <span style="font-size:10px; font-weight:600; color:rgba(201,168,76,0.48); letter-spacing:0.28em; text-transform:uppercase;">Immersive Panel</span>
+        </div>
+
+        <!-- tier badge -->
+        <div style="position:absolute; top:96px; left:0; right:0; display:flex; justify-content:center; z-index:2;">
+          <div style="width:108px; height:108px; border-radius:50%; background:rgba(201,168,76,0.16); border:3px solid #C9A84C; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; animation:tierBadgeIn 0.85s cubic-bezier(0.34,1.56,0.64,1) 0.2s both; animation:goldPulse 2.4s ease-in-out infinite;">
+            <svg viewBox="0 0 24 24" width="46" height="46" fill="#C9A84C"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span style="font-size:9px; font-weight:800; color:#C9A84C; letter-spacing:0.1em; text-transform:uppercase;">Tier IV</span>
+          </div>
+        </div>
+
+        <!-- headline -->
+        <div style="position:absolute; top:234px; left:0; right:0; text-align:center; padding:0 24px; z-index:2;">
+          <div style="font-size:11px; font-weight:700; color:rgba(201,168,76,0.6); letter-spacing:0.28em; text-transform:uppercase; margin-bottom:8px;">Tier unlocked</div>
+          <div style="font-size:50px; font-weight:900; color:#fff; line-height:0.96; letter-spacing:-0.04em; margin-bottom:8px;">Legend<br/>Blue.</div>
+          <div style="font-size:15px; font-weight:400; color:rgba(255,255,255,0.5); line-height:1.5; margin-bottom:22px;">You have been showing up.<br/>Now it shows.</div>
+        </div>
+
+        <!-- unlocked list -->
+        <div style="position:absolute; top:488px; left:24px; right:24px; z-index:2;">
+          <div style="background:rgba(201,168,76,0.08); border:1.5px solid rgba(201,168,76,0.26); border-radius:16px; padding:18px 18px 16px;">
+            <div style="font-size:10px; font-weight:700; color:rgba(201,168,76,0.65); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:12px;">Now unlocked</div>
+            <div style="display:flex; flex-direction:column; gap:9px;">
+              <div style="display:flex; gap:10px; align-items:center;"><div style="width:20px; height:20px; border-radius:50%; background:rgba(201,168,76,0.15); border:1.5px solid #C9A84C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:13px; color:rgba(255,255,255,0.8);">Player tunnel access after every home match</span></div>
+              <div style="display:flex; gap:10px; align-items:center;"><div style="width:20px; height:20px; border-radius:50%; background:rgba(201,168,76,0.15); border:1.5px solid #C9A84C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:13px; color:rgba(255,255,255,0.8);">Access to signed match worn items</span></div>
+              <div style="display:flex; gap:10px; align-items:center;"><div style="width:20px; height:20px; border-radius:50%; background:rgba(201,168,76,0.15); border:1.5px solid #C9A84C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:13px; color:rgba(255,255,255,0.8);">Exclusive Puma &amp; Emirates events</span></div>
+              <div style="display:flex; gap:10px; align-items:center;"><div style="width:20px; height:20px; border-radius:50%; background:rgba(201,168,76,0.15); border:1.5px solid #C9A84C; flex-shrink:0; display:flex; align-items:center; justify-content:center;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:13px; color:rgba(255,255,255,0.8);">Annual dinner with club legends</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTAs -->
+        <div style="position:absolute; bottom:32px; left:24px; right:24px; z-index:2; display:flex; flex-direction:column; gap:10px;">
+          <button style="width:100%; height:52px; background:#C9A84C; border:none; border-radius:10px; font-size:15px; font-weight:700; color:#0a0800; cursor:pointer; letter-spacing:0.04em; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#0a0800" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Share this moment
+          </button>
+          <button style="width:100%; height:46px; background:transparent; border:1px solid rgba(201,168,76,0.28); border-radius:10px; font-size:14px; font-weight:600; color:rgba(201,168,76,0.8); cursor:pointer;">Return to profile</button>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
