@@ -249,7 +249,7 @@ export function usePanelRuntime(
       }
     };
     const off = bus.subscribe((msg) => {
-      if ('type' in msg && msg.type !== 'state') apply(msg as Command);
+      if (msg.type !== 'state' && msg.type !== 'chat') apply(msg as Command);
     });
     return off;
   }, [bus, controls]);

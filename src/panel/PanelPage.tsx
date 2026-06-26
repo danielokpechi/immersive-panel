@@ -113,7 +113,7 @@ function FanPanel({ config }: { config: PanelConfig }) {
 
   return (
     <div className="fan__device" ref={deviceRef}>
-      <PanelShell runtime={runtime} pack={pack} config={config} />
+      <PanelShell runtime={runtime} pack={pack} config={config} bus={bus} />
     </div>
   );
 }

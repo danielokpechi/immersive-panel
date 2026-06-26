@@ -9,6 +9,7 @@
 import { useMemo, useState } from 'react';
 import type { PanelConfig, SportPack, ModuleId } from '../types/panel';
 import type { PanelRuntime } from '../engine/usePanelRuntime';
+import type { ControlBus } from '../control/bus';
 import { MODULE_COMPONENTS } from '../modules/library';
 import { MODULE_META } from '../theme/tokens';
 import { FLAVORS } from './flavor';
@@ -18,9 +19,10 @@ interface Props {
   runtime: PanelRuntime;
   pack: SportPack;
   config: PanelConfig;
+  bus?: ControlBus;
 }
 
-export function PanelShell({ runtime, pack, config }: Props) {
+export function PanelShell({ runtime, pack, config, bus }: Props) {
   const phase = runtime.state.phase;
   const isLive = phase === 'live' || phase === 'break';
 
@@ -105,7 +107,7 @@ export function PanelShell({ runtime, pack, config }: Props) {
             <div className="ip-card__body">
               {(() => {
                 const Comp = MODULE_COMPONENTS[openId];
-                return <Comp runtime={runtime} pack={pack} config={config} />;
+                return <Comp runtime={runtime} pack={pack} config={config} bus={bus} />;
               })()}
             </div>
           </div>

@@ -39,4 +39,12 @@ export interface Telemetry {
   enabledModules: ModuleId[];
 }
 
-export type BusMessage = Command | Telemetry;
+/** Fan → all fans. Shared chat, carried on the same panel channel. */
+export interface ChatMessage {
+  type: 'chat';
+  mid: string;
+  user: string;
+  text: string;
+}
+
+export type BusMessage = Command | Telemetry | ChatMessage;
