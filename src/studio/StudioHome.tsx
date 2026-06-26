@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { PanelConfig } from '../types/panel';
 import { loadPanels, upsertPanel, deletePanel, resetPanels } from './store';
 import { getSport } from '../sports/registry';
+import { assetsFor } from '../sports/assets';
 import { MODULE_META } from '../theme/tokens';
 
 export function StudioHome() {
@@ -66,11 +67,18 @@ export function StudioHome() {
           const pack = getSport(p.sport);
           const mods = p.enabledModules;
           const fans = (2 + (p.id.length % 8)) + '.' + (p.id.charCodeAt(2) % 9) + 'k';
+          const accent = p.branding?.primary ?? pack.theme.primary;
+          const emoji = p.branding?.emoji ?? pack.emoji;
+          const cover = assetsFor(p.assetKey)[0];
           return (
-            <article className="pcard" key={p.id} style={{ ['--sport' as string]: pack.theme.primary }}>
-              <div className="pcard__cover" style={{ background: `linear-gradient(135deg, ${pack.theme.primary}, ${pack.theme.surface})` }}>
-                <span className="pcard__coveremoji">{pack.emoji}</span>
-                <span className="pcard__sport">{pack.name}</span>
+            <article className="pcard" key={p.id} style={{ ['--sport' as string]: accent }}>
+              <div
+                className="pcard__cover"
+                style={{ background: `linear-gradient(135deg, ${accent}, ${pack.theme.surface})` }}
+              >
+                {cover && <img className="pcard__coverimg" src={cover} alt="" loading="lazy" />}
+                <span className="pcard__coveremoji">{emoji}</span>
+                <span className="pcard__sport">{p.branding?.name ?? pack.name}</span>
                 <button className="pcard__x" title="Delete" onClick={() => remove(p.id)}>
                   ✕
                 </button>
