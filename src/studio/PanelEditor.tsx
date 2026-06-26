@@ -159,6 +159,21 @@ function EditorForm({
             />
           </label>
 
+          <label className="field">
+            <span>Default state</span>
+            <select
+              value={cfg.startState ?? pack.initialState}
+              onChange={(e) => setCfg((c) => (c ? { ...c, startState: e.target.value } : c))}
+            >
+              {pack.states.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <p className="editor__hint">The state the panel opens in when deployed.</p>
+
           <h2>Modules</h2>
           <p className="editor__hint">Toggle features from the shared library.</p>
           <div className="modtoggles">

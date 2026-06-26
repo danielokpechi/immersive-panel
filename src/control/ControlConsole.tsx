@@ -48,20 +48,33 @@ export function ControlConsole() {
   const bus = useMemo(() => new ControlBus(id), [id]);
   const [telemetry, setTelemetry] = useState<Telemetry | null>(null);
   const [conn, setConn] = useState<ConnState>(bus.connectionState);
+  const telemetryRef = useRef<Telemetry | null>(null);
 
   useEffect(() => {
     const offMsg = bus.subscribe((msg) => {
-      if (msg.type === 'state') setTelemetry(msg);
+      if (msg.type === 'state') {
+        setTelemetry(msg);
+        telemetryRef.current = msg;
+      } else if (msg.type === 'requestState') {
+        // A panel just joined — tell it the authoritative current state so it
+        // snaps to it instead of sitting at its default (late-join sync).
+        const t = telemetryRef.current;
+        if (t) {
+          const modules: Record<string, boolean> = {};
+          for (const m of config.enabledModules) modules[m] = t.enabledModules.includes(m);
+          bus.send({ type: 'sync', stateId: t.stateId, mode: t.mode, modules });
+        }
+      }
     });
     const offConn = bus.onConnection(setConn);
-    // Ask any already-running panels (and our own monitor) to report state.
+    // Ask our own monitor to report state so the controls reconcile on mount.
     bus.send({ type: 'requestState' });
     return () => {
       offMsg();
       offConn();
       bus.dispose();
     };
-  }, [bus]);
+  }, [bus, config.enabledModules]);
 
   const openFanView = () => {
     window.open(shareUrl(config), `panel_${id}`, 'width=430,height=900');
@@ -90,7 +103,7 @@ export function ControlConsole() {
               <span className="console__monitortag">● Live monitor — what fans see</span>
             </div>
             {config.sport === 'football' ? (
-              <iframe className="monitor__frame" title={config.name} src={legacyUrl(id)} />
+              <iframe className="monitor__frame" title={config.name} src={legacyUrl(id, { start: config.startState })} />
             ) : (
               <EngineMonitor config={config} bus={bus} />
             )}

@@ -50,7 +50,7 @@ export function PanelPage() {
   return (
     <div className="fan">
       {config.sport === 'football' ? (
-        <LegacyFanPanel id={id} name={config.name} />
+        <LegacyFanPanel id={id} name={config.name} startState={config.startState} />
       ) : (
         <FanPanel config={config} />
       )}
@@ -63,19 +63,28 @@ export function PanelPage() {
  * auto-advance) and takes commands from its parent — so we relay every bus
  * command (incl. cross-device Ably) into the iframe via postMessage.
  */
-function LegacyFanPanel({ id, name }: { id: string; name: string }) {
+function LegacyFanPanel({ id, name, startState }: { id: string; name: string; startState?: string }) {
   const ref = useRef<HTMLIFrameElement>(null);
   const bus = useMemo(() => new ControlBus(id), [id]);
   useEffect(() => {
     const off = bus.subscribe((msg) => {
       if (msg.type !== 'state') ref.current?.contentWindow?.postMessage(msg, '*');
     });
+    // Late join: ask the operator for the current state so we snap to it.
+    bus.send({ type: 'requestState' });
     return () => {
       off();
       bus.dispose();
     };
   }, [bus]);
-  return <iframe ref={ref} className="fan__legacy" title={name} src={legacyUrl(id, { bridge: 'post' })} />;
+  return (
+    <iframe
+      ref={ref}
+      className="fan__legacy"
+      title={name}
+      src={legacyUrl(id, { bridge: 'post', start: startState })}
+    />
+  );
 }
 
 /** Engine-driven sports: themed, full-viewport, bus-connected fan panel. */
@@ -85,7 +94,11 @@ function FanPanel({ config }: { config: PanelConfig }) {
   // Every fan joins the panel's bus so the operator can drive them live.
   // Starts in MANUAL so it waits for the operator instead of auto-advancing.
   const bus = useMemo(() => new ControlBus(config.id), [config.id]);
-  useEffect(() => () => bus.dispose(), [bus]);
+  useEffect(() => {
+    // Late join: ask the operator for the current state so we snap to it.
+    bus.send({ type: 'requestState' });
+    return () => bus.dispose();
+  }, [bus]);
   const runtime = usePanelRuntime(pack, config, { bus, mode: 'manual' });
 
   useEffect(() => {
