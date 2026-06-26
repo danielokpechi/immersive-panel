@@ -16,6 +16,7 @@ import { getPanel, upsertPanel } from '../studio/store';
 import { decodePanel } from '../studio/share';
 import { getSport } from '../sports/registry';
 import { assetsFor } from '../sports/assets';
+import { reskinNamesFor } from './legacyReskin';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
 import { ControlBus } from '../control/bus';
@@ -94,6 +95,7 @@ function legacyTeam(config: PanelConfig) {
     opp: b?.competitors?.[1],
     color: b?.primary,
     imgs: assetsFor(config.assetKey),
+    names: reskinNamesFor(b?.name),
   };
 }
 
