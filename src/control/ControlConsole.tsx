@@ -17,7 +17,6 @@ import { getPanel } from '../studio/store';
 import { getSport } from '../sports/registry';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
-import { legacyUrl } from '../config';
 import { PanelShell } from '../panel/PanelShell';
 import { ControlBus, type ConnState } from './bus';
 import type { Telemetry } from '../types/control';
@@ -102,11 +101,7 @@ export function ControlConsole() {
             <div className="console__monitorbar">
               <span className="console__monitortag">● Live monitor — what fans see</span>
             </div>
-            {config.sport === 'football' ? (
-              <iframe className="monitor__frame" title={config.name} src={legacyUrl(id, { start: config.startState })} />
-            ) : (
-              <EngineMonitor config={config} bus={bus} />
-            )}
+            <EngineMonitor config={config} bus={bus} />
           </div>
           <MasterControls bus={bus} pack={pack} config={config} telemetry={telemetry} onPopOut={openFanView} />
         </div>

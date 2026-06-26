@@ -98,6 +98,8 @@ export interface Branding {
   emoji?: string;
   primary?: string;
   accent?: string;
+  /** the two sides shown in the hero (overrides the sport's default pairing). */
+  competitors?: [string, string];
 }
 
 /** A saved panel created in the admin Studio. */

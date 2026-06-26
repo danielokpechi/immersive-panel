@@ -74,7 +74,13 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
       </div>
 
       <div className="ip-body">
-        <Hero runtime={runtime} pack={pack} phase={phase} score={score} />
+        <Hero
+          runtime={runtime}
+          pack={pack}
+          phase={phase}
+          score={score}
+          competitors={config.branding?.competitors}
+        />
 
         <div className="ip-iris">
           <div className="ip-iris__tag">
@@ -165,14 +171,16 @@ function Hero({
   pack,
   phase,
   score,
+  competitors,
 }: {
   runtime: PanelRuntime;
   pack: SportPack;
   phase: string;
   score: string | null;
+  competitors?: [string, string];
 }) {
   const flavor = FLAVORS[pack.id];
-  const [c1, c2] = flavor.competitors;
+  const [c1, c2] = competitors ?? flavor.competitors;
 
   // pre / idle → fixture card (+ live countdown when the operator sets one)
   if (phase === 'idle' || phase === 'pre') {

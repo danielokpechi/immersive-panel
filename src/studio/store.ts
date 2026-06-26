@@ -17,6 +17,17 @@ function seed(): PanelConfig[] {
       experience: 'stream',
       description: 'Welcome to the exclusive Manchester City FanZone.',
       status: 'deployed',
+      assetKey: 'manchester_city',
+      branding: { name: 'Man City', emoji: '🩵', primary: '#6CABDD', accent: '#C9A84C', competitors: ['Man City', 'Real Madrid'] },
+    }),
+    makePanelConfig('football', {
+      id: 'pnl_manutd',
+      name: 'Manchester United Fan Hub',
+      experience: 'stream',
+      description: 'Old Trafford matchday companion for the Red Devils.',
+      status: 'deployed',
+      assetKey: 'manchester_united',
+      branding: { name: 'Man Utd', emoji: '🔴', primary: '#DA291C', accent: '#FBE122', competitors: ['Man Utd', 'Liverpool'] },
     }),
     makePanelConfig('f1', {
       id: 'pnl_haas',
@@ -32,6 +43,7 @@ function seed(): PanelConfig[] {
       experience: 'stream',
       description: 'QPR Exclusive Fan Chat.',
       status: 'deployed',
+      branding: { name: 'QPR', emoji: '🔵', primary: '#1D5BA4', accent: '#E03A3E', competitors: ['QPR', 'Watford'] },
     }),
     makePanelConfig('football', {
       id: 'pnl_austria',
@@ -39,6 +51,7 @@ function seed(): PanelConfig[] {
       experience: 'in-person',
       description: "Austria National Football team's central fan hub.",
       status: 'deployed',
+      branding: { name: 'Austria', emoji: '🔴', primary: '#C8102E', accent: '#FFFFFF', competitors: ['Austria', 'Germany'] },
     }),
     makePanelConfig('ufc', {
       id: 'pnl_ufc',
