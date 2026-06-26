@@ -32,11 +32,25 @@ export function appBase(): string {
  */
 export function legacyUrl(
   id: string,
-  opts: { auto?: boolean; bridge?: 'post'; start?: string } = {},
+  opts: {
+    auto?: boolean;
+    bridge?: 'post';
+    start?: string;
+    /** reskin the prototype for another club */
+    team?: string;
+    opp?: string;
+    color?: string;
+    /** team photo pool — swaps the baked-in Man City images */
+    imgs?: string[];
+  } = {},
 ): string {
   const p = new URLSearchParams({ v: '4', id });
   if (opts.auto) p.set('auto', '1');
   if (opts.bridge) p.set('bridge', opts.bridge);
   if (opts.start) p.set('start', opts.start);
+  if (opts.team) p.set('team', opts.team);
+  if (opts.opp) p.set('opp', opts.opp);
+  if (opts.color) p.set('color', opts.color.replace('#', ''));
+  if (opts.imgs && opts.imgs.length) p.set('imgs', opts.imgs.join('|'));
   return `${BASE_URL}legacy/index.html?${p.toString()}`;
 }

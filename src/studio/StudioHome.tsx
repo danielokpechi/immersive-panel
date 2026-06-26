@@ -63,7 +63,9 @@ export function StudioHome() {
       </section>
 
       <div className="studio__grid">
-        {panels.map((p) => {
+        {[...panels]
+          .sort((a, b) => (b.assetKey ? 1 : 0) - (a.assetKey ? 1 : 0))
+          .map((p) => {
           const pack = getSport(p.sport);
           const mods = p.enabledModules;
           const fans = (2 + (p.id.length % 8)) + '.' + (p.id.charCodeAt(2) % 9) + 'k';

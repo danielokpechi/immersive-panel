@@ -14,7 +14,7 @@ export const ASSET_PACKS: Record<string, string[]> = {
   f1_haas: pack('f1_haas', ['haas_01.jpg','haas_03.jpg','haas_04.jpg','haas_06.jpg','haas_07.jpg','haas_08.jpg','haas_09.jpg','haas_10.jpg']),
   f1_mclaren: pack('f1_mclaren', ['mclaren_01.jpg','mclaren_02.jpg','mclaren_04.jpg','mclaren_06.jpg','mclaren_08.jpg','mclaren_10.jpg']),
   f1_mercedes: pack('f1_mercedes', ['mercedes_01.jpg','mercedes_02.jpg','mercedes_03.jpg','mercedes_06.jpg','mercedes_08.jpg','mercedes_09.jpg']),
-  manchester_city: pack('manchester_city', ['mancity_01.jpg','mancity_02.jpg','mancity_03.jpg','mancity_04.jpg','mancity_05.jpg','mancity_06.jpg','mancity_07.jpg','mancity_08.jpg']),
+  manchester_city: pack('manchester_city', ['mancity_04.jpg','mancity_02.jpg','mancity_05.jpg','mancity_03.jpg','mancity_06.jpg','mancity_07.jpg','mancity_08.jpg','mancity_01.jpg']),
   manchester_united: pack('manchester_united', ['manutd_01.jpg','manutd_02.jpg','manutd_03.jpg','manutd_04.jpg','manutd_06.jpg','manutd_07.jpg','manutd_08.jpg','manutd_09.jpg','manutd_10.jpg']),
   mayweather: pack('mayweather', ['mayweather_01.jpg','mayweather_02.jpg','mayweather_03.jpg','mayweather_04.jpg','mayweather_05.jpg','mayweather_06.jpg','mayweather_07.jpg','mayweather_08.jpg','mayweather_09.jpg','mayweather_10.jpg']),
   mcgregor: pack('mcgregor', ['mcgregor_01.jpg','mcgregor_02.jpg','mcgregor_03.jpg','mcgregor_04.jpg','mcgregor_05.jpg','mcgregor_06.jpg','mcgregor_07.jpg','mcgregor_08.jpg','mcgregor_10.jpg']),
