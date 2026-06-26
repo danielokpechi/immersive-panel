@@ -23,7 +23,7 @@ export type Command =
   | { type: 'requestState' }
   // Late-join: the operator answers a requestState with the authoritative
   // current state so a freshly-joined panel snaps to it.
-  | { type: 'sync'; stateId: string; mode?: RunMode; modules?: Record<string, boolean> };
+  | { type: 'sync'; stateId: string; mode?: RunMode; modules?: Partial<Record<string, boolean>> };
 
 /** Panel → console. */
 export interface Telemetry {
@@ -36,7 +36,10 @@ export interface Telemetry {
   running: boolean;
   mode: RunMode;
   speed: number;
+  /** the modules currently visible on the panel (state defaults + overrides). */
   enabledModules: ModuleId[];
+  /** the operator's explicit live on/off overrides (for late-join sync). */
+  moduleOverrides?: Partial<Record<ModuleId, boolean>>;
 }
 
 /** Fan → all fans. Shared chat, carried on the same panel channel. */

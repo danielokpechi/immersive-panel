@@ -36,9 +36,9 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
     [runtime.events],
   );
 
-  const active = (config.moduleStateMap[runtime.stateId] ?? runtime.state.modules).filter((m) =>
-    runtime.enabledModules.includes(m),
-  ) as ModuleId[];
+  // Visible modules = the runtime's state-aware set with the operator's live
+  // on/off overrides already applied.
+  const active = runtime.enabledModules as ModuleId[];
 
   const [open, setOpen] = useState<ModuleId | null>(null);
   const openId = open && active.includes(open) ? open : active[0] ?? null;
