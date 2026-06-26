@@ -23,7 +23,16 @@ export function appBase(): string {
   return `${origin}${BASE_URL}`.replace(/\/+$/, '');
 }
 
-/** URL of the bundled legacy football prototype, base-path aware. */
-export function legacyUrl(id: string): string {
-  return `${BASE_URL}legacy/index.html?v=4&auto=1&id=${encodeURIComponent(id)}`;
+/**
+ * URL of the bundled legacy football prototype, base-path aware.
+ *  • auto   — run the self-advancing demo timeline (used only for previews).
+ *             Off by default so deployed panels wait for the operator.
+ *  • bridge — 'post' makes the panel take commands from its parent window
+ *             (so React can relay cross-device Ably commands into it).
+ */
+export function legacyUrl(id: string, opts: { auto?: boolean; bridge?: 'post' } = {}): string {
+  const p = new URLSearchParams({ v: '4', id });
+  if (opts.auto) p.set('auto', '1');
+  if (opts.bridge) p.set('bridge', opts.bridge);
+  return `${BASE_URL}legacy/index.html?${p.toString()}`;
 }
