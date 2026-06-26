@@ -20,7 +20,10 @@ export type Command =
   | { type: 'setCountdown'; ms: number }
   | { type: 'fireEvent'; event: TimelineEvent }
   | { type: 'setModule'; module: ModuleId; on: boolean }
-  | { type: 'requestState' };
+  | { type: 'requestState' }
+  // Late-join: the operator answers a requestState with the authoritative
+  // current state so a freshly-joined panel snaps to it.
+  | { type: 'sync'; stateId: string; mode?: RunMode; modules?: Record<string, boolean> };
 
 /** Panel → console. */
 export interface Telemetry {

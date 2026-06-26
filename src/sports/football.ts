@@ -45,15 +45,15 @@ export const football: SportPack = {
   states: [
     {
       id: 'inactive',
-      label: 'Matchday',
+      label: 'Pre-Match',
       phase: 'idle',
       durationMs: T_INACTIVE,
       modules: ['highlights', 'store', 'leaderboard'],
-      headline: 'Kickoff approaching — the Etihad is filling up',
+      headline: 'Matchday hub — preview, articles and the build-up',
     },
     {
       id: 'pre-match',
-      label: 'Pre-Match',
+      label: 'Matchday',
       phase: 'pre',
       durationMs: T_PRE,
       modules: ['predictions', 'ai-qa', 'chat', 'store'],
@@ -135,9 +135,9 @@ export const football: SportPack = {
   clockLabel: (simMs, stateId) => {
     switch (stateId) {
       case 'inactive':
-        return 'MATCHDAY';
-      case 'pre-match':
         return 'PRE-MATCH';
+      case 'pre-match':
+        return 'MATCHDAY';
       case 'live-1': {
         const m = Math.min(45, Math.max(1, Math.floor((simMs - LIVE1_START) / MIN) + 1));
         return `${m}'`;

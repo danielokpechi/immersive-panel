@@ -459,8 +459,8 @@ function stopAutopilot() {
 
   const ORDER = ['inactive', 'pre-match', 'live-1', 'halftime', 'live-2', 'post-match'];
   const META = {
-    inactive:    { label: 'Matchday',   phase: 'idle',  clock: 'MATCHDAY' },
-    'pre-match': { label: 'Pre-Match',  phase: 'pre',   clock: 'PRE-MATCH' },
+    inactive:    { label: 'Pre-Match',  phase: 'idle',  clock: 'PRE-MATCH' },
+    'pre-match': { label: 'Matchday',   phase: 'pre',   clock: 'MATCHDAY' },
     'live-1':    { label: 'First Half', phase: 'live',  clock: "23'" },
     halftime:    { label: 'Half Time',  phase: 'break', clock: 'HALF TIME' },
     'live-2':    { label: 'Second Half',phase: 'live',  clock: "67'" },
@@ -532,6 +532,11 @@ function stopAutopilot() {
       case 'fireEvent': fire(c.event && c.event.type); break;
       case 'setModule': setModule(c.module, c.on); break;
       case 'requestState': telemetry(); break;
+      // late-join: snap to the operator's current state (guard avoids re-nav)
+      case 'sync':
+        if (c.stateId && c.stateId !== curStateFromScreen()) go(c.stateId);
+        if (c.modules) Object.keys(c.modules).forEach((m) => setModule(m, c.modules[m]));
+        break;
       default: break;
     }
   }
@@ -616,10 +621,14 @@ window.addEventListener('DOMContentLoaded', async () => {
   // initial route — autopilot only for the auto demo; a controlled panel
   // (has an id) waits at pre-match for the operator; otherwise show splash.
   const _p = new URLSearchParams(location.search);
+  const _START_SCREEN = {
+    inactive: 'home-inactive', 'pre-match': 'home-pre-match', 'live-1': 'home-live',
+    halftime: 'home-halftime', 'live-2': 'home-live', 'post-match': 'home-post-match',
+  };
   if (_p.has('auto')) {
     startAutopilot();
   } else if (_p.get('id')) {
-    navigate('home-pre-match', 'fade', true);
+    navigate(_START_SCREEN[_p.get('start')] || 'home-inactive', 'fade', true);
   } else {
     navigate('splash', 'fade', true);
   }

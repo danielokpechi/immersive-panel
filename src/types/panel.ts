@@ -112,6 +112,8 @@ export interface PanelConfig {
   moduleStateMap: Record<string, ModuleId[]>;
   /** optional team-preset branding (e.g. McLaren papaya). */
   branding?: Branding;
+  /** state the panel opens in when deployed (defaults to the pack's initial state). */
+  startState?: string;
   status: 'draft' | 'deployed';
   createdAt: number;
   updatedAt: number;

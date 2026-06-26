@@ -30,9 +30,13 @@ export function appBase(): string {
  *  • bridge — 'post' makes the panel take commands from its parent window
  *             (so React can relay cross-device Ably commands into it).
  */
-export function legacyUrl(id: string, opts: { auto?: boolean; bridge?: 'post' } = {}): string {
+export function legacyUrl(
+  id: string,
+  opts: { auto?: boolean; bridge?: 'post'; start?: string } = {},
+): string {
   const p = new URLSearchParams({ v: '4', id });
   if (opts.auto) p.set('auto', '1');
   if (opts.bridge) p.set('bridge', opts.bridge);
+  if (opts.start) p.set('start', opts.start);
   return `${BASE_URL}legacy/index.html?${p.toString()}`;
 }

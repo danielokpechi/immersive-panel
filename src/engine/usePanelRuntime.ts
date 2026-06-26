@@ -62,7 +62,13 @@ export function usePanelRuntime(
   const clock = useMemo(() => new SimClock(speed), [pack.id, config.id]);
   const adapter = useMemo(() => new MockAdapter(pack.timeline), [pack.id, config.id]);
 
-  const [stateId, setStateId] = useState(pack.initialState);
+  // the state the panel opens in: operator's configured default, else the pack's.
+  const initialStateId =
+    config.startState && pack.states.some((s) => s.id === config.startState)
+      ? config.startState
+      : pack.initialState;
+
+  const [stateId, setStateId] = useState(initialStateId);
   const [simMs, setSimMs] = useState(0);
   const [events, setEvents] = useState<FiredEvent[]>([]);
   const [overlay, setOverlay] = useState<FiredEvent | null>(null);
@@ -72,7 +78,7 @@ export function usePanelRuntime(
   const [countdownMs, setCountdownMs] = useState(0);
   const [moduleOverrides, setModuleOverrides] = useState<Partial<Record<ModuleId, boolean>>>({});
 
-  const stateRef = useRef(pack.initialState);
+  const stateRef = useRef(initialStateId);
   const stateEnteredRef = useRef(0);
   const firedSinceStateRef = useRef<Set<string>>(new Set());
   const manualSeqRef = useRef(1_000_000);
@@ -188,7 +194,7 @@ export function usePanelRuntime(
         setEvents([]);
         setOverlay(null);
         clock.reset();
-        enterState(pack.initialState, 0);
+        enterState(initialStateId, 0);
         setSimMs(0);
       },
       setMode,
@@ -230,6 +236,15 @@ export function usePanelRuntime(
         // with our current telemetry so controls/monitors reconcile.
         case 'requestState':
           if (lastTelemetryRef.current) bus.send(lastTelemetryRef.current);
+          break;
+        // Snap to the operator's authoritative state. The guard makes this a
+        // no-op for the operator's own monitor (it's already in that state).
+        case 'sync':
+          if (cmd.stateId && cmd.stateId !== stateRef.current) controls.jumpTo(cmd.stateId);
+          if (cmd.mode) controls.setMode(cmd.mode);
+          if (cmd.modules) {
+            for (const [m, on] of Object.entries(cmd.modules)) controls.setModule(m as ModuleId, on);
+          }
           break;
       }
     };
