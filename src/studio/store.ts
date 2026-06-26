@@ -27,6 +27,7 @@ function seed(): PanelConfig[] {
       description: 'Old Trafford matchday companion for the Red Devils.',
       status: 'deployed',
       assetKey: 'manchester_united',
+      renderer: 'engine',
       branding: { name: 'Man Utd', emoji: '🔴', primary: '#DA291C', accent: '#FBE122', competitors: ['Man Utd', 'Liverpool'] },
     }),
     makePanelConfig('f1', {

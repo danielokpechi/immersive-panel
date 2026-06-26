@@ -118,6 +118,9 @@ export interface PanelConfig {
   startState?: string;
   /** image pack key (see ASSET_PACKS) for hero/highlights/store imagery. */
   assetKey?: string;
+  /** football only: 'legacy' = the original MCFC prototype, 'engine' = the
+   *  generic renderer. Football defaults to legacy. */
+  renderer?: 'legacy' | 'engine';
   status: 'draft' | 'deployed';
   createdAt: number;
   updatedAt: number;

@@ -18,6 +18,7 @@ import { getSport } from '../sports/registry';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
 import { ControlBus } from '../control/bus';
+import { legacyUrl } from '../config';
 import { PanelShell } from './PanelShell';
 
 export function PanelPage() {
@@ -48,12 +49,43 @@ export function PanelPage() {
 
   return (
     <div className="fan">
-      <FanPanel config={config} />
+      {config.sport === 'football' && config.renderer !== 'engine' ? (
+        <LegacyFanPanel id={id} name={config.name} />
+      ) : (
+        <FanPanel config={config} />
+      )}
     </div>
   );
 }
 
-/** Every sport (incl. football) renders through the same engine panel. */
+/**
+ * The original Man City matchday prototype (image slider, live score/clock,
+ * countdown, shop, quests). Runs its full self-playing matchday and still
+ * takes operator commands relayed from the bus via postMessage.
+ */
+function LegacyFanPanel({ id, name }: { id: string; name: string }) {
+  const ref = useRef<HTMLIFrameElement>(null);
+  const bus = useMemo(() => new ControlBus(id), [id]);
+  useEffect(() => {
+    const off = bus.subscribe((msg) => {
+      if (msg.type !== 'state' && msg.type !== 'chat') ref.current?.contentWindow?.postMessage(msg, '*');
+    });
+    return () => {
+      off();
+      bus.dispose();
+    };
+  }, [bus]);
+  return (
+    <iframe
+      ref={ref}
+      className="fan__legacy"
+      title={name}
+      src={legacyUrl(id, { auto: true, bridge: 'post' })}
+    />
+  );
+}
+
+/** Non-legacy sports (and engine-rendered clubs): the generic engine panel. */
 function FanPanel({ config }: { config: PanelConfig }) {
   const pack = getSport(config.sport);
   const deviceRef = useRef<HTMLDivElement>(null);

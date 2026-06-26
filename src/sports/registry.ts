@@ -66,6 +66,7 @@ export function makePanelConfig(
     branding: partial.branding,
     startState: partial.startState,
     assetKey: partial.assetKey,
+    renderer: partial.renderer,
     status: partial.status ?? 'draft',
     createdAt: partial.createdAt ?? now,
     updatedAt: partial.updatedAt ?? now,
