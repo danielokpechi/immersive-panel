@@ -18,7 +18,7 @@ export function PanelPreview({ config }: { config: PanelConfig }) {
     return (
       <div className="preview">
         <div className="preview__scale">
-          <iframe className="preview__frame" title="preview" src={legacyUrl('_preview')} />
+          <iframe className="preview__frame" title="preview" src={legacyUrl('_preview', { auto: true })} />
         </div>
       </div>
     );

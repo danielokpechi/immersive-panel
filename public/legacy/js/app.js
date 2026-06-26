@@ -446,9 +446,16 @@ function stopAutopilot() {
 // panel id (?id=…), maps Commands to the existing simulate()/overlay
 // flows, and echoes Telemetry back so the console stays in sync.
 (function controlBridge() {
-  const id = new URLSearchParams(location.search).get('id');
-  if (!id || typeof BroadcastChannel === 'undefined') return;
-  const bus = new BroadcastChannel('boltos:panel:' + id);
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  if (!id) return;
+  // 'post' mode: take commands from the parent window (React relays
+  // cross-device Ably commands in). Otherwise join the BroadcastChannel
+  // directly (same-browser: the control-room monitor).
+  const usePost = params.get('bridge') === 'post';
+  const bus = !usePost && typeof BroadcastChannel !== 'undefined'
+    ? new BroadcastChannel('boltos:panel:' + id)
+    : null;
 
   const ORDER = ['inactive', 'pre-match', 'live-1', 'halftime', 'live-2', 'post-match'];
   const META = {
@@ -503,16 +510,17 @@ function stopAutopilot() {
   function telemetry() {
     const sid = curStateFromScreen();
     const m = META[sid] || META.inactive;
-    bus.postMessage({
+    const payload = {
       type: 'state', stateId: sid, stateLabel: m.label, phase: m.phase,
       clockLabel: m.clock, simMs: 0, running: _autoTimers.length > 0,
       mode: _autoTimers.length > 0 ? 'auto' : 'manual', speed: 60,
       enabledModules: [],
-    });
+    };
+    if (usePost) { try { window.parent.postMessage(payload, '*'); } catch (e) {} }
+    else if (bus) bus.postMessage(payload);
   }
 
-  bus.onmessage = (e) => {
-    const c = e.data;
+  function applyCommand(c) {
     if (!c || c.type === 'state') return;
     switch (c.type) {
       case 'setMode': c.mode === 'auto' ? startAutopilot() : stopAutopilot(); telemetry(); break;
@@ -526,7 +534,13 @@ function stopAutopilot() {
       case 'requestState': telemetry(); break;
       default: break;
     }
-  };
+  }
+
+  if (usePost) {
+    window.addEventListener('message', (e) => applyCommand(e.data));
+  } else if (bus) {
+    bus.onmessage = (e) => applyCommand(e.data);
+  }
 
   // periodic telemetry so the console mirrors autopilot progression
   setInterval(telemetry, 1500);
@@ -599,9 +613,13 @@ window.addEventListener('DOMContentLoaded', async () => {
     );
   });
 
-  // initial route — autopilot when embedded as a live panel, else splash
-  if (new URLSearchParams(location.search).has('auto')) {
+  // initial route — autopilot only for the auto demo; a controlled panel
+  // (has an id) waits at pre-match for the operator; otherwise show splash.
+  const _p = new URLSearchParams(location.search);
+  if (_p.has('auto')) {
     startAutopilot();
+  } else if (_p.get('id')) {
+    navigate('home-pre-match', 'fade', true);
   } else {
     navigate('splash', 'fade', true);
   }

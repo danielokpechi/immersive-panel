@@ -861,6 +861,58 @@ code {
   margin-top: 2px;
 }
 
+/* ── operator cockpit: live monitor + master controls ── */
+.console__cockpit {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+@media (max-width: 760px) {
+  .console__cockpit {
+    grid-template-columns: 1fr;
+  }
+}
+.console__monitor {
+  position: sticky;
+  top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-self: center;
+}
+.console__monitorbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.console__monitortag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #22c55e;
+}
+.monitor__device {
+  position: relative;
+  width: 360px;
+  max-width: 100%;
+  height: min(760px, 80vh);
+  background: #0d0d0d;
+  border-radius: 22px;
+  border: 1px solid var(--line-2);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+.monitor__frame {
+  width: 360px;
+  max-width: 100%;
+  height: min(760px, 80vh);
+  border: none;
+  border-radius: 22px;
+  background: #0d0d0d;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+}
+
 /* ═══ FAN SURFACE — chrome-free, full-viewport, responsive ═══ */
 .fan {
   min-height: 100dvh;

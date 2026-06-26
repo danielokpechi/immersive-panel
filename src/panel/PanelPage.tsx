@@ -50,7 +50,7 @@ export function PanelPage() {
   return (
     <div className="fan">
       {config.sport === 'football' ? (
-        <iframe className="fan__legacy" title={config.name} src={legacyUrl(id)} />
+        <LegacyFanPanel id={id} name={config.name} />
       ) : (
         <FanPanel config={config} />
       )}
@@ -58,14 +58,35 @@ export function PanelPage() {
   );
 }
 
+/**
+ * Football: the legacy panel, driven by the operator. It loads paused (no
+ * auto-advance) and takes commands from its parent — so we relay every bus
+ * command (incl. cross-device Ably) into the iframe via postMessage.
+ */
+function LegacyFanPanel({ id, name }: { id: string; name: string }) {
+  const ref = useRef<HTMLIFrameElement>(null);
+  const bus = useMemo(() => new ControlBus(id), [id]);
+  useEffect(() => {
+    const off = bus.subscribe((msg) => {
+      if (msg.type !== 'state') ref.current?.contentWindow?.postMessage(msg, '*');
+    });
+    return () => {
+      off();
+      bus.dispose();
+    };
+  }, [bus]);
+  return <iframe ref={ref} className="fan__legacy" title={name} src={legacyUrl(id, { bridge: 'post' })} />;
+}
+
 /** Engine-driven sports: themed, full-viewport, bus-connected fan panel. */
 function FanPanel({ config }: { config: PanelConfig }) {
   const pack = getSport(config.sport);
   const deviceRef = useRef<HTMLDivElement>(null);
   // Every fan joins the panel's bus so the operator can drive them live.
+  // Starts in MANUAL so it waits for the operator instead of auto-advancing.
   const bus = useMemo(() => new ControlBus(config.id), [config.id]);
   useEffect(() => () => bus.dispose(), [bus]);
-  const runtime = usePanelRuntime(pack, config, { bus });
+  const runtime = usePanelRuntime(pack, config, { bus, mode: 'manual' });
 
   useEffect(() => {
     if (deviceRef.current) {

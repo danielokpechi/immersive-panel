@@ -7,7 +7,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ModuleId, PanelConfig, PanelState, SportPack, TimelineEvent } from '../types/panel';
-import type { RunMode, Command } from '../types/control';
+import type { RunMode, Command, Telemetry } from '../types/control';
 import type { ControlBus } from '../control/bus';
 import { SimClock } from './clock';
 import { MockAdapter, type FiredEvent } from './dataAdapter';
@@ -77,6 +77,7 @@ export function usePanelRuntime(
   const firedSinceStateRef = useRef<Set<string>>(new Set());
   const manualSeqRef = useRef(1_000_000);
   const modeRef = useRef<RunMode>(initialMode);
+  const lastTelemetryRef = useRef<Telemetry | null>(null);
 
   const enterState = useCallback((id: string, atMs: number) => {
     stateRef.current = id;
@@ -225,7 +226,11 @@ export function usePanelRuntime(
         case 'setCountdown': controls.setCountdown(cmd.ms); break;
         case 'fireEvent': controls.fireEvent(cmd.event); break;
         case 'setModule': controls.setModule(cmd.module, cmd.on); break;
-        case 'requestState': break;
+        // A late joiner (or the console on mount) asks who's there — reply
+        // with our current telemetry so controls/monitors reconcile.
+        case 'requestState':
+          if (lastTelemetryRef.current) bus.send(lastTelemetryRef.current);
+          break;
       }
     };
     const off = bus.subscribe((msg) => {
@@ -244,8 +249,7 @@ export function usePanelRuntime(
 
   // broadcast telemetry on meaningful change
   useEffect(() => {
-    if (!bus) return;
-    bus.send({
+    const t: Telemetry = {
       type: 'state',
       stateId,
       stateLabel: state.label,
@@ -256,7 +260,9 @@ export function usePanelRuntime(
       mode,
       speed: speedState,
       enabledModules,
-    });
+    };
+    lastTelemetryRef.current = t;
+    if (bus) bus.send(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bus, stateId, running, mode, speedState, enabledModules]);
 
