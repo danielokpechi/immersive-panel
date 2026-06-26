@@ -14,6 +14,7 @@ import { MODULE_COMPONENTS } from '../modules/library';
 import { MODULE_META } from '../theme/tokens';
 import { FLAVORS } from './flavor';
 import { assetsFor } from '../sports/assets';
+import { articlesFor, briefFor, PARTNERS } from './content';
 import { Overlay } from './Overlay';
 
 interface Props {
@@ -89,6 +90,10 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
           <div className="ip-iris__text">{lastBig?.detail ?? runtime.state.headline}</div>
         </div>
 
+        {(phase === 'pre' || phase === 'idle') && (
+          <MatchdayBrief pack={pack} competitors={config.branding?.competitors} />
+        )}
+
         {isLive && <LiveStats runtime={runtime} pack={pack} />}
 
         {/* action grid of module tiles */}
@@ -142,6 +147,9 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
             </div>
           </section>
         )}
+
+        <NewsStrip pack={pack} photos={photos} competitors={config.branding?.competitors} />
+        <Partners />
       </div>
 
       <nav className="ip-nav">
@@ -315,6 +323,93 @@ function LiveStats({ runtime, pack }: { runtime: PanelRuntime; pack: SportPack }
         ))}
       </div>
     </div>
+  );
+}
+
+// ── Pre-match brief: team/squad news + form guide ──────────
+function MatchdayBrief({ pack, competitors }: { pack: SportPack; competitors?: [string, string] }) {
+  const brief = briefFor(pack, competitors);
+  return (
+    <section className="ip-brief">
+      <div className="ip-section__title">{brief.title}</div>
+      <div className="ip-brief__news">
+        {brief.news.map((n) => (
+          <div className="ip-brief__row" key={n}>
+            <span className="ip-brief__dot" />
+            {n}
+          </div>
+        ))}
+      </div>
+      <div className="ip-brief__form">
+        {[brief.form.left, brief.form.right].map((side, i) => (
+          <div className="ip-brief__side" key={i}>
+            <span className="ip-brief__team">{side.name}</span>
+            <span className="ip-brief__pips">
+              {side.results.map((r, j) => (
+                <span key={j} className={`ip-pip ip-pip--${r.toLowerCase()}`}>
+                  {r}
+                </span>
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── News & Articles: photo-backed editorial cards ──────────
+function NewsStrip({
+  pack,
+  photos,
+  competitors,
+}: {
+  pack: SportPack;
+  photos: string[];
+  competitors?: [string, string];
+}) {
+  const articles = articlesFor(pack, competitors);
+  return (
+    <section className="ip-news">
+      <div className="ip-section__title">News & articles</div>
+      <div className="ip-news__row">
+        {articles.map((a, i) => (
+          <article className="ip-news__card" key={a.title}>
+            <div className="ip-news__thumb">
+              {photos.length ? (
+                <img src={photos[(i + 1) % photos.length]} alt="" loading="lazy" />
+              ) : (
+                <span>{pack.emoji}</span>
+              )}
+            </div>
+            <span className="ip-news__tag">{a.tag}</span>
+            <div className="ip-news__title">{a.title}</div>
+            <div className="ip-news__meta">{a.meta}</div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── Partner promos ─────────────────────────────────────────
+function Partners() {
+  return (
+    <section className="ip-partners">
+      <div className="ip-section__title">Matchday partners</div>
+      <div className="ip-partners__row">
+        {PARTNERS.map((p) => (
+          <div className="ip-partner" key={p.name}>
+            <span className="ip-partner__logo">{p.emoji}</span>
+            <div className="ip-partner__info">
+              <span className="ip-partner__name">{p.name}</span>
+              <span className="ip-partner__offer">{p.offer}</span>
+            </div>
+            <span className="ip-partner__cta">Get</span>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
