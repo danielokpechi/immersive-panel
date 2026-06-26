@@ -114,6 +114,8 @@ export interface PanelConfig {
   branding?: Branding;
   /** state the panel opens in when deployed (defaults to the pack's initial state). */
   startState?: string;
+  /** image pack key (see ASSET_PACKS) for hero/highlights/store imagery. */
+  assetKey?: string;
   status: 'draft' | 'deployed';
   createdAt: number;
   updatedAt: number;

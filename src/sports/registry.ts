@@ -64,6 +64,8 @@ export function makePanelConfig(
     enabledModules: partial.enabledModules ?? [...pack.defaultModules],
     moduleStateMap: partial.moduleStateMap ?? moduleStateMap,
     branding: partial.branding,
+    startState: partial.startState,
+    assetKey: partial.assetKey,
     status: partial.status ?? 'draft',
     createdAt: partial.createdAt ?? now,
     updatedAt: partial.updatedAt ?? now,

@@ -24,6 +24,7 @@ function seed(): PanelConfig[] {
       experience: 'stream',
       description: "TGR Haas F1's exclusive community space.",
       status: 'deployed',
+      assetKey: 'f1_haas',
     }),
     makePanelConfig('football', {
       id: 'pnl_qpr',
@@ -45,6 +46,7 @@ function seed(): PanelConfig[] {
       experience: 'stream',
       description: 'Championship main card — round-by-round with the fans.',
       status: 'deployed',
+      assetKey: 'ufc',
     }),
     makePanelConfig('rugby', {
       id: 'pnl_rugby',
@@ -52,6 +54,7 @@ function seed(): PanelConfig[] {
       experience: 'in-person',
       description: 'Matchday companion for the autumn test series.',
       status: 'deployed',
+      assetKey: 'rugby',
     }),
     makePanelConfig('conference', {
       id: 'pnl_conf',
