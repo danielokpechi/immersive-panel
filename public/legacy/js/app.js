@@ -492,7 +492,12 @@ function stopAutopilot() {
     }
   }
 
+  // Track module on/off so the control room's toggles reflect real state.
+  const MODS = ['chat', 'ai-qa', 'store', 'highlights', 'predictions', 'polls', 'leaderboard', 'moderation', 'betting'];
+  const modState = {};
+  MODS.forEach((m) => (modState[m] = true));
   function setModule(mod, on) {
+    modState[mod] = on;
     document.querySelectorAll('[data-feature="' + mod + '"]').forEach((el) => {
       el.style.display = on ? '' : 'none';
     });
@@ -514,7 +519,7 @@ function stopAutopilot() {
       type: 'state', stateId: sid, stateLabel: m.label, phase: m.phase,
       clockLabel: m.clock, simMs: 0, running: _autoTimers.length > 0,
       mode: _autoTimers.length > 0 ? 'auto' : 'manual', speed: 60,
-      enabledModules: [],
+      enabledModules: MODS.filter((x) => modState[x] !== false),
     };
     if (usePost) { try { window.parent.postMessage(payload, '*'); } catch (e) {} }
     else if (bus) bus.postMessage(payload);
@@ -579,13 +584,62 @@ const SCREEN_PARTIALS = [
   'screens/halftime-extras.html',
 ];
 
+// ── Per-team reskin ──
+// The prototype is built for Man City; ?team / ?opp / ?color reskin it for
+// another club by swapping the names and the brand blue throughout the
+// markup (and a CSS override for rules in the stylesheet).
+const TEAM = (function () {
+  const p = new URLSearchParams(location.search);
+  const hex = p.get('color');
+  let rgb = '108,171,221';
+  if (hex && /^[0-9a-f]{6}$/i.test(hex)) {
+    rgb = `${parseInt(hex.slice(0, 2), 16)},${parseInt(hex.slice(2, 4), 16)},${parseInt(hex.slice(4, 6), 16)}`;
+  }
+  const imgs = (p.get('imgs') || '').split('|').filter(Boolean);
+  return { team: p.get('team'), opp: p.get('opp'), color: hex ? '#' + hex : null, rgb, imgs };
+})();
+
+function reskin(html) {
+  if (!TEAM.team) return html;
+  let out = html;
+  // 1) swap the baked-in Man City PHOTOS (.jpeg) for the team's pool, cycling.
+  //    The transparent crest (.png) is left alone.
+  if (TEAM.imgs.length) {
+    let i = 0;
+    out = out.replace(/(man%20city%20images%20|man city images )\/[^"')]+\.jpe?g/gi, () => TEAM.imgs[i++ % TEAM.imgs.length]);
+  }
+  // 2) team / opponent / generic "City" → team name.
+  out = out
+    .replace(/Manchester City/g, TEAM.team)
+    .replace(/Man City/g, TEAM.team)
+    .replace(/\bCity\b/g, TEAM.team);
+  if (TEAM.opp) out = out.replace(/Real Madrid/g, TEAM.opp);
+  // 3) brand colour.
+  if (TEAM.color) {
+    out = out.replace(/#6CABDD/gi, TEAM.color).replace(/108,\s*171,\s*221/g, TEAM.rgb);
+  }
+  return out;
+}
+
+function applyTeamColorCss() {
+  if (!TEAM.color) return;
+  const s = document.createElement('style');
+  s.textContent = `
+    .ni.on{color:${TEAM.color}!important;}
+    #shell-iris{background:${TEAM.color}!important;}
+    .sb.blue{background:rgba(${TEAM.rgb},0.12)!important;border-color:rgba(${TEAM.rgb},0.25)!important;color:${TEAM.color}!important;}
+    .ph-badge{color:${TEAM.color}!important;background:rgba(${TEAM.rgb},0.1)!important;border-color:rgba(${TEAM.rgb},0.2)!important;}`;
+  document.head.appendChild(s);
+}
+
 async function loadAllScreens() {
   const mount = document.getElementById('screens-mount');
+  applyTeamColorCss();
   for (const file of SCREEN_PARTIALS) {
     try {
       const res = await fetch(file);
       if (!res.ok) { console.error('[screens] failed to load:', file, res.status); continue; }
-      const html = await res.text();
+      const html = reskin(await res.text());
       mount.insertAdjacentHTML('beforeend', html);
     } catch (e) {
       console.error('[screens] error loading:', file, e);

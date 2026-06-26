@@ -15,6 +15,7 @@ import type { PanelConfig } from '../types/panel';
 import { getPanel, upsertPanel } from '../studio/store';
 import { decodePanel } from '../studio/share';
 import { getSport } from '../sports/registry';
+import { assetsFor } from '../sports/assets';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
 import { ControlBus } from '../control/bus';
@@ -50,7 +51,7 @@ export function PanelPage() {
   return (
     <div className="fan">
       {config.sport === 'football' && config.renderer !== 'engine' ? (
-        <LegacyFanPanel id={id} name={config.name} />
+        <LegacyFanPanel config={config} />
       ) : (
         <FanPanel config={config} />
       )}
@@ -63,9 +64,9 @@ export function PanelPage() {
  * countdown, shop, quests). Runs its full self-playing matchday and still
  * takes operator commands relayed from the bus via postMessage.
  */
-function LegacyFanPanel({ id, name }: { id: string; name: string }) {
+function LegacyFanPanel({ config }: { config: PanelConfig }) {
   const ref = useRef<HTMLIFrameElement>(null);
-  const bus = useMemo(() => new ControlBus(id), [id]);
+  const bus = useMemo(() => new ControlBus(config.id), [config.id]);
   useEffect(() => {
     const off = bus.subscribe((msg) => {
       if (msg.type !== 'state' && msg.type !== 'chat') ref.current?.contentWindow?.postMessage(msg, '*');
@@ -79,10 +80,21 @@ function LegacyFanPanel({ id, name }: { id: string; name: string }) {
     <iframe
       ref={ref}
       className="fan__legacy"
-      title={name}
-      src={legacyUrl(id, { auto: true, bridge: 'post' })}
+      title={config.name}
+      src={legacyUrl(config.id, { auto: true, bridge: 'post', ...legacyTeam(config) })}
     />
   );
+}
+
+/** Map a panel's branding + image pack onto the legacy reskin params. */
+function legacyTeam(config: PanelConfig) {
+  const b = config.branding;
+  return {
+    team: b?.name,
+    opp: b?.competitors?.[1],
+    color: b?.primary,
+    imgs: assetsFor(config.assetKey),
+  };
 }
 
 /** Non-legacy sports (and engine-rendered clubs): the generic engine panel. */

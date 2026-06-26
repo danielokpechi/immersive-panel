@@ -15,6 +15,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getPanel } from '../studio/store';
 import { getSport } from '../sports/registry';
+import { assetsFor } from '../sports/assets';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
 import { legacyUrl } from '../config';
@@ -103,7 +104,17 @@ export function ControlConsole() {
               <span className="console__monitortag">● Live monitor — what fans see</span>
             </div>
             {config.sport === 'football' && config.renderer !== 'engine' ? (
-              <iframe className="monitor__frame" title={config.name} src={legacyUrl(id, { auto: true })} />
+              <iframe
+                className="monitor__frame"
+                title={config.name}
+                src={legacyUrl(id, {
+                  auto: true,
+                  team: config.branding?.name,
+                  opp: config.branding?.competitors?.[1],
+                  color: config.branding?.primary,
+                  imgs: assetsFor(config.assetKey),
+                })}
+              />
             ) : (
               <EngineMonitor config={config} bus={bus} />
             )}
