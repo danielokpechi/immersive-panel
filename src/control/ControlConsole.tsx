@@ -133,7 +133,7 @@ function EngineMonitor({ config, bus }: { config: PanelConfig; bus: ControlBus }
 
   return (
     <div className="monitor__device" ref={deviceRef}>
-      <PanelShell runtime={runtime} pack={pack} config={config} />
+      <PanelShell runtime={runtime} pack={pack} config={config} bus={bus} />
     </div>
   );
 }

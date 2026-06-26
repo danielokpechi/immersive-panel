@@ -7,48 +7,108 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ModuleId, PanelConfig, SportPack } from '../types/panel';
 import type { PanelRuntime } from '../engine/usePanelRuntime';
+import type { ControlBus } from '../control/bus';
+import type { ChatMessage } from '../types/control';
 import { MODULE_META } from '../theme/tokens';
+import { FAN_NAMES } from '../panel/flavor';
 
 export interface ModuleProps {
   runtime: PanelRuntime;
   pack: SportPack;
   config: PanelConfig;
+  /** shared panel bus — present in the live fan panel / monitor, absent in static previews. */
+  bus?: ControlBus;
+}
+
+/** A crowd handle for this session — distinct per device/tab (sessionStorage). */
+function useHandle(pack: SportPack, config: PanelConfig): string {
+  return useMemo(() => {
+    const key = `boltos.handle.${config.id}`;
+    try {
+      const saved = sessionStorage.getItem(key);
+      if (saved) return saved;
+    } catch {
+      /* ignore */
+    }
+    const pool = FAN_NAMES[pack.id] ?? FAN_NAMES.football;
+    const handle = `${pool[Math.floor(Math.random() * pool.length)]}${Math.floor(Math.random() * 90) + 10}`;
+    try {
+      sessionStorage.setItem(key, handle);
+    } catch {
+      /* ignore */
+    }
+    return handle;
+  }, [pack.id, config.id]);
 }
 
 // ── Chat Room ──────────────────────────────────────────────
-const CHAT_NAMES = ['Jamie_P', 'BlueMoon_77', 'CityTilIDie', 'KDB_Stan', 'EtihadElla', 'NorthStand'];
-function ChatRoom({ runtime }: ModuleProps) {
-  const [msgs, setMsgs] = useState<{ id: number; user: string; text: string }[]>([
-    { id: 0, user: 'BlueMoon_77', text: 'here we go 🔵' },
-    { id: 1, user: 'EtihadElla', text: 'atmosphere is unreal today' },
-  ]);
-  const idRef = useRef(2);
-  const lastSeq = useRef(-1);
+// Real shared chat: messages publish on the panel bus (Ably cross-device,
+// BroadcastChannel locally), so every fan sees every fan. Live events add
+// local ambiance that each device derives from the synced timeline.
+interface ChatLine {
+  mid: string;
+  user: string;
+  text: string;
+}
+function ChatRoom({ runtime, pack, config, bus }: ModuleProps) {
+  const handle = useHandle(pack, config);
+  const pool = FAN_NAMES[pack.id] ?? FAN_NAMES.football;
+  const [msgs, setMsgs] = useState<ChatLine[]>([{ mid: 's0', user: pool[0], text: 'here we go 🔥' }]);
+  const seen = useRef(new Set<string>(['s0']));
   const [draft, setDraft] = useState('');
+  const feedRef = useRef<HTMLDivElement>(null);
 
-  // react to live events with auto chatter
+  const push = (line: ChatLine) => {
+    if (seen.current.has(line.mid)) return;
+    seen.current.add(line.mid);
+    setMsgs((m) => [...m.slice(-40), line]);
+  };
+
+  // shared chat over the bus (our own sends echo back here, so add once)
+  useEffect(() => {
+    if (!bus) return;
+    return bus.subscribe((m) => {
+      if (m.type === 'chat') push({ mid: m.mid, user: m.user, text: m.text });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bus]);
+
+  // local ambiance from live events (not broadcast — every device derives it)
+  const lastSeq = useRef(-1);
   useEffect(() => {
     const latest = runtime.events[0];
     if (latest && latest.seq !== lastSeq.current) {
       lastSeq.current = latest.seq;
-      const user = CHAT_NAMES[latest.seq % CHAT_NAMES.length];
-      const text = latest.takeover ? `${latest.title} 🔥🔥` : latest.title;
-      setMsgs((m) => [...m.slice(-30), { id: idRef.current++, user, text }]);
+      const user = pool[latest.seq % pool.length];
+      push({ mid: `ev${latest.seq}`, user, text: latest.takeover ? `${latest.title} 🔥🔥` : latest.title });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [runtime.events]);
 
+  useEffect(() => {
+    feedRef.current?.scrollTo({ top: feedRef.current.scrollHeight });
+  }, [msgs]);
+
   const send = () => {
-    if (!draft.trim()) return;
-    setMsgs((m) => [...m.slice(-30), { id: idRef.current++, user: 'You', text: draft.trim() }]);
+    const text = draft.trim();
+    if (!text) return;
     setDraft('');
+    const msg: ChatMessage = {
+      type: 'chat',
+      mid: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+      user: handle,
+      text,
+    };
+    if (bus) bus.send(msg); // echoes back via subscribe → appended once
+    else push(msg); // preview: no bus, show locally
   };
 
   return (
     <div className="mod-chat">
-      <div className="mod-chat__feed">
+      <div className="mod-chat__feed" ref={feedRef}>
         {msgs.map((m) => (
-          <div key={m.id} className={`mod-chat__msg${m.user === 'You' ? ' is-me' : ''}`}>
-            <span className="mod-chat__user">{m.user}</span>
+          <div key={m.mid} className={`mod-chat__msg${m.user === handle ? ' is-me' : ''}`}>
+            <span className="mod-chat__user">{m.user === handle ? 'You' : m.user}</span>
             <span className="mod-chat__text">{m.text}</span>
           </div>
         ))}
@@ -58,7 +118,7 @@ function ChatRoom({ runtime }: ModuleProps) {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && send()}
-          placeholder="Say something…"
+          placeholder={`Chat as ${handle}…`}
         />
         <button onClick={send}>Send</button>
       </div>
@@ -128,21 +188,33 @@ const STORE_ITEMS: Record<string, { name: string; price: string; tag?: string }[
 };
 function AffiliateStore({ pack }: ModuleProps) {
   const items = STORE_ITEMS[pack.id] ?? STORE_ITEMS.football;
+  const [basket, setBasket] = useState<Record<string, number>>({});
+  const count = Object.values(basket).reduce((a, b) => a + b, 0);
+  const add = (name: string) => setBasket((b) => ({ ...b, [name]: (b[name] ?? 0) + 1 }));
   return (
     <div className="mod-store">
-      {items.map((it) => (
-        <div className="mod-store__item" key={it.name}>
-          <div className="mod-store__thumb">{pack.emoji}</div>
-          <div className="mod-store__info">
-            <div className="mod-store__name">
-              {it.name}
-              {it.tag && <span className="mod-store__tag">{it.tag}</span>}
+      {items.map((it) => {
+        const qty = basket[it.name] ?? 0;
+        return (
+          <div className="mod-store__item" key={it.name}>
+            <div className="mod-store__thumb">{pack.emoji}</div>
+            <div className="mod-store__info">
+              <div className="mod-store__name">
+                {it.name}
+                {it.tag && <span className="mod-store__tag">{it.tag}</span>}
+              </div>
+              <div className="mod-store__price">{it.price}</div>
             </div>
-            <div className="mod-store__price">{it.price}</div>
+            <button className={`mod-store__buy${qty ? ' is-added' : ''}`} onClick={() => add(it.name)}>
+              {qty ? `Added · ${qty}` : 'Add'}
+            </button>
           </div>
-          <button className="mod-store__buy">Add</button>
-        </div>
-      ))}
+        );
+      })}
+      <div className="mod-store__basket">
+        🛍 Basket: <strong>{count}</strong> item{count === 1 ? '' : 's'}
+        {count > 0 && <button className="mod-store__checkout">Checkout</button>}
+      </div>
     </div>
   );
 }
@@ -227,13 +299,14 @@ function Polls({ pack }: ModuleProps) {
 }
 
 // ── Leaderboard ────────────────────────────────────────────
-function Leaderboard() {
+function Leaderboard({ pack }: ModuleProps) {
+  const p = FAN_NAMES[pack.id] ?? FAN_NAMES.football;
   const rows = [
-    { rank: 1, name: 'NorthStand', xp: 4820, tier: 'Legend' },
-    { rank: 2, name: 'KDB_Stan', xp: 4110, tier: 'Legend' },
+    { rank: 1, name: p[0], xp: 4820, tier: 'Legend' },
+    { rank: 2, name: p[1], xp: 4110, tier: 'Legend' },
     { rank: 3, name: 'You', xp: 3650, tier: 'Regular', me: true },
-    { rank: 4, name: 'EtihadElla', xp: 3120, tier: 'Regular' },
-    { rank: 5, name: 'BlueMoon_77', xp: 2890, tier: 'Entry' },
+    { rank: 4, name: p[2], xp: 3120, tier: 'Regular' },
+    { rank: 5, name: p[3], xp: 2890, tier: 'Entry' },
   ];
   return (
     <div className="mod-lb">

@@ -26,6 +26,20 @@ export interface SportFlavor {
 const evCount = (rt: PanelRuntime, types: string[]) =>
   rt.events.filter((e) => types.includes(e.type)).length;
 
+/** Per-sport crowd handles — used for chat ambiance and the leaderboard. */
+export const FAN_NAMES: Record<Sport, string[]> = {
+  football: ['BlueMoon_77', 'CityTilIDie', 'KDB_Stan', 'EtihadElla', 'NorthStand', 'Jamie_P'],
+  f1: ['BoxBoxBen', 'ApexAndy', 'SoftTyreSam', 'PitWallPat', 'DRS_Dani', 'GridGirlGee'],
+  motogp: ['LeanAngleLou', 'RossiForever', 'ApexAmi', 'KneeDownKai', 'GravelTrapGus'],
+  ufc: ['OctagonOllie', 'KO_Kenny', 'GroundGameGabe', 'SouthpawSue', 'CageSideCai'],
+  rugby: ['RuckRyan', 'TryLineTom', 'ScrumSamir', 'TouchlineTara', 'FlyHalfFinn'],
+  basketball: ['CrossoverCam', 'SwishSofia', 'FastBreakFil', 'CourtsideKai', 'DunkDeb'],
+  tennis: ['AceAva', 'BaselineBilly', 'DeuceDom', 'TopspinTess', 'NetCordNeil'],
+  cricket: ['CoverDriveCole', 'YorkerYusuf', 'BoundaryBea', 'SpinKingSid', 'SillyPointSal'],
+  esports: ['ClutchCleo', 'AimLabAleks', 'EcoRoundEli', 'FlickShotFi', 'SmokeMidSeb'],
+  conference: ['ProductPria', 'DevDana', 'KeynoteKen', 'FrontRowFran', 'DemoDuoDax'],
+};
+
 export const FLAVORS: Record<Sport, SportFlavor> = {
   football: {
     heroKind: 'score',

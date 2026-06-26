@@ -1900,6 +1900,32 @@ code {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap;
+}
+.mod-store__buy.is-added {
+  background: color-mix(in srgb, var(--c-accent) 24%, transparent);
+  border-color: color-mix(in srgb, var(--c-accent) 50%, transparent);
+}
+.mod-store__basket {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line, rgba(255, 255, 255, 0.1));
+  font-size: 13px;
+}
+.mod-store__checkout {
+  margin-left: auto;
+  padding: 7px 14px;
+  border-radius: 9px;
+  border: none;
+  background: var(--c-primary);
+  color: #06121f;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
 }
 .mod-highlights {
   display: flex;
