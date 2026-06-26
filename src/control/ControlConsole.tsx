@@ -60,9 +60,9 @@ export function ControlConsole() {
         // snaps to it instead of sitting at its default (late-join sync).
         const t = telemetryRef.current;
         if (t) {
-          const modules: Record<string, boolean> = {};
-          for (const m of config.enabledModules) modules[m] = t.enabledModules.includes(m);
-          bus.send({ type: 'sync', stateId: t.stateId, mode: t.mode, modules });
+          // Only the operator's explicit on/off overrides — modules without
+          // an override keep following the per-state defaults.
+          bus.send({ type: 'sync', stateId: t.stateId, mode: t.mode, modules: t.moduleOverrides });
         }
       }
     });

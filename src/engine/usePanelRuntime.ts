@@ -243,7 +243,9 @@ export function usePanelRuntime(
           if (cmd.stateId && cmd.stateId !== stateRef.current) controls.jumpTo(cmd.stateId);
           if (cmd.mode) controls.setMode(cmd.mode);
           if (cmd.modules) {
-            for (const [m, on] of Object.entries(cmd.modules)) controls.setModule(m as ModuleId, on);
+            for (const [m, on] of Object.entries(cmd.modules)) {
+              if (typeof on === 'boolean') controls.setModule(m as ModuleId, on);
+            }
           }
           break;
       }
@@ -254,13 +256,23 @@ export function usePanelRuntime(
     return off;
   }, [bus, controls]);
 
-  const enabledModules = useMemo(
-    () => config.enabledModules.filter((m) => moduleOverrides[m] !== false),
-    [config.enabledModules, moduleOverrides],
-  );
-
   const state = getState(pack, stateId) ?? pack.states[0];
   const clockLabel = pack.clockLabel(simMs, stateId);
+
+  // The VISIBLE module set: the current state's suggested modules, with the
+  // operator's live on/off overrides taking precedence — force-on adds a
+  // module even when the state doesn't include it; force-off removes one.
+  const stateMods = config.moduleStateMap[stateId] ?? state.modules;
+  const enabledModules = useMemo(
+    () =>
+      config.enabledModules.filter((m) => {
+        const ov = moduleOverrides[m];
+        if (ov === false) return false;
+        if (ov === true) return true;
+        return stateMods.includes(m);
+      }),
+    [config.enabledModules, moduleOverrides, stateMods],
+  );
 
   // broadcast telemetry on meaningful change
   useEffect(() => {
@@ -275,6 +287,7 @@ export function usePanelRuntime(
       mode,
       speed: speedState,
       enabledModules,
+      moduleOverrides,
     };
     lastTelemetryRef.current = t;
     if (bus) bus.send(t);
