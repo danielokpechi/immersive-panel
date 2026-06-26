@@ -11,6 +11,7 @@ import type { Experience, ModuleId, PanelConfig, Sport } from '../types/panel';
 import { SPORT_LIST, getSport, makePanelConfig } from '../sports/registry';
 import { getPanel, upsertPanel } from './store';
 import { ALL_MODULES, MODULE_META } from '../theme/tokens';
+import { ASSET_PACKS } from '../sports/assets';
 
 export function PanelEditor() {
   const params = useParams();
@@ -173,6 +174,22 @@ function EditorForm({
             </select>
           </label>
           <p className="editor__hint">The state the panel opens in when deployed.</p>
+
+          <label className="field">
+            <span>Image pack</span>
+            <select
+              value={cfg.assetKey ?? ''}
+              onChange={(e) => setCfg((c) => (c ? { ...c, assetKey: e.target.value || undefined } : c))}
+            >
+              <option value="">None (emoji)</option>
+              {Object.keys(ASSET_PACKS).map((k) => (
+                <option key={k} value={k}>
+                  {k.replace(/_/g, ' ')}
+                </option>
+              ))}
+            </select>
+          </label>
+          <p className="editor__hint">Photos used for the hero, highlights and store.</p>
 
           <h2>Modules</h2>
           <p className="editor__hint">Toggle features from the shared library.</p>

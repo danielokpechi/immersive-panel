@@ -13,6 +13,7 @@ import type { ControlBus } from '../control/bus';
 import { MODULE_COMPONENTS } from '../modules/library';
 import { MODULE_META } from '../theme/tokens';
 import { FLAVORS } from './flavor';
+import { assetsFor } from '../sports/assets';
 import { Overlay } from './Overlay';
 
 interface Props {
@@ -42,8 +43,13 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
   const [open, setOpen] = useState<ModuleId | null>(null);
   const openId = open && active.includes(open) ? open : active[0] ?? null;
 
+  const photos = assetsFor(config.assetKey);
+  const heroStyle = photos[0]
+    ? ({ ['--hero-photo' as string]: `url("${photos[0]}")` } as React.CSSProperties)
+    : undefined;
+
   return (
-    <div className="ip" data-phase={phase}>
+    <div className={`ip${photos.length ? ' ip--photo' : ''}`} data-phase={phase} style={heroStyle}>
       <div className="ip-status">
         <span className="ip-status__time">9:41</span>
         {phase === 'live' ? (

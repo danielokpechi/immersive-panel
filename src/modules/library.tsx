@@ -11,6 +11,7 @@ import type { ControlBus } from '../control/bus';
 import type { ChatMessage } from '../types/control';
 import { MODULE_META } from '../theme/tokens';
 import { FAN_NAMES } from '../panel/flavor';
+import { assetsFor } from '../sports/assets';
 
 export interface ModuleProps {
   runtime: PanelRuntime;
@@ -186,18 +187,25 @@ const STORE_ITEMS: Record<string, { name: string; price: string; tag?: string }[
     { name: 'Digital Slide Pack', price: 'Free', tag: 'Attendee' },
   ],
 };
-function AffiliateStore({ pack }: ModuleProps) {
+function AffiliateStore({ pack, config }: ModuleProps) {
   const items = STORE_ITEMS[pack.id] ?? STORE_ITEMS.football;
+  const photos = assetsFor(config.assetKey);
   const [basket, setBasket] = useState<Record<string, number>>({});
   const count = Object.values(basket).reduce((a, b) => a + b, 0);
   const add = (name: string) => setBasket((b) => ({ ...b, [name]: (b[name] ?? 0) + 1 }));
   return (
     <div className="mod-store">
-      {items.map((it) => {
+      {items.map((it, i) => {
         const qty = basket[it.name] ?? 0;
         return (
           <div className="mod-store__item" key={it.name}>
-            <div className="mod-store__thumb">{pack.emoji}</div>
+            <div className="mod-store__thumb">
+              {photos.length ? (
+                <img src={photos[(i + 2) % photos.length]} alt="" loading="lazy" />
+              ) : (
+                pack.emoji
+              )}
+            </div>
             <div className="mod-store__info">
               <div className="mod-store__name">
                 {it.name}
@@ -220,7 +228,8 @@ function AffiliateStore({ pack }: ModuleProps) {
 }
 
 // ── Highlights ─────────────────────────────────────────────
-function Highlights({ runtime, pack }: ModuleProps) {
+function Highlights({ runtime, pack, config }: ModuleProps) {
+  const photos = assetsFor(config.assetKey);
   const clips = runtime.events.filter((e) =>
     ['goal', 'try', 'ko', 'overtake', 'pit', 'safety-car', 'chequered', 'lights-out', 'demo', 'talk', 'penalty', 'fastest-lap', 'bell'].includes(e.type),
   );
@@ -229,9 +238,15 @@ function Highlights({ runtime, pack }: ModuleProps) {
   }
   return (
     <div className="mod-highlights">
-      {clips.map((c) => (
+      {clips.map((c, i) => (
         <div className="mod-highlights__clip" key={c.seq}>
-          <div className="mod-highlights__play">{pack.emoji}</div>
+          <div className="mod-highlights__play">
+            {photos.length ? (
+              <img src={photos[i % photos.length]} alt="" loading="lazy" />
+            ) : (
+              pack.emoji
+            )}
+          </div>
           <div className="mod-highlights__meta">
             <div className="mod-highlights__title">{c.title}</div>
             {c.detail && <div className="mod-highlights__detail">{c.detail}</div>}
