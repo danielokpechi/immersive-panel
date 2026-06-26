@@ -596,8 +596,14 @@ const TEAM = (function () {
     rgb = `${parseInt(hex.slice(0, 2), 16)},${parseInt(hex.slice(2, 4), 16)},${parseInt(hex.slice(4, 6), 16)}`;
   }
   const imgs = (p.get('imgs') || '').split('|').filter(Boolean);
-  return { team: p.get('team'), opp: p.get('opp'), color: hex ? '#' + hex : null, rgb, imgs };
+  let names = null;
+  try { names = JSON.parse(p.get('names') || 'null'); } catch (e) { names = null; }
+  // apply longest keys first so "Bernardo Silva" wins over "Silva", etc.
+  const nameKeys = names ? Object.keys(names).sort((a, b) => b.length - a.length) : [];
+  return { team: p.get('team'), opp: p.get('opp'), color: hex ? '#' + hex : null, rgb, imgs, names, nameKeys };
 })();
+
+function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
 function reskin(html) {
   if (!TEAM.team) return html;
@@ -608,7 +614,11 @@ function reskin(html) {
     let i = 0;
     out = out.replace(/(man%20city%20images%20|man city images )\/[^"')]+\.jpe?g/gi, () => TEAM.imgs[i++ % TEAM.imgs.length]);
   }
-  // 2) team / opponent / generic "City" → team name.
+  // 2) per-club names: players, manager, venue, abbreviation.
+  for (const k of TEAM.nameKeys) {
+    out = out.replace(new RegExp(escapeRe(k), 'g'), TEAM.names[k]);
+  }
+  // 3) team / opponent / generic "City" → team name.
   out = out
     .replace(/Manchester City/g, TEAM.team)
     .replace(/Man City/g, TEAM.team)

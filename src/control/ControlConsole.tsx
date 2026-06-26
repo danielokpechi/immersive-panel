@@ -16,6 +16,7 @@ import { Link, useParams } from 'react-router-dom';
 import { getPanel } from '../studio/store';
 import { getSport } from '../sports/registry';
 import { assetsFor } from '../sports/assets';
+import { reskinNamesFor } from '../panel/legacyReskin';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
 import { legacyUrl } from '../config';
@@ -113,6 +114,7 @@ export function ControlConsole() {
                   opp: config.branding?.competitors?.[1],
                   color: config.branding?.primary,
                   imgs: assetsFor(config.assetKey),
+                  names: reskinNamesFor(config.branding?.name),
                 })}
               />
             ) : (

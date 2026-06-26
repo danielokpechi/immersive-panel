@@ -42,6 +42,8 @@ export function legacyUrl(
     color?: string;
     /** team photo pool — swaps the baked-in Man City images */
     imgs?: string[];
+    /** per-club name remap (players/manager/venue/abbrev) */
+    names?: Record<string, string>;
   } = {},
 ): string {
   const p = new URLSearchParams({ v: '4', id });
@@ -52,5 +54,6 @@ export function legacyUrl(
   if (opts.opp) p.set('opp', opts.opp);
   if (opts.color) p.set('color', opts.color.replace('#', ''));
   if (opts.imgs && opts.imgs.length) p.set('imgs', opts.imgs.join('|'));
+  if (opts.names && Object.keys(opts.names).length) p.set('names', JSON.stringify(opts.names));
   return `${BASE_URL}legacy/index.html?${p.toString()}`;
 }
