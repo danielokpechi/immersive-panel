@@ -11,18 +11,8 @@ import { getSport } from '../sports/registry';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
 import { PanelShell } from '../panel/PanelShell';
-import { legacyUrl } from '../config';
 
 export function PanelPreview({ config }: { config: PanelConfig }) {
-  if (config.sport === 'football') {
-    return (
-      <div className="preview">
-        <div className="preview__scale">
-          <iframe className="preview__frame" title="preview" src={legacyUrl('_preview', { auto: true })} />
-        </div>
-      </div>
-    );
-  }
   return <EnginePreview key={config.sport} config={config} />;
 }
 

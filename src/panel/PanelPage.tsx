@@ -18,7 +18,6 @@ import { getSport } from '../sports/registry';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
 import { ControlBus } from '../control/bus';
-import { legacyUrl } from '../config';
 import { PanelShell } from './PanelShell';
 
 export function PanelPage() {
@@ -49,45 +48,12 @@ export function PanelPage() {
 
   return (
     <div className="fan">
-      {config.sport === 'football' ? (
-        <LegacyFanPanel id={id} name={config.name} startState={config.startState} />
-      ) : (
-        <FanPanel config={config} />
-      )}
+      <FanPanel config={config} />
     </div>
   );
 }
 
-/**
- * Football: the legacy panel, driven by the operator. It loads paused (no
- * auto-advance) and takes commands from its parent — so we relay every bus
- * command (incl. cross-device Ably) into the iframe via postMessage.
- */
-function LegacyFanPanel({ id, name, startState }: { id: string; name: string; startState?: string }) {
-  const ref = useRef<HTMLIFrameElement>(null);
-  const bus = useMemo(() => new ControlBus(id), [id]);
-  useEffect(() => {
-    const off = bus.subscribe((msg) => {
-      if (msg.type !== 'state') ref.current?.contentWindow?.postMessage(msg, '*');
-    });
-    // Late join: ask the operator for the current state so we snap to it.
-    bus.send({ type: 'requestState' });
-    return () => {
-      off();
-      bus.dispose();
-    };
-  }, [bus]);
-  return (
-    <iframe
-      ref={ref}
-      className="fan__legacy"
-      title={name}
-      src={legacyUrl(id, { bridge: 'post', start: startState })}
-    />
-  );
-}
-
-/** Engine-driven sports: themed, full-viewport, bus-connected fan panel. */
+/** Every sport (incl. football) renders through the same engine panel. */
 function FanPanel({ config }: { config: PanelConfig }) {
   const pack = getSport(config.sport);
   const deviceRef = useRef<HTMLDivElement>(null);
