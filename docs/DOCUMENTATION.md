@@ -77,6 +77,15 @@ time with `node scripts/capture-screenshots.mjs` against a running dev server).
 
 Other captures: `02-create-experience`, `05-stats`, `07-fan-engine-store`.
 
+**Other sports** — the same engine, themed and photo-personalized per event type,
+in [`docs/screenshots/sports/`](./screenshots/sports): UFC/combat, boxing
+(Mayweather, McGregor), rugby, conference, and F1 (McLaren, Ferrari, Mercedes).
+Regenerate with `node scripts/capture-sports.mjs`.
+
+![UFC](./screenshots/sports/ufc-apex.png)
+![Rugby](./screenshots/sports/rugby.png)
+![McLaren F1](./screenshots/sports/f1-mclaren.png)
+
 **Full Man City flagship archive** — every screen of the bespoke matchday
 prototype (all 62: onboarding, home, pre-match, live, goal, half-time,
 full-time, shop, quests, predictions, polls, chat, photo pool, stadium floor
