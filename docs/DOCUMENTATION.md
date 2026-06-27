@@ -77,6 +77,13 @@ time with `node scripts/capture-screenshots.mjs` against a running dev server).
 
 Other captures: `02-create-experience`, `05-stats`, `07-fan-engine-store`.
 
+**Full Man City flagship archive** — every screen of the bespoke matchday
+prototype (all 62: onboarding, home, pre-match, live, goal, half-time,
+full-time, shop, quests, predictions, polls, chat, photo pool, stadium floor
+plan, food ordering, rewards/tiers, IRIS assistant flows, sponsor deals, …) is
+captured in [`docs/screenshots/mancity/`](./screenshots/mancity). Regenerate
+with `node scripts/capture-mancity-pages.mjs`.
+
 ---
 
 ## 3. Architecture
