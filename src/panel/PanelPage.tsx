@@ -87,15 +87,17 @@ function LegacyFanPanel({ config }: { config: PanelConfig }) {
   );
 }
 
-/** Map a panel's branding + image pack onto the legacy reskin params. */
+/** Map a panel's branding + image pack onto the legacy reskin params.
+ *  The baseline Man City prototype is left pristine (no reskin). */
 function legacyTeam(config: PanelConfig) {
   const b = config.branding;
+  if (!b?.name || b.name === 'Man City') return {};
   return {
-    team: b?.name,
-    opp: b?.competitors?.[1],
-    color: b?.primary,
+    team: b.name,
+    opp: b.competitors?.[1],
+    color: b.primary,
     imgs: assetsFor(config.assetKey),
-    names: reskinNamesFor(b?.name),
+    names: reskinNamesFor(b.name),
   };
 }
 

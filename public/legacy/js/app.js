@@ -618,11 +618,9 @@ function reskin(html) {
   for (const k of TEAM.nameKeys) {
     out = out.replace(new RegExp(escapeRe(k), 'g'), TEAM.names[k]);
   }
-  // 3) team / opponent / generic "City" → team name.
-  out = out
-    .replace(/Manchester City/g, TEAM.team)
-    .replace(/Man City/g, TEAM.team)
-    .replace(/\bCity\b/g, TEAM.team);
+  // 3) team / opponent / generic "City" → team name. One pass over all variants
+  //    so the inserted name (which may itself contain "City") isn't re-matched.
+  out = out.replace(/Manchester City|Man City|\bCity\b/g, () => TEAM.team);
   if (TEAM.opp) out = out.replace(/Real Madrid/g, TEAM.opp);
   // 3) brand colour.
   if (TEAM.color) {

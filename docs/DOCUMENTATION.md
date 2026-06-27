@@ -54,8 +54,28 @@ The prototype has the following surfaces. Capture each from the live site (run
 | 11 | **Module — Store** | any engine fan → Affiliate Store tile | Working basket (add / qty / checkout), team product photos. |
 | 12 | **Module — Chat** | engine fan in a chat state → Chat | Real cross-device chat (every fan sees every fan). |
 
-> Captures of surfaces 1, 6, 8 and 9 accompany this document. The rest follow the
-> same URLs above.
+### Visual tour
+
+Captured screenshots live in [`docs/screenshots/`](./screenshots) (regenerate any
+time with `node scripts/capture-screenshots.mjs` against a running dev server).
+
+**Admin — Studio dashboard**
+![Studio dashboard](./screenshots/01-studio-dashboard.png)
+
+**Admin — Panel editor** (default state, image pack, module library, state×module matrix)
+![Panel editor](./screenshots/03-panel-editor.png)
+
+**Admin — Control Room** (deploy/QR, live monitor, master controls)
+![Control Room](./screenshots/04-control-room.png)
+
+**Fan — engine panel** (F1, pre-match: hero, brief, modules, news, partners)
+![Fan engine panel](./screenshots/06-fan-engine-prematch.png)
+
+**Fan — flagship bespoke (Man City)** &nbsp;|&nbsp; **Fan — reskinned (Man Utd)**
+![Man City legacy](./screenshots/08-fan-legacy-mancity.png)
+![Man Utd reskinned](./screenshots/09-fan-legacy-manutd.png)
+
+Other captures: `02-create-experience`, `05-stats`, `07-fan-engine-store`.
 
 ---
 

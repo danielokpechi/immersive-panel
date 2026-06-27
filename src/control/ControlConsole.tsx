@@ -108,14 +108,19 @@ export function ControlConsole() {
               <iframe
                 className="monitor__frame"
                 title={config.name}
-                src={legacyUrl(id, {
-                  auto: true,
-                  team: config.branding?.name,
-                  opp: config.branding?.competitors?.[1],
-                  color: config.branding?.primary,
-                  imgs: assetsFor(config.assetKey),
-                  names: reskinNamesFor(config.branding?.name),
-                })}
+                src={legacyUrl(
+                  id,
+                  config.branding?.name && config.branding.name !== 'Man City'
+                    ? {
+                        auto: true,
+                        team: config.branding.name,
+                        opp: config.branding.competitors?.[1],
+                        color: config.branding.primary,
+                        imgs: assetsFor(config.assetKey),
+                        names: reskinNamesFor(config.branding.name),
+                      }
+                    : { auto: true },
+                )}
               />
             ) : (
               <EngineMonitor config={config} bus={bus} />
