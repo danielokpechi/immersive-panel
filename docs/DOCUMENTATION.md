@@ -255,6 +255,47 @@ Every change shipped through CI to the live site.
 **Scale ceiling today:** Ably's free tier (~200 concurrent connections). Fine for
 testing and small pilots; a stadium needs a paid tier (see §8).
 
+### 6.1 Feasibility rating — which features are *actually* "just" buildable
+
+Most of the prototype is straightforward integration. A few features look real in
+the demo while hiding a hard dependency, a licence, or infrastructure that usually
+doesn't exist. Rated honestly:
+
+🟢 **Real and ready — standard integration, low risk.** No invention, no blockers.
+| Feature | What it needs |
+|---|---|
+| Live operator → fan control (the core differentiator) | Token auth on the realtime layer we already use |
+| Chat, predictions, polls, leaderboard, XP / tiers / quests | A backend + Redis counters — solved problems |
+| Store / commerce | Stripe, or the club's Shopify |
+| News, articles, partner / sponsor promos | A headless CMS |
+| Photo pool (fan UGC) | Object storage + moderation |
+| QR deploy + multi-sport engine | Done |
+
+🟠 **Feasible, but carries a real external dependency or recurring cost.** Works, but
+not plug-and-play — each needs a contract, rights, or a pipeline.
+| Feature | The catch |
+|---|---|
+| Live stats / odds ("xG 2.1, 62% possession") | **Cosmetic today.** Real numbers need a **licensed sports-data feed** (Sportradar/Opta/Genius) — money, contracts, per-sport coverage. The biggest "looks free but isn't." |
+| Highlights as video clips | Currently photos. Real video needs **media rights** + ingest/transcode/clipping (Mux/Cloudflare Stream). Rights, not tech, are the blocker. |
+| IRIS / AI Q&A | Canned today. A genuine real-time analyst is a **scoping + guardrails + cost-per-query** problem; easy to over-promise. |
+
+🔴 **Not "just feasible" — regulated, or quietly depends on infrastructure that often
+doesn't exist.** Flag these explicitly to stakeholders.
+| Feature | Why it's not a toggle |
+|---|---|
+| **Betting overlay** | Technically trivial, **legally a project**: per-jurisdiction gambling **licensing, geo-fencing, age verification, responsible-gambling**. Usually ship via a **licensed sportsbook partner** or disable by region. |
+| **Bathroom queue / live venue ops** | The most **demo-magic** item — implies **real-time occupancy data** from venue **sensors/IoT** most stadiums don't have. Without it, it's faked or a hardware project. |
+| **Food ordering / "order ahead"** | Per-venue **POS/concession integration** + fulfilment logistics — an **operations** lift per stadium, not a software feature. |
+| **Stadium floor plan / wayfinding** | Fine as static maps; "live" anything needs **indoor positioning** per venue. |
+| **AI Moderation "100% uptime", fan counts** | The **numbers are cosmetic**; real moderation is never 100%, real counts need a telemetry pipeline. |
+
+**Bottom line:** ~70% of the prototype is straightforward integration — the
+realtime control, engagement, commerce and content layers are genuinely buildable.
+The caveats are **external, not technical**: live data and video are *licensing/
+cost*, in-venue services are *per-venue integration*, and **betting is a regulatory
+project, not a feature flag**. Nothing here is impossible — but those are where
+time, money and legal actually live.
+
 ---
 
 ## 7. What it takes to fully build this out
