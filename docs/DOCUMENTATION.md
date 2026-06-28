@@ -239,7 +239,8 @@ Every change shipped through CI to the live site.
 | Capability | Today (prototype) | Real product needs |
 |------------|-------------------|--------------------|
 | Panel storage | Browser `localStorage` (per device) | A database + API; panels shared across operators/devices. |
-| Auth | None (anyone with the URL is "the operator") | Operator accounts, roles, org/tenant isolation. |
+| Operator auth | None (anyone with the URL is "the operator") | Operator accounts, roles, org/tenant isolation. |
+| **Fan identity** | **Persistent fan "passport"** — name + interest + email/consent captured at a join gate; XP/tier accrue across matches and panels (a fan graph). Client-side store today. | An auth provider (Clerk/Auth0) + a fan profile in Postgres + a consent/CRM record. The app already talks only to a single identity seam, so this is a drop-in. |
 | Realtime | Ably, **API key shipped in the client** | Token auth (server-minted, capability-scoped). |
 | Live event data | A **scripted timeline** per sport | A live sports-data feed (Opta/Sportradar) or manual operator input. |
 | Chat | Real-time, but **ephemeral & unmoderated** | Persistence, moderation, identity, rate limits. |

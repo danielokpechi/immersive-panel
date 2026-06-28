@@ -2868,3 +2868,284 @@ code {
     height: 80vh;
   }
 }
+
+/* ═══ FAN IDENTITY — gate, XP pill, profile passport ═══ */
+.ip-xp {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1.1;
+}
+.ip-xp__tier {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+}
+.ip-xp__val {
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+.ip-icon--btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* join gate */
+.fangate {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(4, 7, 12, 0.78);
+  backdrop-filter: blur(6px);
+}
+.fangate__card {
+  width: 100%;
+  background: linear-gradient(180deg, #0e1726, #0a121f);
+  border-top: 1px solid var(--line-2, rgba(255, 255, 255, 0.14));
+  border-radius: 22px 22px 0 0;
+  padding: 20px 18px calc(18px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  animation: gateUp 0.3s ease;
+}
+@keyframes gateUp {
+  from { transform: translateY(40px); opacity: 0; }
+}
+.fangate__logo {
+  font-size: 30px;
+}
+.fangate__title {
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.fangate__sub {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: -6px;
+}
+.fangate__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.fangate__field span {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.6);
+}
+.fangate__field em {
+  font-style: normal;
+  color: rgba(255, 255, 255, 0.35);
+}
+.fangate__field input {
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.1));
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+}
+.fangate__opt {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.fangate__opt input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--c-primary);
+}
+.fangate__join {
+  margin-top: 4px;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  background: var(--c-primary);
+  color: #06121f;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.fangate__skip {
+  padding: 4px;
+  border: none;
+  background: none;
+  color: rgba(255, 255, 255, 0.45);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+/* profile passport */
+.profile {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(4, 7, 12, 0.7);
+  backdrop-filter: blur(6px);
+}
+.profile__sheet {
+  width: 100%;
+  background: linear-gradient(180deg, #0e1726, #0a121f);
+  border-top: 1px solid var(--line-2, rgba(255, 255, 255, 0.14));
+  border-radius: 22px 22px 0 0;
+  padding: 18px 18px calc(18px + env(safe-area-inset-bottom));
+  animation: gateUp 0.3s ease;
+}
+.profile__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.profile__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  font-size: 16px;
+  color: #06121f;
+  background: linear-gradient(135deg, var(--c-primary), var(--c-accent));
+}
+.profile__name {
+  font-size: 17px;
+  font-weight: 800;
+  color: #fff;
+}
+.profile__tier {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+}
+.profile__tierbadge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-accent);
+  background: color-mix(in srgb, var(--c-accent) 16%, transparent);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.profile__guest {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.profile__close {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.profile__xp {
+  margin: 16px 0 14px;
+}
+.profile__xprow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 7px;
+}
+.profile__xprow strong {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fff;
+}
+.profile__bar {
+  height: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.profile__bar span {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--c-primary), var(--c-accent));
+}
+.profile__stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.profile__stats > div {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 11px;
+  text-align: center;
+}
+.profile__stats strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+}
+.profile__stats span {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.profile__row {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.profile__row span {
+  color: rgba(255, 255, 255, 0.5);
+}
+.profile__row strong {
+  color: #fff;
+  font-weight: 700;
+}
+.profile__note {
+  margin: 12px 0;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+}
+.profile__signout {
+  width: 100%;
+  padding: 11px;
+  border-radius: 11px;
+  border: 1px solid var(--line);
+  background: none;
+  color: rgba(255, 255, 255, 0.6);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
