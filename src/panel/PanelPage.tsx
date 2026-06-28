@@ -72,7 +72,15 @@ function LegacyFanPanel({ config }: { config: PanelConfig }) {
     const off = bus.subscribe((msg) => {
       if (msg.type !== 'state' && msg.type !== 'chat') ref.current?.contentWindow?.postMessage(msg, '*');
     });
+    // When the iframe signals it's loaded + listening, ask the operator for the
+    // current state. If they're driving in manual, the sync reply stops the
+    // panel's demo and snaps it to their state (no more "fan on auto").
+    const onReady = (e: MessageEvent) => {
+      if (e.data?.type === '__ready') bus.send({ type: 'requestState' });
+    };
+    window.addEventListener('message', onReady);
     return () => {
+      window.removeEventListener('message', onReady);
       off();
       bus.dispose();
     };
