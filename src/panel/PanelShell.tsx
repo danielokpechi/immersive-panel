@@ -6,7 +6,7 @@
 // Themed and content-aware per sport via flavor.ts.
 // ═══════════════════════════════════════════════════════════
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { PanelConfig, SportPack, ModuleId } from '../types/panel';
 import type { PanelRuntime } from '../engine/usePanelRuntime';
 import type { ControlBus } from '../control/bus';
@@ -15,6 +15,9 @@ import { MODULE_META } from '../theme/tokens';
 import { FLAVORS } from './flavor';
 import { assetsFor } from '../sports/assets';
 import { articlesFor, briefFor, PARTNERS } from './content';
+import { useFan, joinPanel, tierFor } from '../fan/identity';
+import { FanGate } from '../fan/FanGate';
+import { Profile } from '../fan/Profile';
 import { Overlay } from './Overlay';
 
 interface Props {
@@ -44,6 +47,14 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
   const [open, setOpen] = useState<ModuleId | null>(null);
   const openId = open && active.includes(open) ? open : active[0] ?? null;
 
+  // ── fan identity ──
+  const fan = useFan();
+  const [showProfile, setShowProfile] = useState(false);
+  useEffect(() => {
+    if (fan) joinPanel(config.id);
+  }, [fan, config.id]);
+  const fanTier = fan ? tierFor(fan.xp) : null;
+
   const photos = assetsFor(config.assetKey);
   const heroStyle = photos[0]
     ? ({ ['--hero-photo' as string]: `url("${photos[0]}")` } as React.CSSProperties)
@@ -70,7 +81,15 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
         </div>
         <div className="ip-header__icons">
           <span className="ip-icon">🔔</span>
-          <span className="ip-icon">👤</span>
+          {fan && (
+            <button className="ip-xp" onClick={() => setShowProfile(true)} title="Your profile">
+              <span className="ip-xp__tier">{fanTier?.name}</span>
+              <span className="ip-xp__val">{fan.xp.toLocaleString()} XP</span>
+            </button>
+          )}
+          <button className="ip-icon ip-icon--btn" onClick={() => setShowProfile(true)} aria-label="Profile">
+            👤
+          </button>
         </div>
       </div>
 
@@ -157,7 +176,7 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
         <NavItem icon="💬" label="Chat" onClick={() => active.includes('chat') && setOpen('chat')} />
         <span className="ip-nav__gap" />
         <NavItem icon="🛍" label="Shop" onClick={() => active.includes('store') && setOpen('store')} />
-        <NavItem icon="◎" label="Me" />
+        <NavItem icon="◎" label="Me" onClick={() => setShowProfile(true)} />
       </nav>
       <button
         className={`ip-irisbtn${phase === 'live' ? ' is-live' : ''}`}
@@ -169,6 +188,9 @@ export function PanelShell({ runtime, pack, config, bus }: Props) {
       </button>
 
       <Overlay runtime={runtime} pack={pack} />
+
+      {!fan && <FanGate pack={pack} teamName={config.branding?.name ?? config.name} />}
+      {showProfile && <Profile onClose={() => setShowProfile(false)} />}
     </div>
   );
 }

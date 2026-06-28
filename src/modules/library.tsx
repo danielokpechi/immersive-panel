@@ -12,6 +12,7 @@ import type { ChatMessage } from '../types/control';
 import { MODULE_META } from '../theme/tokens';
 import { FAN_NAMES } from '../panel/flavor';
 import { assetsFor } from '../sports/assets';
+import { useFan, awardXp, tierFor } from '../fan/identity';
 
 export interface ModuleProps {
   runtime: PanelRuntime;
@@ -21,25 +22,14 @@ export interface ModuleProps {
   bus?: ControlBus;
 }
 
-/** A crowd handle for this session — distinct per device/tab (sessionStorage). */
-function useHandle(pack: SportPack, config: PanelConfig): string {
+/** Chat handle: the fan's identity name when signed in, else a crowd handle. */
+function useHandle(pack: SportPack): string {
+  const fan = useFan();
   return useMemo(() => {
-    const key = `boltos.handle.${config.id}`;
-    try {
-      const saved = sessionStorage.getItem(key);
-      if (saved) return saved;
-    } catch {
-      /* ignore */
-    }
+    if (fan?.name) return fan.name;
     const pool = FAN_NAMES[pack.id] ?? FAN_NAMES.football;
-    const handle = `${pool[Math.floor(Math.random() * pool.length)]}${Math.floor(Math.random() * 90) + 10}`;
-    try {
-      sessionStorage.setItem(key, handle);
-    } catch {
-      /* ignore */
-    }
-    return handle;
-  }, [pack.id, config.id]);
+    return `${pool[Math.floor(Math.random() * pool.length)]}${Math.floor(Math.random() * 90) + 10}`;
+  }, [fan?.name, pack.id]);
 }
 
 // ── Chat Room ──────────────────────────────────────────────
@@ -51,8 +41,8 @@ interface ChatLine {
   user: string;
   text: string;
 }
-function ChatRoom({ runtime, pack, config, bus }: ModuleProps) {
-  const handle = useHandle(pack, config);
+function ChatRoom({ runtime, pack, bus }: ModuleProps) {
+  const handle = useHandle(pack);
   const pool = FAN_NAMES[pack.id] ?? FAN_NAMES.football;
   const [msgs, setMsgs] = useState<ChatLine[]>([{ mid: 's0', user: pool[0], text: 'here we go 🔥' }]);
   const seen = useRef(new Set<string>(['s0']));
@@ -102,6 +92,7 @@ function ChatRoom({ runtime, pack, config, bus }: ModuleProps) {
     };
     if (bus) bus.send(msg); // echoes back via subscribe → appended once
     else push(msg); // preview: no bus, show locally
+    awardXp(5);
   };
 
   return (
@@ -277,7 +268,10 @@ function Predictions({ pack }: ModuleProps) {
         <button
           key={o}
           className={`mod-pred__opt${pick === o ? ' is-picked' : ''}`}
-          onClick={() => setPick(o)}
+          onClick={() => {
+            if (!pick) awardXp(25);
+            setPick(o);
+          }}
         >
           <span className="mod-pred__bar" style={{ width: `${pct[i]}%` }} />
           <span className="mod-pred__label">{o}</span>
@@ -302,7 +296,10 @@ function Polls({ pack }: ModuleProps) {
           <button
             key={o}
             className={`mod-poll__opt${voted === o ? ' is-voted' : ''}`}
-            onClick={() => setVoted(o)}
+            onClick={() => {
+              if (!voted) awardXp(10);
+              setVoted(o);
+            }}
           >
             {o}
           </button>
@@ -315,14 +312,19 @@ function Polls({ pack }: ModuleProps) {
 
 // ── Leaderboard ────────────────────────────────────────────
 function Leaderboard({ pack }: ModuleProps) {
+  const fan = useFan();
   const p = FAN_NAMES[pack.id] ?? FAN_NAMES.football;
-  const rows = [
-    { rank: 1, name: p[0], xp: 4820, tier: 'Legend' },
-    { rank: 2, name: p[1], xp: 4110, tier: 'Legend' },
-    { rank: 3, name: 'You', xp: 3650, tier: 'Regular', me: true },
-    { rank: 4, name: p[2], xp: 3120, tier: 'Regular' },
-    { rank: 5, name: p[3], xp: 2890, tier: 'Entry' },
+  // the fan's real, persistent XP sits among the crowd and climbs as they play
+  const others = [
+    { name: p[0], xp: 4820, me: false },
+    { name: p[1], xp: 4110, me: false },
+    { name: p[2], xp: 3120, me: false },
+    { name: p[3], xp: 2890, me: false },
+    { name: p[4] ?? p[0], xp: 1450, me: false },
   ];
+  const rows = [...others, { name: fan?.name ?? 'You', xp: fan?.xp ?? 0, me: true }]
+    .sort((a, b) => b.xp - a.xp)
+    .map((r, i) => ({ ...r, rank: i + 1, tier: tierFor(r.xp).name }));
   return (
     <div className="mod-lb">
       {rows.map((r) => (
