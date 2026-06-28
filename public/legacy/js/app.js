@@ -404,6 +404,9 @@ function simulate(evt) {
 // panel reacts and shifts states on its own. Reuses the existing
 // navigate()/showOverlay() flows verbatim. Loops for continuous demo.
 let _autoTimers = [];
+// controlled-fan handshake: once an operator syncs us we never self-run.
+let _operatorSynced = false;
+let _autopilotKick = 0;
 function _at(t, fn) { _autoTimers.push(setTimeout(fn, t)); }
 function startAutopilot() {
   // hide the dev sim FAB — this is a live panel, not the dev sandbox
@@ -537,8 +540,14 @@ function stopAutopilot() {
       case 'fireEvent': fire(c.event && c.event.type); break;
       case 'setModule': setModule(c.module, c.on); break;
       case 'requestState': telemetry(); break;
-      // late-join: snap to the operator's current state (guard avoids re-nav)
+      // late-join: snap to the operator's current state. If the operator is
+      // driving manually, cancel our own demo so we follow them, not autopilot.
       case 'sync':
+        if (c.mode === 'manual') {
+          _operatorSynced = true;
+          clearTimeout(_autopilotKick);
+          stopAutopilot();
+        }
         if (c.stateId && c.stateId !== curStateFromScreen()) go(c.stateId);
         if (c.modules) Object.keys(c.modules).forEach((m) => setModule(m, c.modules[m]));
         break;
@@ -687,7 +696,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     inactive: 'home-inactive', 'pre-match': 'home-pre-match', 'live-1': 'home-live',
     halftime: 'home-halftime', 'live-2': 'home-live', 'post-match': 'home-post-match',
   };
-  if (_p.has('auto')) {
+  if (_p.get('bridge') === 'post') {
+    // Controlled fan: show a holding screen, tell the parent we're ready (so it
+    // can ask the operator to sync us), and wait briefly. If nobody is driving,
+    // fall back to the self-running demo so a standalone fan still sees a match.
+    navigate(_START_SCREEN[_p.get('start')] || 'home-inactive', 'fade', true);
+    try { window.parent.postMessage({ type: '__ready' }, '*'); } catch (e) {}
+    if (_p.has('auto')) {
+      _autopilotKick = setTimeout(function () { if (!_operatorSynced) startAutopilot(); }, 1600);
+    }
+  } else if (_p.has('auto')) {
     startAutopilot();
   } else if (_p.get('id')) {
     navigate(_START_SCREEN[_p.get('start')] || 'home-inactive', 'fade', true);
