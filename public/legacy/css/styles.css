@@ -43,21 +43,78 @@ body{background:#111;min-height:100vh;display:flex;align-items:center;justify-co
 .overlay{position:absolute;inset:0;z-index:150;pointer-events:none;display:none;}
 .overlay.vis{display:block;pointer-events:all;}
 
-/* ── SHELL NAV ── */
-#shell-nav{position:absolute;bottom:16px;left:16px;right:16px;height:62px;background:rgba(8,13,22,0.97);border:1px solid rgba(255,255,255,0.09);border-radius:31px;display:flex;align-items:center;padding:0 6px;z-index:200;transition:opacity 0.2s,transform 0.2s;}
-#shell-nav.live{border-color:rgba(108,171,221,0.16);}
-#shell-nav.off{opacity:0;pointer-events:none;transform:translateY(12px);}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:rgba(255,255,255,0.34);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:color 0.15s;}
-.ni.on{color:#6CABDD;}
-.ni svg{width:20px;height:20px;}
-.ni span{font-size:9px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;}
-.ni.on span{font-weight:600;}
-.ni-gap{width:60px;flex-shrink:0;}
+/* ── FLASH STACK — transient top pop-up banners ──────────────
+   Match moments flash up and clear; the feed stays the emphasis. */
+#flash-stack{position:absolute;top:58px;left:10px;right:10px;z-index:185;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.flash-card{pointer-events:auto;position:relative;border-radius:14px;padding:11px 12px;display:flex;align-items:center;gap:11px;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,0.5);backdrop-filter:blur(10px);opacity:0;transform:translateY(-14px) scale(0.98);transition:opacity 0.32s cubic-bezier(0.34,1.2,0.64,1),transform 0.32s cubic-bezier(0.34,1.2,0.64,1);}
+.flash-card.in{opacity:1;transform:translateY(0) scale(1);}
+.flash-card.out{opacity:0;transform:translateY(-14px) scale(0.98);}
+.flash-ic{width:38px;height:38px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:19px;}
+.flash-body{flex:1;min-width:0;}
+.flash-kicker{font-size:9.5px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2px;}
+.flash-title{font-size:14px;font-weight:800;color:#fff;letter-spacing:-0.01em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.flash-sub{font-size:11.5px;color:rgba(255,255,255,0.5);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.flash-close{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.55);font-size:13px;line-height:1;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.flash-timer{flex-shrink:0;font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;border-radius:7px;padding:4px 8px;}
+/* progress bar for auto-dismiss events */
+.flash-prog{position:absolute;left:0;bottom:0;height:2.5px;border-radius:0 0 14px 14px;width:100%;transform-origin:left;}
+/* variants */
+.fc-event{background:rgba(12,16,22,0.92);border:1px solid rgba(201,168,76,0.4);}
+.fc-event .flash-ic{background:rgba(201,168,76,0.14);}
+.fc-event .flash-kicker{color:#C9A84C;}
+.fc-event .flash-prog{background:#C9A84C;}
+.fc-var{border-color:rgba(255,165,0,0.42);}
+.fc-var .flash-ic{background:rgba(255,165,0,0.12);}
+.fc-var .flash-kicker{color:#ffb43a;}
+.fc-var .flash-prog{background:#ffb43a;}
+.fc-yellow{border-color:rgba(232,168,56,0.45);}
+.fc-yellow .flash-ic{background:rgba(232,168,56,0.14);border-radius:9px;}
+.fc-yellow .flash-kicker{color:#e8a838;}
+.fc-yellow .flash-prog{background:#e8a838;}
+.fc-sub{border-color:rgba(108,171,221,0.4);}
+.fc-sub .flash-ic{background:rgba(108,171,221,0.14);}
+.fc-sub .flash-kicker{color:#6CABDD;}
+.fc-sub .flash-prog{background:#6CABDD;}
+.fc-flash{background:rgba(16,9,4,0.94);border:1px solid rgba(255,90,0,0.5);}
+.fc-flash .flash-ic{background:rgba(255,90,0,0.16);}
+.fc-flash .flash-kicker{color:#ff7a30;}
+.fc-flash .flash-timer{background:rgba(255,90,0,0.16);color:#ff9a55;}
+.fc-announce{background:rgba(10,15,26,0.94);border:1px solid rgba(108,171,221,0.45);}
+.fc-announce .flash-ic{background:rgba(108,171,221,0.16);}
+.fc-announce .flash-kicker{color:#6CABDD;}
+/* man-of-the-match vote */
+.fc-motm{flex-direction:column;align-items:stretch;gap:9px;background:rgba(12,14,20,0.95);border:1px solid rgba(201,168,76,0.45);cursor:default;}
+.fc-motm .motm-head{display:flex;align-items:center;gap:10px;}
+.motm-opts{display:flex;gap:6px;}
+.motm-opt{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:7px 4px;text-align:center;cursor:pointer;transition:background 0.15s,border-color 0.15s;}
+.motm-opt:active{background:rgba(201,168,76,0.16);}
+.motm-opt .mo-name{font-size:11.5px;font-weight:700;color:#fff;}
+.motm-opt .mo-sub{font-size:9.5px;color:rgba(255,255,255,0.4);margin-top:1px;}
+.motm-opt.picked{background:rgba(201,168,76,0.18);border-color:rgba(201,168,76,0.55);}
 
-/* ── SHELL IRIS ── */
-#shell-iris{position:absolute;bottom:23px;left:50%;transform:translateX(-50%);width:52px;height:52px;background:#6CABDD;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;z-index:201;cursor:pointer;animation:irisNavPulse 2.8s ease-in-out infinite;-webkit-tap-highlight-color:transparent;transition:opacity 0.2s,transform 0.2s;}
-#shell-iris.off{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(12px);}
-#shell-iris span{font-size:7.5px;font-weight:700;letter-spacing:0.1em;color:white;text-transform:uppercase;opacity:0.88;}
+/* ── SHELL TOP — persistent top-right nav (Chat · IRIS · Alerts · Me) ──
+   Replaces the old bottom bar + floating IRIS. One consistent cluster
+   on every screen; the panel reads as a single scroll, not a tab app. */
+/* global back arrow (top-left) — mirrors the cluster styling */
+#shell-back{position:absolute;top:52px;left:12px;z-index:200;width:33px;height:33px;border-radius:50%;background:rgba(8,13,22,0.72);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.82);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(8px);transition:opacity 0.22s,transform 0.22s;}
+#shell-back.off{opacity:0;pointer-events:none;transform:translateX(-8px);}
+#shell-back:active{background:rgba(8,13,22,0.92);}
+#shell-top{position:absolute;top:52px;right:11px;z-index:200;display:flex;align-items:center;gap:6px;transition:opacity 0.22s,transform 0.22s;}
+#shell-top.off{opacity:0;pointer-events:none;transform:translateY(-8px);}
+/* primary pills: Chat + IRIS */
+.st-btn{position:relative;display:flex;align-items:center;gap:4px;height:31px;padding:0 9px 0 8px;border-radius:15px;background:rgba(8,13,22,0.72);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.82);cursor:pointer;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(8px);transition:background 0.15s,border-color 0.15s;}
+.st-btn:active{background:rgba(8,13,22,0.92);}
+.st-btn svg{width:14px;height:14px;flex-shrink:0;}
+.st-btn span{font-size:10.5px;font-weight:700;letter-spacing:0.01em;}
+.st-btn.iris{color:#9fd0f2;border-color:rgba(108,171,221,0.32);background:rgba(108,171,221,0.14);}
+.st-btn.iris svg circle{color:#6CABDD;}
+.st-btn.on{border-color:rgba(108,171,221,0.55);background:rgba(108,171,221,0.2);}
+/* secondary round icons: alerts + profile */
+.st-ico{position:relative;width:31px;height:31px;border-radius:50%;background:rgba(8,13,22,0.72);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.68);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;backdrop-filter:blur(8px);}
+.st-ico:active{background:rgba(8,13,22,0.92);}
+/* unread / live dot */
+.st-dot{position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:#6CABDD;border:1.5px solid #0b1018;}
+.st-btn .st-dot{top:3px;right:4px;background:#22c55e;}
 
 /* ── SIMULATE PANEL ── */
 #sim-panel{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:9999;}

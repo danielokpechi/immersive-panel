@@ -5,7 +5,7 @@
     <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:4px 11px;"><span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.15em;">HALF TIME</span></div>
   </div>
   <!-- HT score block -->
-  <div style="padding:20px 22px 22px;text-align:center;">
+  <div style="padding:40px 22px 22px;text-align:center;">
     <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:14px;">
       <div style="text-align:center;flex:1;"><div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.1em;margin-bottom:6px;">MCI</div><div style="font-size:64px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;">0</div></div>
       <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
@@ -35,7 +35,7 @@
       </div>
       <!-- 2×2 action grid -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
-        <div onclick="navigate('food-ordering','right')" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:7px;">
+        <div onclick="openFoodWrapper()" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:13px;padding:16px;cursor:pointer;display:flex;flex-direction:column;gap:7px;">
           <div style="font-size:24px;">🍟</div>
           <div style="font-size:14px;font-weight:700;color:#fff;">Order Food</div>
           <div style="font-size:11px;color:rgba(255,255,255,0.35);">~15 min · No queue</div>
@@ -54,7 +54,7 @@
           <div style="position:absolute;top:10px;right:10px;display:flex;align-items:center;gap:3px;"><div style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:livePulse 1.4s ease-in-out infinite;"></div><span style="font-size:9px;font-weight:700;color:rgba(34,197,94,0.7);">287</span></div>
           <div style="font-size:24px;">💬</div>
           <div style="font-size:14px;font-weight:700;color:#fff;">Fan Chat</div>
-          <div style="font-size:11px;color:rgba(255,255,255,0.35);">Live · Join now</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><b style="color:rgba(255,255,255,0.7);font-weight:600;">Mike:</b> Rodri running the show 🎯</div>
         </div>
       </div>
       <!-- halftime quest + secondary actions -->
@@ -88,13 +88,13 @@
     <div style="display:flex;align-items:center;gap:6px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.22);border-radius:10px;padding:4px 11px;"><div style="width:5px;height:5px;border-radius:50%;background:#C9A84C;"></div><span style="font-size:10px;font-weight:700;color:#C9A84C;letter-spacing:0.15em;">FULL TIME</span></div>
   </div>
   <!-- compact score strip -->
-  <div style="padding:6px 22px 10px;display:flex;align-items:center;justify-content:center;gap:18px;">
+  <div style="padding:32px 22px 10px;display:flex;align-items:center;justify-content:center;gap:18px;">
     <div style="text-align:center;"><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.1em;">MCI</div><div style="font-size:52px;font-weight:900;color:#fff;line-height:1;letter-spacing:-0.04em;">1</div></div>
     <div style="display:flex;flex-direction:column;align-items:center;gap:3px;"><div style="font-size:18px;font-weight:200;color:rgba(255,255,255,0.15);">–</div><div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);border-radius:7px;padding:3px 8px;"><span style="font-size:11px;font-weight:700;color:rgba(201,168,76,0.7);">FT</span></div></div>
     <div style="text-align:center;"><div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.25);letter-spacing:0.1em;">ARS</div><div style="font-size:52px;font-weight:900;color:rgba(255,255,255,0.22);line-height:1;letter-spacing:-0.04em;">0</div></div>
   </div>
   <!-- scrollable -->
-  <div style="position:absolute;top:152px;left:0;right:0;bottom:0;overflow-y:auto;padding-bottom:90px;" data-ns>
+  <div style="position:absolute;top:178px;left:0;right:0;bottom:0;overflow-y:auto;padding-bottom:90px;" data-ns>
 
     <!-- ── MATCH RECAP CARD CAROUSEL ── -->
     <div style="margin:0 14px 18px;position:relative;height:340px;border-radius:18px;overflow:hidden;flex-shrink:0;">

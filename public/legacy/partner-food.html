@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StadiumEats — Etihad</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { font-family:'Inter',system-ui,sans-serif; background:#f4f5f7; color:#141a24; }
+  /* Deliberately a distinct visual language from the panel — this reads as
+     the vendor's OWN site, opened inside the panel's in-app browser. */
+  .bar { background:#c8102e; color:#fff; padding:14px 16px 15px; display:flex; align-items:center; gap:10px; position:sticky; top:0; }
+  .bar .logo { width:30px; height:30px; border-radius:8px; background:#fff; color:#c8102e; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:15px; }
+  .bar .name { font-weight:800; font-size:16px; letter-spacing:-0.01em; }
+  .bar .name small { display:block; font-weight:500; font-size:10px; opacity:0.8; letter-spacing:0.02em; }
+  .bar .cart { margin-left:auto; background:rgba(255,255,255,0.16); border-radius:18px; padding:6px 12px; font-size:12px; font-weight:700; }
+  .hero { padding:14px 16px 6px; }
+  .hero h1 { font-size:19px; font-weight:800; letter-spacing:-0.02em; }
+  .hero p { font-size:12px; color:#5b6472; margin-top:2px; }
+  .chips { display:flex; gap:7px; padding:12px 16px 4px; overflow-x:auto; }
+  .chip { flex:none; background:#fff; border:1px solid #e2e5ea; border-radius:16px; padding:6px 13px; font-size:12px; font-weight:600; color:#3a4652; white-space:nowrap; }
+  .chip.on { background:#141a24; color:#fff; border-color:#141a24; }
+  .list { padding:8px 16px 90px; display:flex; flex-direction:column; gap:10px; }
+  .item { background:#fff; border:1px solid #e8eaee; border-radius:14px; padding:12px; display:flex; gap:12px; align-items:center; }
+  .item .thumb { width:56px; height:56px; border-radius:11px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:27px; background:#f0f1f4; }
+  .item .info { flex:1; min-width:0; }
+  .item .info .t { font-size:14px; font-weight:700; }
+  .item .info .d { font-size:11px; color:#7a828f; margin-top:2px; line-height:1.35; }
+  .item .info .p { font-size:14px; font-weight:800; margin-top:5px; }
+  .add { flex-shrink:0; width:34px; height:34px; border-radius:50%; background:#c8102e; color:#fff; border:none; font-size:20px; font-weight:600; line-height:1; cursor:pointer; }
+  .foot { position:fixed; bottom:0; left:0; right:0; padding:12px 16px 18px; background:linear-gradient(180deg,rgba(244,245,247,0),#f4f5f7 26%); }
+  .checkout { width:100%; height:50px; background:#141a24; color:#fff; border:none; border-radius:13px; font-size:15px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; }
+  .checkout small { font-weight:600; opacity:0.7; }
+</style>
+</head>
+<body>
+  <div class="bar">
+    <div class="logo">SE</div>
+    <div class="name">StadiumEats<small>Official Etihad kiosk ordering</small></div>
+    <div class="cart" id="cart">🛒 2</div>
+  </div>
+  <div class="hero">
+    <h1>Collect at your stand — no queue</h1>
+    <p>North Stand · Kiosk 12 · ready in ~8 min · pay on the club app</p>
+  </div>
+  <div class="chips">
+    <div class="chip on">Popular</div>
+    <div class="chip">Burgers</div>
+    <div class="chip">Pies</div>
+    <div class="chip">Drinks</div>
+    <div class="chip">Vegan</div>
+  </div>
+  <div class="list">
+    <div class="item"><div class="thumb">🍔</div><div class="info"><div class="t">Matchday Cheeseburger</div><div class="d">Aberdeen Angus, cheese, house sauce, brioche</div><div class="p">£8.50</div></div><button class="add" onclick="bump()">+</button></div>
+    <div class="item"><div class="thumb">🥧</div><div class="info"><div class="t">Steak &amp; Ale Pie</div><div class="d">Slow-cooked, served with gravy</div><div class="p">£6.00</div></div><button class="add" onclick="bump()">+</button></div>
+    <div class="item"><div class="thumb">🍟</div><div class="info"><div class="t">Loaded Fries</div><div class="d">Cheese, crispy onions, blue-moon sauce</div><div class="p">£5.50</div></div><button class="add" onclick="bump()">+</button></div>
+    <div class="item"><div class="thumb">🌭</div><div class="info"><div class="t">Footlong Hot Dog</div><div class="d">Mustard, ketchup, fried onions</div><div class="p">£6.50</div></div><button class="add" onclick="bump()">+</button></div>
+    <div class="item"><div class="thumb">🍺</div><div class="info"><div class="t">Pint · Lager</div><div class="d">Selected draught · 18+ ID on collection</div><div class="p">£6.80</div></div><button class="add" onclick="bump()">+</button></div>
+    <div class="item"><div class="thumb">🥤</div><div class="info"><div class="t">Soft Drink 500ml</div><div class="d">Cola, lemonade or orange</div><div class="p">£3.20</div></div><button class="add" onclick="bump()">+</button></div>
+  </div>
+  <div class="foot">
+    <button class="checkout" onclick="bump()">Go to checkout <small>· 2 items · £15.00</small></button>
+  </div>
+  <script>
+    let n = 2;
+    function bump(){ n++; document.getElementById('cart').textContent = '🛒 ' + n; }
+  </script>
+</body>
+</html>
