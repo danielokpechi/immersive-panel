@@ -9,6 +9,7 @@ import type { ModuleId, PanelConfig, SportPack } from '../types/panel';
 import type { Command, Telemetry } from '../types/control';
 import type { ControlBus } from './bus';
 import { MODULE_META } from '../theme/tokens';
+import { derivePanelStates } from '../sports/registry';
 import { TRIGGERS } from './triggers';
 
 const SPEEDS = [60, 120, 300, 600];
@@ -89,21 +90,22 @@ export function MasterControls({
         {mode === 'manual' && <div className="mc__hint">Manual — you drive the state & events below.</div>}
       </Section>
 
-      {/* STATE */}
-      <Section title="Match state">
+      {/* SESSIONS — the panel's authored, ordered sessions */}
+      <Section title="Sessions">
         <div className="mc__states">
-          {pack.states.map((s) => (
+          {derivePanelStates(config, pack).map((s, i) => (
             <button
               key={s.id}
               className={`mc__statebtn${telemetry?.stateId === s.id ? ' is-on' : ''}`}
               onClick={() => send({ type: 'jumpState', stateId: s.id })}
             >
+              <span className="mc__statenum">{i + 1}</span>
               {s.label}
             </button>
           ))}
         </div>
         <button className="mc__advance" onClick={() => send({ type: 'advance' })}>
-          Advance to next state →
+          Advance to next session →
         </button>
       </Section>
 

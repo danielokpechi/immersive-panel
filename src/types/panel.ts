@@ -44,6 +44,18 @@ export interface PanelState {
   headline: string;
 }
 
+/** A panel-owned, operator-authored session (aka state). Unlike the sport
+ *  pack's fixed `PanelState`, these are created, named, reordered and deleted
+ *  by the operator in the Studio. `modules` is ORDERED — it is the stack order
+ *  fans see on screen for that session. Supersedes the pack states when set. */
+export interface PanelStateDef {
+  id: string;
+  label: string;
+  phase: 'idle' | 'pre' | 'live' | 'break' | 'post';
+  /** ordered module stack shown in this session (top → bottom) */
+  modules: ModuleId[];
+}
+
 /** What causes a transition between states. */
 export type Trigger =
   | { type: 'time'; afterMs: number }
@@ -112,6 +124,10 @@ export interface PanelConfig {
   enabledModules: ModuleId[];
   /** stateId -> modules to render in that state (defaults seeded from the sport pack). */
   moduleStateMap: Record<string, ModuleId[]>;
+  /** Operator-authored, ordered sessions. When present, this is the source of
+   *  truth for the panel's states (names, order, per-session module stack).
+   *  Absent on legacy panels — derive from the pack + moduleStateMap. */
+  states?: PanelStateDef[];
   /** optional team-preset branding (e.g. McLaren papaya). */
   branding?: Branding;
   /** state the panel opens in when deployed (defaults to the pack's initial state). */

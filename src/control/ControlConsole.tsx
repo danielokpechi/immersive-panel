@@ -100,6 +100,7 @@ export function ControlConsole() {
         <DeployShare config={config} conn={conn} onOpenFanView={openFanView} />
 
         <div className="console__cockpit">
+          <MasterControls bus={bus} pack={pack} config={config} telemetry={telemetry} onPopOut={openFanView} />
           <div className="console__monitor">
             <div className="console__monitorbar">
               <span className="console__monitortag">● Live monitor — what fans see</span>
@@ -126,7 +127,6 @@ export function ControlConsole() {
               <EngineMonitor config={config} bus={bus} />
             )}
           </div>
-          <MasterControls bus={bus} pack={pack} config={config} telemetry={telemetry} onPopOut={openFanView} />
         </div>
       </div>
     </div>
