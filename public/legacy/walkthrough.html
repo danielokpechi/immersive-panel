@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Immersive Fan Journey — Walkthrough</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#6CABDD; --gold:#C9A84C; --ink:#060911; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    font-family:'Inter',system-ui,sans-serif; color:#fff; min-height:100vh;
+    background:radial-gradient(1200px 700px at 50% -10%, #10203a 0%, #070b13 55%, #05070d 100%);
+    display:flex; flex-direction:column; align-items:center; padding:28px 20px 48px;
+  }
+  /* ── header ── */
+  .wt-head{ text-align:center; max-width:640px; margin-bottom:22px; }
+  .wt-kicker{ font-size:11px; font-weight:800; letter-spacing:0.22em; text-transform:uppercase; color:var(--blue); margin-bottom:10px; }
+  .wt-head h1{ font-size:30px; font-weight:900; letter-spacing:-0.02em; line-height:1.1; }
+  .wt-head p{ font-size:14px; color:rgba(255,255,255,0.5); margin-top:9px; line-height:1.5; }
+  .wt-pill{ display:inline-flex; align-items:center; gap:7px; margin-top:14px; padding:5px 12px; border:1px solid rgba(108,171,221,0.28); background:rgba(108,171,221,0.08); border-radius:999px; font-size:11.5px; font-weight:600; color:rgba(255,255,255,0.72); }
+  .wt-pill .dot{ width:6px; height:6px; border-radius:50%; background:#22c55e; }
+  /* ── layout ── */
+  .wt-stagerow{ display:flex; gap:30px; align-items:flex-start; justify-content:center; flex-wrap:wrap; width:100%; max-width:900px; }
+  /* chapter rail */
+  .wt-rail{ width:270px; display:flex; flex-direction:column; gap:9px; }
+  .wt-railhead{ font-size:10px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.3); margin:2px 0 4px 2px; }
+  .chapter{
+    display:flex; gap:12px; align-items:flex-start; text-align:left; width:100%;
+    background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);
+    border-radius:13px; padding:12px 13px; cursor:pointer; color:inherit; font-family:inherit;
+    transition:border-color .18s, background .18s, transform .18s;
+  }
+  .chapter:hover{ background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.16); }
+  .chapter.on{ background:rgba(108,171,221,0.12); border-color:rgba(108,171,221,0.5); }
+  .chapter .num{
+    width:24px; height:24px; flex-shrink:0; border-radius:50%; font-size:11px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; margin-top:1px;
+    background:rgba(255,255,255,0.07); color:rgba(255,255,255,0.55);
+  }
+  .chapter.on .num{ background:var(--blue); color:var(--ink); }
+  .chapter .ctxt{ display:flex; flex-direction:column; }
+  .chapter .ctxt .clabel{ font-size:13.5px; font-weight:700; color:#fff; }
+  .chapter .ctxt .cdesc{ font-size:11.5px; color:rgba(255,255,255,0.45); margin-top:2px; line-height:1.4; }
+  /* phone */
+  .wt-phonewrap{ display:flex; flex-direction:column; align-items:center; gap:16px; }
+  .wt-phone{ width:390px; height:844px; border-radius:26px; padding:0; background:#0D0D0D; box-shadow:0 24px 90px rgba(0,0,0,0.7); overflow:hidden; }
+  .wt-phone iframe{ width:390px; height:844px; border:0; display:block; background:#0D0D0D; }
+  /* transport */
+  .wt-transport{ display:flex; align-items:center; gap:10px; }
+  .tbtn{
+    font-family:inherit; font-size:13px; font-weight:700; color:#fff; cursor:pointer;
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+    border-radius:11px; padding:9px 14px; transition:background .18s, border-color .18s;
+  }
+  .tbtn:hover{ background:rgba(255,255,255,0.1); }
+  .tbtn:disabled{ opacity:0.35; cursor:default; }
+  .tbtn.play{ background:var(--blue); color:var(--ink); border-color:transparent; min-width:132px; }
+  .tbtn.play:hover{ filter:brightness(1.06); }
+  @media (max-width:760px){
+    .wt-stagerow{ flex-direction:column-reverse; align-items:center; }
+    .wt-rail{ width:390px; }
+    .wt-phone, .wt-phone iframe{ width:min(390px,92vw); }
+  }
+</style>
+</head>
+<body>
+  <div class="wt-head">
+    <div class="wt-kicker">Immersive Fan Platform</div>
+    <h1>The Fan Journey, end to end</h1>
+    <p>A playable walk through the matchday experience — pre-match to full-time — exactly as a fan sees it on their phone.</p>
+    <div class="wt-pill"><span class="dot"></span>No setup required · pick a chapter or play the tour</div>
+  </div>
+
+  <div class="wt-stagerow">
+    <div class="wt-rail">
+      <div class="wt-railhead">Chapters</div>
+      <div id="chapters"></div>
+    </div>
+
+    <div class="wt-phonewrap">
+      <div class="wt-phone">
+        <iframe id="stage" src="index.html?id=demo&start=pre-match" title="Immersive fan panel"></iframe>
+      </div>
+      <div class="wt-transport">
+        <button class="tbtn" id="prev" aria-label="Previous chapter">‹ Prev</button>
+        <button class="tbtn play" id="play">▶ Play tour</button>
+        <button class="tbtn" id="next" aria-label="Next chapter">Next ›</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Each chapter drives the real fan app via its own global state functions
+  // (simulate/navigate), same-origin, so no reload flicker and no studio config.
+  var CHAPTERS = [
+    { label:'Pre-match',  desc:'Line-ups, predictions & your route to the seat', sim:'goto-pre-match' },
+    { label:'Kick-off',   desc:'Live score, fan chat, stats & the shop',          sim:'kickoff' },
+    { label:'Goal!',      desc:'The moment — shared with the whole ground',       nav:'goal-scored', anim:'up' },
+    { label:'Half-time',  desc:'Recap, half-time quests & catering',              sim:'halftime' },
+    { label:'Full-time',  desc:'Result, player ratings & highlights',             sim:'fulltime' },
+  ];
+
+  var stage   = document.getElementById('stage');
+  var listEl  = document.getElementById('chapters');
+  var playBtn = document.getElementById('play');
+  var prevBtn = document.getElementById('prev');
+  var nextBtn = document.getElementById('next');
+  var active  = 0;
+  var tour    = null;
+  var ready   = false;
+
+  // build the chapter rail
+  CHAPTERS.forEach(function (c, i) {
+    var el = document.createElement('button');
+    el.className = 'chapter' + (i === 0 ? ' on' : '');
+    el.innerHTML =
+      '<span class="num">' + (i + 1) + '</span>' +
+      '<span class="ctxt"><span class="clabel">' + c.label + '</span>' +
+      '<span class="cdesc">' + c.desc + '</span></span>';
+    el.addEventListener('click', function () { stopTour(); go(i); });
+    listEl.appendChild(el);
+  });
+
+  function drive(c) {
+    if (!ready) return;
+    try {
+      var w = stage.contentWindow;
+      if (c.nav) { w.navigate(c.nav, c.anim || 'up'); }
+      else if (typeof w.simulate === 'function') { w.simulate(c.sim); }
+    } catch (e) { console.warn('[walkthrough] drive failed:', e); }
+  }
+
+  function setActive(i) {
+    active = i;
+    var els = listEl.children;
+    for (var k = 0; k < els.length; k++) els[k].classList.toggle('on', k === i);
+    prevBtn.disabled = (i === 0);
+    nextBtn.disabled = (i === CHAPTERS.length - 1);
+  }
+
+  function go(i) {
+    if (i < 0 || i >= CHAPTERS.length) return;
+    drive(CHAPTERS[i]);
+    setActive(i);
+  }
+
+  function stopTour() {
+    if (!tour) return;
+    clearInterval(tour); tour = null;
+    playBtn.textContent = '▶ Play tour';
+  }
+  function playTour() {
+    if (tour) { stopTour(); return; }
+    playBtn.textContent = '⏸ Pause tour';
+    if (active === CHAPTERS.length - 1) go(0);
+    tour = setInterval(function () {
+      var nx = (active + 1) % CHAPTERS.length;
+      go(nx);
+    }, 6000);
+  }
+
+  playBtn.addEventListener('click', playTour);
+  prevBtn.addEventListener('click', function () { stopTour(); go(active - 1); });
+  nextBtn.addEventListener('click', function () { stopTour(); go(active + 1); });
+
+  stage.addEventListener('load', function () {
+    ready = true;
+    setActive(0); // src already boots at pre-match
+  });
+</script>
+</body>
+</html>
