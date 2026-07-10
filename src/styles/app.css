@@ -886,17 +886,23 @@ code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* module library chips */
+/* module library chips — fixed 3-up grid so the library stays compact */
 .modgrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (max-width: 900px) {
+  .modgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .modgrid { grid-template-columns: 1fr; }
 }
 .modchip {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 13px 15px;
+  gap: 10px;
+  padding: 10px 12px;
   border-radius: 13px;
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.015);
@@ -1680,9 +1686,15 @@ code {
   font-size: 15px;
 }
 .mc__mods {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 7px;
+}
+@media (max-width: 1100px) {
+  .mc__mods { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .mc__mods { grid-template-columns: 1fr; }
 }
 .mc__mod {
   display: flex;

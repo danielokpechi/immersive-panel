@@ -25,6 +25,7 @@ const SCREENS_CFG = {
   'live-timeline':    {nav:false, t:'right'},
   'goal-scored':      {nav:false, t:'takeover'},
   'chat-live':        {nav:false, t:'right'},
+  'fan-reactions':    {nav:false, t:'right'},
   'home-halftime':          {nav:true,  active:'home', live:true,  t:'fade'},
   'iris-halftime-summary':  {nav:false, t:'up'},
   'food-ordering':          {nav:false, t:'right'},
@@ -161,6 +162,10 @@ function navigate(sid, tOverride, skipStack) {
     if (sid === 'home-live' || sid === 'home-pre-match' || sid === 'home-halftime') {
       matchState = sid.replace('home-','');
     }
+    // Fan Reactions streams live only while you're on it.
+    if (sid === 'fan-reactions') startReactions(); else stopReactions();
+    // Entering the chat: collapse any lingering full event cards to slim records.
+    if (sid === 'chat-live') initChatEphemerals();
   } catch(err) {
     console.error('navigate error for', sid, ':', err);
     // Last-resort: make sure SOME screen is visible
@@ -520,6 +525,146 @@ function motmPick(el) {
   setTimeout(() => dismissBanner(card), 900);
 }
 
+// ── CHAT: EPHEMERAL EVENTS + MODERATOR PROMPTS ────────────────
+// Match-event cards (goal/VAR/yellow/sub) show in full, then auto-collapse to
+// a slim one-line record so the chat scrollback never clogs up. Moderator
+// prompts (a poll, or a dry-spell question) are pushed from the studio one at
+// a time — a new prompt replaces the previous — and render inline in the chat.
+function _chatFeed() { return document.getElementById('chat-feed'); }
+
+let _chatEphTimers = [];
+function collapseChatEvent(card) {
+  if (!card || card._slimmed) return;
+  card._slimmed = true;
+  const slim = card.getAttribute('data-slim') || '';
+  card.style.opacity = '0';
+  setTimeout(() => {
+    card.removeAttribute('onclick');
+    card.onclick = null;
+    card.style.cssText = '';        // shed the full-card inline styling
+    card.className = 'chat-slim';   // .chat-slim now owns the look; drops .chat-ephemeral so it won't re-collapse
+    card.textContent = slim;
+    card.style.opacity = '0';
+    requestAnimationFrame(() => { card.style.opacity = '1'; });
+  }, 280);
+}
+// Called on entering the chat: any event card still in full form collapses
+// after a short beat (staggered so several don't snap at once).
+function initChatEphemerals() {
+  _chatEphTimers.forEach(clearTimeout);
+  _chatEphTimers = [];
+  const cards = document.querySelectorAll('#screen-chat-live .chat-ephemeral:not(.chat-slim)');
+  cards.forEach((card, i) => {
+    _chatEphTimers.push(setTimeout(() => collapseChatEvent(card), 8000 + i * 500));
+  });
+}
+
+// Only one moderator prompt lives in the chat at a time.
+function _clearMod() {
+  const feed = _chatFeed();
+  if (!feed) return;
+  feed.querySelectorAll('.chat-mod').forEach((c) => {
+    if (c._timer) clearTimeout(c._timer);
+    c.classList.add('out');
+    setTimeout(() => { try { c.remove(); } catch (e) {} }, 300);
+  });
+}
+function _mountMod(card) {
+  const feed = _chatFeed();
+  if (!feed) return null;
+  _clearMod();
+  feed.appendChild(card);
+  requestAnimationFrame(() => card.classList.add('in'));
+  if (/^chat/.test(curScreen || '')) {
+    setTimeout(() => { try { card.scrollIntoView({ behavior: 'smooth', block: 'end' }); } catch (e) {} }, 80);
+  }
+  return card;
+}
+// When a prompt is pushed but the fan isn't in the chat, nudge them in.
+function _modNudge(kind) {
+  if (/^chat/.test(curScreen || '')) return;
+  const card = _banner({
+    variant: 'announce', ic: kind === 'poll' ? '📊' : '💬', kicker: 'Moderator',
+    title: kind === 'poll' ? 'New poll in Fan Chat' : 'Moderator asked a question',
+    sub: 'Tap to join the chat',
+    right: '<button class="flash-close" onclick="event.stopPropagation();dismissBanner(this.closest(\'.flash-card\'))">✕</button>',
+  });
+  if (!card) return;
+  card._timer = setTimeout(() => dismissBanner(card), 6000);
+  card.onclick = () => { dismissBanner(card); navigate('chat-live', 'up'); };
+}
+
+// Moderator poll — fans vote; it stays open until they vote or the operator
+// closes it, then shows the result split.
+function chatModPoll(opts) {
+  opts = opts || {};
+  const q = opts.q || 'Who’s been City’s standout so far?';
+  const options = opts.opts || ['Haaland', 'Rodri', 'Foden'];
+  const card = document.createElement('div');
+  card.className = 'chat-mod chat-mod-poll';
+  card.innerHTML =
+    '<button class="cm-close" onclick="chatModClose(this)">✕</button>' +
+    '<div class="cm-kicker" style="color:#6CABDD;">📊 Moderator poll</div>' +
+    '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:9px;padding-right:20px;">' + q + '</div>' +
+    '<div style="display:flex;gap:6px;">' +
+      options.map((o) => '<div class="cm-poll-opt" onclick="chatPollVote(this)"><div class="cmo-bar"></div><div class="cmo-name">' + o + '</div><div class="cmo-pct">0%</div></div>').join('') +
+    '</div>' +
+    '<div class="cm-foot" style="text-align:center;margin-top:8px;font-size:10px;font-weight:700;color:rgba(108,171,221,0.75);">Tap to vote · +50 XP</div>';
+  const el = _mountMod(card);
+  _modNudge('poll');
+  return el;
+}
+function chatPollVote(el) {
+  const card = el.closest('.chat-mod');
+  if (!card || card.classList.contains('voted')) return;
+  card.classList.add('voted');
+  const opts = Array.from(card.querySelectorAll('.cm-poll-opt'));
+  const pickIdx = opts.indexOf(el);
+  const weights = opts.map(() => 10 + Math.random() * 38);
+  weights[pickIdx] += 46;
+  const total = weights.reduce((a, b) => a + b, 0);
+  const pcts = weights.map((w) => Math.round((w / total) * 100));
+  pcts[pickIdx] += 100 - pcts.reduce((a, b) => a + b, 0); // absorb rounding
+  opts.forEach((o, i) => {
+    o.querySelector('.cmo-pct').textContent = pcts[i] + '%';
+    o.querySelector('.cmo-bar').style.width = pcts[i] + '%';
+    if (i === pickIdx) {
+      o.style.borderColor = 'rgba(108,171,221,0.55)';
+      o.querySelector('.cmo-bar').style.background = 'rgba(108,171,221,0.34)';
+    }
+  });
+  const foot = card.querySelector('.cm-foot');
+  if (foot) { foot.textContent = '✓ Voted · +50 XP'; foot.style.color = 'rgba(34,197,94,0.85)'; }
+}
+// Moderator question — a conversation-starter for dry spells. Pinned, then
+// fades on its own once the chat has had time to pick back up.
+function chatModQuestion(opts) {
+  opts = opts || {};
+  const q = opts.q || 'Quiet moment — what’s your score prediction for the second half? 👀';
+  const card = document.createElement('div');
+  card.className = 'chat-mod chat-mod-q';
+  card.innerHTML =
+    '<button class="cm-close" onclick="chatModClose(this)">✕</button>' +
+    '<div class="cm-kicker" style="color:#b48cff;">💬 Moderator asks</div>' +
+    '<div style="font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.92);line-height:1.45;padding-right:16px;">' + q + '</div>';
+  const el = _mountMod(card);
+  if (el) el._timer = setTimeout(() => {
+    el.classList.add('out');
+    setTimeout(() => { try { el.remove(); } catch (e) {} }, 300);
+  }, 45000);
+  _modNudge('question');
+  return el;
+}
+function chatModClose(btn) {
+  const card = btn.closest('.chat-mod');
+  if (!card) return;
+  if (card._timer) clearTimeout(card._timer);
+  card.classList.add('out');
+  setTimeout(() => { try { card.remove(); } catch (e) {} }, 300);
+}
+window.chatPollVote = chatPollVote;
+window.chatModClose = chatModClose;
+
 // ── SIMULATE ──
 function toggleSim() {
   document.getElementById('sim-menu').classList.toggle('open');
@@ -539,6 +684,9 @@ function simulate(evt) {
     case 'sub':        flashEvent('sub'); break;
     case 'yellow':     flashEvent('yellow'); break;
     case 'motm':       motmVote(); break;
+    case 'mod-poll':     chatModPoll(); break;
+    case 'mod-question': chatModQuestion(); break;
+    case 'mod-close':    _clearMod(); break;
     case 'flash':      flashSale(); break;
     case 'announce':   announce(); break;
     case 'halftime':   matchState='halftime'; navigate('home-halftime','fade'); break;
@@ -592,6 +740,82 @@ function stopAutopilot() {
   _autoTimers = [];
 }
 
+// ── FAN REACTIONS ──
+// A hybrid real-time reactions surface: in-app taps (reactTap) plus a live
+// feed sourced from the match hashtags. The social posts are mocked (no
+// backend) but stream in like a real hashtag firehose while you're on screen.
+const _REACT_POOL = [
+  {pf:'x',  n:'CityZoneSam',    av:'CS', t:'now', txt:'Haaland is UNPLAYABLE today 🔵 #MCIRMA #Haaland', likes:'1.2k'},
+  {pf:'ig', n:'bluemoon.katie', av:'BK', t:'4s',  txt:'the noise in here right now 😤 #ManCity', likes:'844'},
+  {pf:'tt', n:'kdb_edits17',    av:'KE', t:'9s',  txt:'Rodri running the whole midfield, casually #MCIRMA', likes:'2.1k'},
+  {pf:'x',  n:'EstadioVista',   av:'EV', t:'15s', txt:"Madrid can't get near them. Ruthless. #UCL #ManCity", likes:'506'},
+  {pf:'x',  n:'NorthStandNance',av:'NN', t:'22s', txt:'Foden with the assist AGAIN 🅰️ #MCIRMA', likes:'933'},
+  {pf:'ig', n:'ttv_bluearmy',   av:'BA', t:'31s', txt:'City are a different gravy in Europe 🔥 #Haaland', likes:'1.7k'},
+  {pf:'tt', n:'matchdaymolly',  av:'MM', t:'40s', txt:'scenes when that went in 🙌🔵 #ManCity #MCIRMA', likes:'3.4k'},
+  {pf:'x',  n:'PepInTheZone',   av:'PZ', t:'52s', txt:'Tactical masterclass again from Pep. #UCL', likes:'612'},
+  {pf:'x',  n:'RealFanCarlos',  av:'RC', t:'1m',  txt:'Tough night for us but City are elite. Respect. #UCL', likes:'288'},
+  {pf:'ig', n:'etihad.echo',    av:'EE', t:'1m',  txt:'best atmosphere all season honestly 💙 #ManCity', likes:'1.1k'},
+];
+let _reactTimer = 0, _reactIdx = 4, _reactCount = 2431;
+
+function _reactBadge(pf) {
+  if (pf === 'x')  return '<span style="width:16px;height:16px;border-radius:4px;background:#000;border:1px solid rgba(255,255,255,0.2);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;">𝕏</span>';
+  if (pf === 'ig') return '<span style="width:16px;height:16px;border-radius:4px;background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#fff;">IG</span>';
+  return '<span style="width:16px;height:16px;border-radius:4px;background:#111;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#25f4ee;">TT</span>';
+}
+function _reactCard(o, isNew) {
+  const txt = o.txt.replace(/#(\w+)/g, '<span style="color:#6CABDD;font-weight:600;">#$1</span>');
+  return '<div class="react-post' + (isNew ? ' react-in' : '') + '" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 12px;flex-shrink:0;">'
+    + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
+    +   '<div style="width:26px;height:26px;border-radius:50%;background:#1a2238;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#9fd0f2;">' + o.av + '</div>'
+    +   '<span style="font-size:12.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">@' + o.n + '</span>'
+    +   _reactBadge(o.pf)
+    +   '<span style="font-size:10.5px;color:rgba(255,255,255,0.3);margin-left:auto;flex-shrink:0;">' + (isNew ? 'now' : (o.t || 'now')) + '</span>'
+    + '</div>'
+    + '<div style="font-size:13px;color:rgba(255,255,255,0.82);line-height:1.4;">' + txt + '</div>'
+    + '<div style="margin-top:7px;font-size:11px;color:rgba(255,255,255,0.35);">❤ ' + o.likes + '</div>'
+    + '</div>';
+}
+function _reactBump(n) {
+  _reactCount += n;
+  const c = document.getElementById('react-count');
+  if (c) c.textContent = _reactCount.toLocaleString();
+}
+function startReactions() {
+  const feed = document.getElementById('react-feed');
+  if (!feed) return;
+  if (!feed.childElementCount) {
+    for (let i = 0; i < 5; i++) feed.insertAdjacentHTML('beforeend', _reactCard(_REACT_POOL[i]));
+    _reactIdx = 4;
+  }
+  if (_reactTimer) return;
+  _reactTimer = setInterval(() => {
+    const f = document.getElementById('react-feed');
+    if (!f) { stopReactions(); return; }
+    _reactIdx = (_reactIdx + 1) % _REACT_POOL.length;
+    f.insertAdjacentHTML('afterbegin', _reactCard(_REACT_POOL[_reactIdx], true));
+    while (f.childElementCount > 14) f.removeChild(f.lastElementChild);
+    _reactBump(3 + Math.floor(Math.random() * 12));
+  }, 2600);
+}
+function stopReactions() { if (_reactTimer) { clearInterval(_reactTimer); _reactTimer = 0; } }
+function reactTap(btn, emoji) {
+  try {
+    const host = document.getElementById('device') || document.body;
+    const hr = host.getBoundingClientRect();
+    const r = btn.getBoundingClientRect();
+    const s = document.createElement('span');
+    s.textContent = emoji;
+    s.className = 'react-float';
+    s.style.left = (r.left - hr.left + r.width / 2 - 11) + 'px';
+    s.style.top  = (r.top - hr.top - 6) + 'px';
+    host.appendChild(s);
+    setTimeout(() => s.remove(), 1200);
+    _reactBump(1);
+  } catch (e) {}
+}
+window.reactTap = reactTap;
+
 // ── CONTROL BRIDGE ──
 // Lets the BoltOS control room drive this football panel live, exactly
 // like the engine sports. Joins the same BroadcastChannel keyed by the
@@ -634,7 +858,11 @@ function stopAutopilot() {
     telemetry();
   }
 
-  function fire(type) {
+  function fire(evt) {
+    // Accepts either an event object ({type, meta}) or a bare type string, so
+    // operator-authored poll/question copy rides along in evt.meta.
+    const type = evt && evt.type ? evt.type : evt;
+    const meta = (evt && evt.meta) || {};
     // Operator-driven events now flash up as transient banners on the fan
     // panel (match the in-app pop-up behaviour), not screen takeovers.
     switch (type) {
@@ -643,6 +871,9 @@ function stopAutopilot() {
       case 'sub':      flashEvent('sub'); break;
       case 'yellow':   flashEvent('yellow'); break;
       case 'motm':     motmVote(); break;
+      case 'poll':     chatModPoll({ q: meta.q, opts: meta.opts }); break;
+      case 'question': chatModQuestion({ q: meta.q }); break;
+      case 'mod-close': _clearMod(); break;
       case 'flash':    flashSale(); break;
       case 'announce': announce(); break;
       default: break;
@@ -691,7 +922,7 @@ function stopAutopilot() {
       case 'restart': startAutopilot(); break;
       case 'jumpState': stopAutopilot(); go(c.stateId); break;
       case 'advance': { const i = ORDER.indexOf(curStateFromScreen()); if (ORDER[i + 1]) { stopAutopilot(); go(ORDER[i + 1]); } break; }
-      case 'fireEvent': fire(c.event && c.event.type); break;
+      case 'fireEvent': fire(c.event); break;
       case 'setModule': setModule(c.module, c.on); break;
       case 'requestState': telemetry(); break;
       // late-join: snap to the operator's current state. If the operator is
@@ -739,6 +970,7 @@ const SCREEN_PARTIALS = [
   'screens/pre-match.html',
   'screens/iris-cards.html',
   'screens/live.html',
+  'screens/fan-reactions.html',
   'screens/halftime-post.html',
   'screens/post-misc.html',
   'screens/stadium.html',

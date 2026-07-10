@@ -1,0 +1,52 @@
+<!-- ══════════════ FAN REACTIONS — hashtag-sourced live feed + in-app reactions ══════════════ -->
+<div id="screen-fan-reactions" class="screen" style="background:#060911;">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;">
+
+    <!-- status bar -->
+    <div style="height:46px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+      <span style="font-size:14px;font-weight:600;color:#fff;">9:41</span>
+      <div style="display:flex;align-items:center;gap:4px;"><div style="width:5px;height:5px;border-radius:50%;background:#ef4444;animation:livePulse 1s ease-in-out infinite;"></div><span style="font-size:11px;font-weight:700;color:#ef4444;letter-spacing:0.08em;">LIVE 67'</span></div>
+    </div>
+
+    <!-- header -->
+    <div style="padding:0 16px;height:46px;display:flex;align-items:center;gap:8px;flex-shrink:0;">
+      <div class="back-arrow" onclick="goBack('home-live')"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></div>
+      <span style="font-size:19px;font-weight:800;color:#fff;letter-spacing:-0.02em;">Fan Reactions</span>
+      <div style="display:flex;align-items:center;gap:4px;padding:3px 8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.22);border-radius:10px;"><div style="width:5px;height:5px;border-radius:50%;background:#ef4444;animation:livePulse 1.2s ease-in-out infinite;"></div><span style="font-size:10px;font-weight:700;color:#ef4444;">REAL-TIME</span></div>
+    </div>
+
+    <!-- hashtag chips (the sources) -->
+    <div style="display:flex;gap:7px;overflow-x:auto;padding:2px 16px 10px;flex-shrink:0;" data-ns>
+      <div style="flex:none;padding:5px 11px;background:rgba(108,171,221,0.12);border:1px solid rgba(108,171,221,0.3);border-radius:999px;font-size:12px;font-weight:700;color:#9fd0f2;">#MCIRMA</div>
+      <div style="flex:none;padding:5px 11px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:999px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">#ManCity</div>
+      <div style="flex:none;padding:5px 11px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:999px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">#Haaland</div>
+      <div style="flex:none;padding:5px 11px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:999px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">#UCL</div>
+    </div>
+
+    <!-- in-app reaction bar -->
+    <div style="margin:0 14px 12px;background:#0d1118;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:12px 14px;flex-shrink:0;position:relative;overflow:hidden;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;">
+        <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:13px;font-weight:800;color:#fff;">React live</span><span style="font-size:11px;color:rgba(255,255,255,0.35);">tap to join in</span></div>
+        <div style="font-size:11px;font-weight:700;color:#22c55e;"><span id="react-count">2,431</span> reacting now</div>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:space-between;">
+        <button class="react-emoji" onclick="reactTap(this,'🔵')">🔵</button>
+        <button class="react-emoji" onclick="reactTap(this,'⚽')">⚽</button>
+        <button class="react-emoji" onclick="reactTap(this,'🔥')">🔥</button>
+        <button class="react-emoji" onclick="reactTap(this,'💙')">💙</button>
+        <button class="react-emoji" onclick="reactTap(this,'😤')">😤</button>
+        <button class="react-emoji" onclick="reactTap(this,'🙌')">🙌</button>
+      </div>
+    </div>
+
+    <!-- feed header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px 8px;flex-shrink:0;">
+      <div style="font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Live from the hashtags</div>
+      <div style="display:flex;align-items:center;gap:5px;"><div style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:livePulse 1.4s ease-in-out infinite;"></div><span style="font-size:10px;font-weight:700;color:rgba(34,197,94,0.85);">streaming</span></div>
+    </div>
+
+    <!-- streaming social feed (posts injected by startReactions()) -->
+    <div id="react-feed" style="flex:1;min-height:0;overflow-y:auto;padding:0 14px 16px;display:flex;flex-direction:column;gap:8px;" data-ns></div>
+
+  </div>
+</div>
