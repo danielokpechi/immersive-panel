@@ -74,10 +74,12 @@ export function CreatePanel() {
   const toggle = (m: ModuleId) =>
     setEnabled((prev) => (prev.includes(m) ? prev.filter((x) => x !== m) : [...prev, m]));
 
+  // Create the panel as a draft and hand off to the builder, so the operator
+  // sees the whole flow end-to-end: pick → build the sessions → go live.
   const launch = () => {
-    const cfg = { ...draft, status: 'deployed' as const };
+    const cfg = { ...draft, status: 'draft' as const };
     upsertPanel(cfg);
-    nav(`/control/${cfg.id}`);
+    nav(`/studio/${cfg.id}/edit`);
   };
 
   const next = () => setStep((s) => Math.min(STEPS.length - 1, s + 1));
@@ -221,7 +223,7 @@ export function CreatePanel() {
               </button>
             ) : (
               <button className="btn btn--primary" onClick={launch}>
-                🎛 Create & go live →
+                Build sessions →
               </button>
             )}
           </div>

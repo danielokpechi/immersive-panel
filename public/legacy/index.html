@@ -15,36 +15,45 @@
 <div id="device">
 
 <!-- ════════════════════════════════════════════════
-     SHELL NAV + IRIS (inside device, above screens)
+     SHELL TOP — persistent top-right nav (inside device).
+     Only two primary entries (Chat + IRIS) plus alerts &
+     profile, consistent on every screen. No bottom bar:
+     the panel reads as a single scroll, not an app.
 ════════════════════════════════════════════════ -->
-<nav id="shell-nav" class="off">
-  <div class="ni" data-nav="home" onclick="navHome()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21V12h6v9"/></svg>
-    <span>Home</span>
-  </div>
-  <div class="ni" data-nav="chat" onclick="navChat()">
+<div id="shell-top" class="off">
+  <div class="st-btn" data-nav="chat" onclick="navChat()" aria-label="Fan chat">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
     <span>Chat</span>
+    <i class="st-dot" id="st-chat-dot"></i>
   </div>
-  <div class="ni-gap"></div>
-  <div class="ni" data-nav="shop" onclick="navShop()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-    <span>Shop</span>
+  <div class="st-btn iris" data-nav="iris" onclick="navigate('iris-default','up')" aria-label="Ask IRIS">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><circle cx="12" cy="12" r="4.5" fill="currentColor" opacity="0.95"/><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.4" opacity="0.4"/></svg>
+    <span>IRIS</span>
   </div>
-  <div class="ni" data-nav="me" onclick="navMe()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>Me</span>
+  <div class="st-ico" onclick="navMe()" aria-label="Profile">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
   </div>
-</nav>
-<div id="shell-iris" class="off" onclick="navigate('iris-default','up')">
-  <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="12" r="4.5" fill="white" opacity="0.95"/><circle cx="12" cy="12" r="8.5" stroke="white" stroke-width="1" opacity="0.38"/></svg>
-  <span>IRIS</span>
+</div>
+
+<!-- Global back — appears on any non-home screen that lacks its own inline
+     back control, so navigation is never a dead end (no bottom bar). -->
+<div id="shell-back" class="off" onclick="goBack()" aria-label="Back">
+  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
 </div>
 
 <!-- ════════════════════════════════════════════════
      SCREENS (loaded async from screens/ partials)
 ════════════════════════════════════════════════ -->
 <div id="screens-mount"></div>
+
+<!-- ════════════════════════════════════════════════
+     FLASH STACK — transient pop-up banners over the feed.
+     Three behaviours (see showBanner in app.js):
+       • event    — match moments; auto-dismiss ~5s
+       • flash     — flash sale; runs a countdown + manual close
+       • announce  — club message; manual close only, no timer
+════════════════════════════════════════════════ -->
+<div id="flash-stack"></div>
 
 <!-- ══════════════════════════════════════════════════
      OVERLAYS (z-index 150, inside device)
@@ -220,6 +229,25 @@
   </div>
 </div>
 
+<!-- ══════════════ IN-APP BROWSER: PARTNER FOOD ══════════════
+     Order Food opens the club's OWN ordering service inside the panel
+     (a wrapper), rather than a native re-build of their menu. -->
+<div id="overlay-food-wrapper" class="overlay" style="display:none;z-index:240;">
+  <div style="position:absolute;inset:0;background:#f4f5f7;display:flex;flex-direction:column;">
+    <!-- in-app browser chrome -->
+    <div style="flex-shrink:0;background:#0d1118;padding:44px 12px 10px;display:flex;align-items:center;gap:10px;">
+      <div onclick="hideOverlay('food-wrapper')" style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:#fff;line-height:1;">✕</div>
+      <div style="flex:1;height:32px;background:rgba(255,255,255,0.08);border-radius:9px;display:flex;align-items:center;justify-content:center;gap:6px;">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.6);">order.mancity.com</span>
+      </div>
+      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.35);letter-spacing:0.08em;text-transform:uppercase;padding-right:4px;">Partner</div>
+    </div>
+    <!-- the club's own ordering site, embedded -->
+    <iframe id="food-frame" title="Order food" style="flex:1;width:100%;border:none;background:#f4f5f7;"></iframe>
+  </div>
+</div>
+
 <!-- ══════════════ SHARE SHEET OVERLAY ══════════════ -->
 <div id="overlay-share-sheet" class="overlay" style="display:none;">
   <div style="position:absolute;inset:0;background:rgba(0,0,0,0.6);" onclick="hideOverlay('share-sheet')"></div>
@@ -263,6 +291,14 @@
     <button class="sb" onclick="simulate('var')">📺 Simulate VAR</button>
     <button class="sb" onclick="simulate('sub')">🔄 Simulate Substitution</button>
     <button class="sb" onclick="simulate('yellow')">🟨 Simulate Yellow Card</button>
+    <button class="sb" onclick="simulate('motm')">⭐ Man of the Match Vote</button>
+    <div class="sml">Moderator (in chat)</div>
+    <button class="sb blue" onclick="simulate('mod-poll')">📊 Push Poll to Chat</button>
+    <button class="sb" onclick="simulate('mod-question')">💬 Ask a Question</button>
+    <button class="sb" onclick="simulate('mod-close')">✕ Close Prompt</button>
+    <div class="sml">Pop-ups</div>
+    <button class="sb" onclick="simulate('flash')">⚡ Flash Sale</button>
+    <button class="sb" onclick="simulate('announce')">📣 Club Announcement</button>
     <div class="sml">Half / Full</div>
     <button class="sb" onclick="simulate('halftime')">⏸ Simulate Halftime</button>
     <button class="sb blue" onclick="simulate('second-half')">▶ Simulate 2nd Half</button>

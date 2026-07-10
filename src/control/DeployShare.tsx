@@ -31,6 +31,9 @@ export function DeployShare({
   const url = shareUrl(config);
   const [qr, setQr] = useState<string>('');
   const [copied, setCopied] = useState(false);
+  // Deploying is a one-time act — keep this collapsed so it doesn't compete
+  // with the live controls for the operator's attention.
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -55,15 +58,21 @@ export function DeployShare({
   const dotClass = conn === 'live' ? 'is-live' : conn === 'error' ? 'is-error' : 'is-wait';
 
   return (
-    <section className="deploy">
-      <div className="deploy__head">
+    <section className={`deploy ${open ? 'is-open' : 'is-collapsed'}`}>
+      <button className="deploy__head deploy__toggle" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
         <div>
           <div className="deploy__title">Deploy to fans</div>
-          <div className="deploy__sub">Scan or share the link — works on any device, fully responsive.</div>
+          <div className="deploy__sub">
+            {open ? 'Scan or share the link — works on any device, fully responsive.' : 'One-time setup — QR code & share link'}
+          </div>
         </div>
-        <span className={`pill pill--${config.status}`}>{config.status}</span>
-      </div>
+        <div className="deploy__headright">
+          <span className={`pill pill--${config.status}`}>{config.status}</span>
+          <span className="deploy__chevron">{open ? '▲' : '▾'}</span>
+        </div>
+      </button>
 
+      {open && (
       <div className="deploy__body">
         <div className="deploy__qr">
           {qr ? <img src={qr} alt="Fan panel QR code" /> : <div className="deploy__qrwait">Generating…</div>}
@@ -93,6 +102,7 @@ export function DeployShare({
           </div>
         </div>
       </div>
+      )}
     </section>
   );
 }

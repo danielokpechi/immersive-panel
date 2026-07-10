@@ -3,7 +3,7 @@
 // Adding a new sport = drop a pack file and register it here.
 // ═══════════════════════════════════════════════════════════
 
-import type { Sport, SportPack, PanelConfig, Experience } from '../types/panel';
+import type { Sport, SportPack, PanelConfig, Experience, PanelStateDef, PanelState } from '../types/panel';
 import { football } from './football';
 import { f1 } from './f1';
 import { motogp } from './motogp';
@@ -43,6 +43,44 @@ export const SPORT_LIST: SportPack[] = [
 
 export function getSport(id: Sport): SportPack {
   return SPORTS[id];
+}
+
+/** The panel's effective sessions: its own authored `states` when present,
+ *  otherwise derived from the sport pack + any per-state module overrides.
+ *  This lets legacy panels (created before authored sessions) still edit. */
+export function derivePanelStates(cfg: PanelConfig, pack: SportPack): PanelStateDef[] {
+  if (cfg.states && cfg.states.length) return cfg.states;
+  return pack.states.map((s) => ({
+    id: s.id,
+    label: s.label,
+    phase: s.phase,
+    modules: cfg.moduleStateMap[s.id] ? [...cfg.moduleStateMap[s.id]] : [...s.modules],
+  }));
+}
+
+/** Full runtime `PanelState[]` the engine drives — the operator's authored
+ *  sessions (in their order, with each session's ordered module stack), given
+ *  pack-matched durations/headlines so the clock and auto-transitions still
+ *  work. Falls back to the pack states (with module overrides) for panels that
+ *  predate authored sessions. */
+export function resolveRuntimeStates(cfg: PanelConfig, pack: SportPack): PanelState[] {
+  if (cfg.states && cfg.states.length) {
+    return cfg.states.map((s) => {
+      const p = pack.states.find((x) => x.id === s.id);
+      return {
+        id: s.id,
+        label: s.label,
+        phase: s.phase,
+        durationMs: p?.durationMs ?? 5 * 60_000,
+        modules: [...s.modules],
+        headline: p?.headline ?? s.label,
+      };
+    });
+  }
+  return pack.states.map((s) => ({
+    ...s,
+    modules: cfg.moduleStateMap[s.id] ? [...cfg.moduleStateMap[s.id]] : [...s.modules],
+  }));
 }
 
 /** Seed a fresh PanelConfig from a sport pack with sensible defaults. */

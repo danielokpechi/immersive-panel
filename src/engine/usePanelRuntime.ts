@@ -11,7 +11,8 @@ import type { RunMode, Command, Telemetry } from '../types/control';
 import type { ControlBus } from '../control/bus';
 import { SimClock } from './clock';
 import { MockAdapter, type FiredEvent } from './dataAdapter';
-import { getState, nextTransition } from './stateMachine';
+import { getState, nextTransition, linearTransitions } from './stateMachine';
+import { resolveRuntimeStates } from '../sports/registry';
 
 const MAX_EVENTS = 40;
 
@@ -62,11 +63,21 @@ export function usePanelRuntime(
   const clock = useMemo(() => new SimClock(speed), [pack.id, config.id]);
   const adapter = useMemo(() => new MockAdapter(pack.timeline), [pack.id, config.id]);
 
-  // the state the panel opens in: operator's configured default, else the pack's.
+  // The panel drives its OWN authored sessions (order, labels, per-session
+  // module stack), not the raw sport pack. `runtimePack` is the pack with its
+  // states/transitions swapped for the resolved sessions, so every state read
+  // below (jump, advance, transitions, module set) honours the operator's flow.
+  const runtimePack = useMemo<SportPack>(() => {
+    const states = resolveRuntimeStates(config, pack);
+    const transitions = config.states && config.states.length ? linearTransitions(states) : pack.transitions;
+    return { ...pack, states, transitions };
+  }, [pack, config]);
+
+  // the state the panel opens in: operator's configured default, else the first session.
   const initialStateId =
-    config.startState && pack.states.some((s) => s.id === config.startState)
+    config.startState && runtimePack.states.some((s) => s.id === config.startState)
       ? config.startState
-      : pack.initialState;
+      : runtimePack.states[0]?.id ?? pack.initialState;
 
   const [stateId, setStateId] = useState(initialStateId);
   const [simMs, setSimMs] = useState(0);
@@ -105,7 +116,7 @@ export function usePanelRuntime(
       if (modeRef.current === 'auto') {
         let guard = 0;
         while (guard++ < 64) {
-          const tr = nextTransition(pack, stateRef.current, {
+          const tr = nextTransition(runtimePack, stateRef.current, {
             stateElapsedMs: ms - stateEnteredRef.current,
             firedEventTypes: firedSinceStateRef.current,
           });
@@ -123,7 +134,7 @@ export function usePanelRuntime(
       setSimMs(ms);
     });
     return unsub;
-  }, [clock, adapter, pack, enterState]);
+  }, [clock, adapter, runtimePack, enterState]);
 
   useEffect(() => {
     if (autostart && initialMode === 'auto') clock.start();
@@ -141,7 +152,7 @@ export function usePanelRuntime(
 
   const controls = useMemo(() => {
     const jumpTo = (id: string) => {
-      const start = stateStartMs(pack, id);
+      const start = stateStartMs(runtimePack, id);
       adapter.reset();
       adapter.poll(start);
       setEvents([]);
@@ -185,8 +196,8 @@ export function usePanelRuntime(
       },
       jumpTo,
       advance: () => {
-        const idx = pack.states.findIndex((s) => s.id === stateRef.current);
-        const next = pack.states[idx + 1];
+        const idx = runtimePack.states.findIndex((s) => s.id === stateRef.current);
+        const next = runtimePack.states[idx + 1];
         if (next) jumpTo(next.id);
       },
       restart: () => {
@@ -203,7 +214,7 @@ export function usePanelRuntime(
         setEvents((prev) => [fe, ...prev].slice(0, MAX_EVENTS));
         firedSinceStateRef.current.add(ev.type);
         if (ev.takeover) setOverlay(fe);
-        const tr = nextTransition(pack, stateRef.current, {
+        const tr = nextTransition(runtimePack, stateRef.current, {
           stateElapsedMs: clock.simMs - stateEnteredRef.current,
           firedEventTypes: firedSinceStateRef.current,
         });
@@ -215,7 +226,7 @@ export function usePanelRuntime(
       setModule: (id: ModuleId, on: boolean) =>
         setModuleOverrides((prev) => ({ ...prev, [id]: on })),
     };
-  }, [clock, adapter, pack, enterState]);
+  }, [clock, adapter, runtimePack, enterState, initialStateId]);
 
   // ── control bus: apply commands, broadcast telemetry ──
   useEffect(() => {
@@ -256,23 +267,23 @@ export function usePanelRuntime(
     return off;
   }, [bus, controls]);
 
-  const state = getState(pack, stateId) ?? pack.states[0];
+  const state = getState(runtimePack, stateId) ?? runtimePack.states[0];
   const clockLabel = pack.clockLabel(simMs, stateId);
 
-  // The VISIBLE module set: the current state's suggested modules, with the
-  // operator's live on/off overrides taking precedence — force-on adds a
-  // module even when the state doesn't include it; force-off removes one.
-  const stateMods = config.moduleStateMap[stateId] ?? state.modules;
-  const enabledModules = useMemo(
-    () =>
-      config.enabledModules.filter((m) => {
-        const ov = moduleOverrides[m];
-        if (ov === false) return false;
-        if (ov === true) return true;
-        return stateMods.includes(m);
-      }),
-    [config.enabledModules, moduleOverrides, stateMods],
-  );
+  // The VISIBLE module set, IN THE SESSION'S STACK ORDER. We iterate the
+  // session's ordered modules first (so reordering in the builder changes what
+  // stacks on top), drop any the operator force-off, then append force-on
+  // extras the session didn't include. Only library-enabled modules count.
+  const stateMods = state.modules;
+  const enabledModules = useMemo(() => {
+    const inStack = stateMods.filter(
+      (m) => config.enabledModules.includes(m) && moduleOverrides[m] !== false,
+    );
+    const forcedOn = config.enabledModules.filter(
+      (m) => moduleOverrides[m] === true && !inStack.includes(m),
+    );
+    return [...inStack, ...forcedOn];
+  }, [config.enabledModules, moduleOverrides, stateMods]);
 
   // broadcast telemetry on meaningful change
   useEffect(() => {

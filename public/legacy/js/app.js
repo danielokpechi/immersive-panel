@@ -25,6 +25,7 @@ const SCREENS_CFG = {
   'live-timeline':    {nav:false, t:'right'},
   'goal-scored':      {nav:false, t:'takeover'},
   'chat-live':        {nav:false, t:'right'},
+  'fan-reactions':    {nav:false, t:'right'},
   'home-halftime':          {nav:true,  active:'home', live:true,  t:'fade'},
   'iris-halftime-summary':  {nav:false, t:'up'},
   'food-ordering':          {nav:false, t:'right'},
@@ -118,18 +119,29 @@ function navigate(sid, tOverride, skipStack) {
     const _dbg = document.getElementById('debug-screen-name');
     if (_dbg) _dbg.textContent = sid;
 
-    const nav = document.getElementById('shell-nav');
-    const iris = document.getElementById('shell-iris');
-    if (nav && iris) {
-      if (cfg.nav) {
-        nav.classList.remove('off');
-        iris.classList.remove('off');
-        nav.classList.toggle('live', !!cfg.live);
-        document.querySelectorAll('.ni').forEach(n => n.classList.toggle('on', n.dataset.nav === cfg.active));
-      } else {
-        nav.classList.add('off');
-        iris.classList.add('off');
-      }
+    // Persistent top-right cluster: show on hub/content screens (cfg.nav),
+    // hide on the auth flow, full-screen takeovers, and the chat/iris
+    // screens themselves (you're already there).
+    const top = document.getElementById('shell-top');
+    if (top) {
+      top.classList.toggle('off', !cfg.nav);
+      // dim whichever entry you're currently inside
+      const chatBtn = top.querySelector('[data-nav="chat"]');
+      const irisBtn = top.querySelector('[data-nav="iris"]');
+      if (chatBtn) chatBtn.classList.toggle('on', /chat/.test(sid));
+      if (irisBtn) irisBtn.classList.toggle('on', sid.startsWith('iris'));
+    }
+
+    // Global back: show on any non-root screen that doesn't already carry its
+    // own inline back control — so nothing is ever a dead end.
+    const back = document.getElementById('shell-back');
+    if (back) {
+      const isRoot = /^(home-|splash$|sign-up$|onboarding)/.test(sid);
+      // Any existing exit counts — a back-arrow, or a Close/Done that calls
+      // goBack() or routes to a home screen. Only truly exit-less screens get
+      // the global back, so we never double up or overlap a header.
+      const hasInlineBack = !!el.querySelector('.back-arrow, .home-nav-back, [onclick*="goBack"], [onclick*="navigate(\'home"]');
+      back.classList.toggle('off', isRoot || hasInlineBack);
     }
 
     document.querySelectorAll('.overlay').forEach(o => { o.classList.remove('vis'); o.style.display = 'none'; });
@@ -150,6 +162,10 @@ function navigate(sid, tOverride, skipStack) {
     if (sid === 'home-live' || sid === 'home-pre-match' || sid === 'home-halftime') {
       matchState = sid.replace('home-','');
     }
+    // Fan Reactions streams live only while you're on it.
+    if (sid === 'fan-reactions') startReactions(); else stopReactions();
+    // Entering the chat: collapse any lingering full event cards to slim records.
+    if (sid === 'chat-live') initChatEphemerals();
   } catch(err) {
     console.error('navigate error for', sid, ':', err);
     // Last-resort: make sure SOME screen is visible
@@ -374,6 +390,281 @@ function hideOverlay(id) {
   setTimeout(() => { if (!el.classList.contains('vis')) el.style.display = 'none'; }, 50);
 }
 
+// Order Food — open the club's own ordering site inside the panel (a
+// wrapper / in-app browser), not a native re-build. Loads lazily.
+function openFoodWrapper() {
+  const f = document.getElementById('food-frame');
+  if (f && !f.getAttribute('src')) f.setAttribute('src', 'partner-food.html');
+  showOverlay('food-wrapper');
+}
+
+// ── FLASH BANNERS ─────────────────────────────────────────────
+// Transient pop-ups over the feed. Match moments flash up and clear
+// (~5.5s) so a busy chat never buries them; a flash sale rides its own
+// countdown; a club announcement waits for a manual close. Placement
+// hugs the top of the chat feed, else sits just under the status bar.
+function _flashTop() { return /^chat/.test(curScreen || '') ? 150 : 58; }
+function _mmss(s) { const m = Math.floor(s / 60), r = s % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
+
+function dismissBanner(card) {
+  if (!card || card._dismissed) return;
+  card._dismissed = true;
+  if (card._timer) clearTimeout(card._timer);
+  if (card._interval) clearInterval(card._interval);
+  card.classList.remove('in');
+  card.classList.add('out');
+  setTimeout(() => { try { card.remove(); } catch (e) {} }, 340);
+}
+
+// Low-level: mount a banner card and animate it in. Returns the element.
+function _banner(o) {
+  const stack = document.getElementById('flash-stack');
+  if (!stack) return null;
+  stack.style.top = _flashTop() + 'px';
+  // only one of each variant at a time
+  stack.querySelectorAll('.fc-' + o.variant).forEach(dismissBanner);
+  const card = document.createElement('div');
+  card.className = 'flash-card fc-' + o.variant;
+  card.innerHTML =
+    '<div class="flash-ic">' + o.ic + '</div>' +
+    '<div class="flash-body">' +
+      '<div class="flash-kicker">' + o.kicker + '</div>' +
+      '<div class="flash-title">' + o.title + '</div>' +
+      (o.sub ? '<div class="flash-sub">' + o.sub + '</div>' : '') +
+    '</div>' +
+    (o.right || '') +
+    (o.progress ? '<div class="flash-prog"></div>' : '');
+  stack.appendChild(card);
+  requestAnimationFrame(() => card.classList.add('in'));
+  return card;
+}
+
+// Match moment — auto-dismisses; tap opens the deeper IRIS read.
+function flashEvent(kind) {
+  const M = {
+    goal:   { variant: 'event',  ic: '⚽', kicker: 'Goal · 54\'',         title: 'Haaland scores!',        sub: 'Man City 1–0 · assisted by Foden', go: 'iris-goal-reaction' },
+    var:    { variant: 'var',    ic: '📺', kicker: 'VAR Check · 31\'',     title: 'Possible handball',      sub: 'Under review · Rúben Dias',        go: 'iris-var' },
+    yellow: { variant: 'yellow', ic: '🟨', kicker: 'Yellow Card · 44\'',   title: 'T. Partey booked',       sub: 'Cynical foul on Foden',            go: null },
+    sub:    { variant: 'sub',    ic: '🔄', kicker: 'Substitution · 62\'',  title: 'B. Silva ↑  ·  Kovačić ↓', sub: 'Guardiola manages the game',      go: null },
+  }[kind];
+  if (!M) return;
+  const card = _banner({ variant: M.variant, ic: M.ic, kicker: M.kicker, title: M.title, sub: M.sub, progress: true });
+  if (!card) return;
+  const ms = 5500;
+  const prog = card.querySelector('.flash-prog');
+  if (prog) {
+    prog.style.transform = 'scaleX(1)';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      prog.style.transition = 'transform ' + ms + 'ms linear';
+      prog.style.transform = 'scaleX(0)';
+    }));
+  }
+  card._timer = setTimeout(() => dismissBanner(card), ms);
+  card.onclick = () => { dismissBanner(card); if (M.go) navigate(M.go, 'up'); };
+}
+
+// Flash sale — persists for a club-set timer, closable by the fan.
+function flashSale(opts) {
+  opts = opts || {};
+  const secs0 = opts.secs || 120;
+  const right =
+    '<div class="flash-timer">' + _mmss(secs0) + '</div>' +
+    '<button class="flash-close" onclick="event.stopPropagation();dismissBanner(this.closest(\'.flash-card\'))">✕</button>';
+  const card = _banner({
+    variant: 'flash', ic: opts.ic || '👕', kicker: opts.kicker || '⚡ Flash Sale',
+    title: opts.title || 'Haaland #9 Home Shirt', sub: opts.sub || '£71.20 · was £89 · while it lasts', right: right,
+  });
+  if (!card) return;
+  let s = secs0;
+  const t = card.querySelector('.flash-timer');
+  card._interval = setInterval(() => {
+    s--; if (t) t.textContent = _mmss(Math.max(0, s));
+    if (s <= 0) { clearInterval(card._interval); dismissBanner(card); }
+  }, 1000);
+  card.onclick = () => { dismissBanner(card); navigate('shop-inactive', 'right'); };
+}
+
+// Club announcement — no timer; manual close only.
+function announce(opts) {
+  opts = opts || {};
+  const right = '<button class="flash-close" onclick="event.stopPropagation();dismissBanner(this.closest(\'.flash-card\'))">✕</button>';
+  _banner({
+    variant: 'announce', ic: opts.ic || '📣', kicker: opts.kicker || 'Club Announcement',
+    title: opts.title || 'Half-time: 2-for-1 at the kiosks', sub: opts.sub || 'North Stand · concourse level', right: right,
+  });
+}
+
+// Man of the Match — flashes up, stays until the fan votes (or closes).
+function motmVote() {
+  const stack = document.getElementById('flash-stack');
+  if (!stack) return;
+  stack.style.top = _flashTop() + 'px';
+  stack.querySelectorAll('.fc-motm').forEach(dismissBanner);
+  const opts = [['Haaland', 'Striker'], ['Rodri', 'Mid'], ['Foden', 'Wing']];
+  const card = document.createElement('div');
+  card.className = 'flash-card fc-motm';
+  card.innerHTML =
+    '<div class="motm-head">' +
+      '<div class="flash-ic" style="background:rgba(201,168,76,0.16)">⭐</div>' +
+      '<div class="flash-body"><div class="flash-kicker" style="color:#C9A84C">Man of the Match · vote now</div><div class="flash-title">Who won it for City?</div></div>' +
+      '<button class="flash-close" onclick="dismissBanner(this.closest(\'.flash-card\'))">✕</button>' +
+    '</div>' +
+    '<div class="motm-opts">' +
+      opts.map(o => '<div class="motm-opt" onclick="motmPick(this)"><div class="mo-name">' + o[0] + '</div><div class="mo-sub">' + o[1] + '</div></div>').join('') +
+    '</div>';
+  stack.appendChild(card);
+  requestAnimationFrame(() => card.classList.add('in'));
+}
+function motmPick(el) {
+  const card = el.closest('.flash-card');
+  if (!card) return;
+  card.querySelectorAll('.motm-opt').forEach(o => o.classList.remove('picked'));
+  el.classList.add('picked');
+  const title = card.querySelector('.flash-title');
+  if (title) title.textContent = 'Voted: ' + el.querySelector('.mo-name').textContent + '  ·  +50 XP';
+  setTimeout(() => dismissBanner(card), 900);
+}
+
+// ── CHAT: EPHEMERAL EVENTS + MODERATOR PROMPTS ────────────────
+// Match-event cards (goal/VAR/yellow/sub) show in full, then auto-collapse to
+// a slim one-line record so the chat scrollback never clogs up. Moderator
+// prompts (a poll, or a dry-spell question) are pushed from the studio one at
+// a time — a new prompt replaces the previous — and render inline in the chat.
+function _chatFeed() { return document.getElementById('chat-feed'); }
+
+let _chatEphTimers = [];
+function collapseChatEvent(card) {
+  if (!card || card._slimmed) return;
+  card._slimmed = true;
+  const slim = card.getAttribute('data-slim') || '';
+  card.style.opacity = '0';
+  setTimeout(() => {
+    card.removeAttribute('onclick');
+    card.onclick = null;
+    card.style.cssText = '';        // shed the full-card inline styling
+    card.className = 'chat-slim';   // .chat-slim now owns the look; drops .chat-ephemeral so it won't re-collapse
+    card.textContent = slim;
+    card.style.opacity = '0';
+    requestAnimationFrame(() => { card.style.opacity = '1'; });
+  }, 280);
+}
+// Called on entering the chat: any event card still in full form collapses
+// after a short beat (staggered so several don't snap at once).
+function initChatEphemerals() {
+  _chatEphTimers.forEach(clearTimeout);
+  _chatEphTimers = [];
+  const cards = document.querySelectorAll('#screen-chat-live .chat-ephemeral:not(.chat-slim)');
+  cards.forEach((card, i) => {
+    _chatEphTimers.push(setTimeout(() => collapseChatEvent(card), 8000 + i * 500));
+  });
+}
+
+// Only one moderator prompt lives in the chat at a time.
+function _clearMod() {
+  const feed = _chatFeed();
+  if (!feed) return;
+  feed.querySelectorAll('.chat-mod').forEach((c) => {
+    if (c._timer) clearTimeout(c._timer);
+    c.classList.add('out');
+    setTimeout(() => { try { c.remove(); } catch (e) {} }, 300);
+  });
+}
+function _mountMod(card) {
+  const feed = _chatFeed();
+  if (!feed) return null;
+  _clearMod();
+  feed.appendChild(card);
+  requestAnimationFrame(() => card.classList.add('in'));
+  if (/^chat/.test(curScreen || '')) {
+    setTimeout(() => { try { card.scrollIntoView({ behavior: 'smooth', block: 'end' }); } catch (e) {} }, 80);
+  }
+  return card;
+}
+// When a prompt is pushed but the fan isn't in the chat, nudge them in.
+function _modNudge(kind) {
+  if (/^chat/.test(curScreen || '')) return;
+  const card = _banner({
+    variant: 'announce', ic: kind === 'poll' ? '📊' : '💬', kicker: 'Moderator',
+    title: kind === 'poll' ? 'New poll in Fan Chat' : 'Moderator asked a question',
+    sub: 'Tap to join the chat',
+    right: '<button class="flash-close" onclick="event.stopPropagation();dismissBanner(this.closest(\'.flash-card\'))">✕</button>',
+  });
+  if (!card) return;
+  card._timer = setTimeout(() => dismissBanner(card), 6000);
+  card.onclick = () => { dismissBanner(card); navigate('chat-live', 'up'); };
+}
+
+// Moderator poll — fans vote; it stays open until they vote or the operator
+// closes it, then shows the result split.
+function chatModPoll(opts) {
+  opts = opts || {};
+  const q = opts.q || 'Who’s been City’s standout so far?';
+  const options = opts.opts || ['Haaland', 'Rodri', 'Foden'];
+  const card = document.createElement('div');
+  card.className = 'chat-mod chat-mod-poll';
+  card.innerHTML =
+    '<button class="cm-close" onclick="chatModClose(this)">✕</button>' +
+    '<div class="cm-kicker" style="color:#6CABDD;">📊 Moderator poll</div>' +
+    '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:9px;padding-right:20px;">' + q + '</div>' +
+    '<div style="display:flex;gap:6px;">' +
+      options.map((o) => '<div class="cm-poll-opt" onclick="chatPollVote(this)"><div class="cmo-bar"></div><div class="cmo-name">' + o + '</div><div class="cmo-pct">0%</div></div>').join('') +
+    '</div>' +
+    '<div class="cm-foot" style="text-align:center;margin-top:8px;font-size:10px;font-weight:700;color:rgba(108,171,221,0.75);">Tap to vote · +50 XP</div>';
+  const el = _mountMod(card);
+  _modNudge('poll');
+  return el;
+}
+function chatPollVote(el) {
+  const card = el.closest('.chat-mod');
+  if (!card || card.classList.contains('voted')) return;
+  card.classList.add('voted');
+  const opts = Array.from(card.querySelectorAll('.cm-poll-opt'));
+  const pickIdx = opts.indexOf(el);
+  const weights = opts.map(() => 10 + Math.random() * 38);
+  weights[pickIdx] += 46;
+  const total = weights.reduce((a, b) => a + b, 0);
+  const pcts = weights.map((w) => Math.round((w / total) * 100));
+  pcts[pickIdx] += 100 - pcts.reduce((a, b) => a + b, 0); // absorb rounding
+  opts.forEach((o, i) => {
+    o.querySelector('.cmo-pct').textContent = pcts[i] + '%';
+    o.querySelector('.cmo-bar').style.width = pcts[i] + '%';
+    if (i === pickIdx) {
+      o.style.borderColor = 'rgba(108,171,221,0.55)';
+      o.querySelector('.cmo-bar').style.background = 'rgba(108,171,221,0.34)';
+    }
+  });
+  const foot = card.querySelector('.cm-foot');
+  if (foot) { foot.textContent = '✓ Voted · +50 XP'; foot.style.color = 'rgba(34,197,94,0.85)'; }
+}
+// Moderator question — a conversation-starter for dry spells. Pinned, then
+// fades on its own once the chat has had time to pick back up.
+function chatModQuestion(opts) {
+  opts = opts || {};
+  const q = opts.q || 'Quiet moment — what’s your score prediction for the second half? 👀';
+  const card = document.createElement('div');
+  card.className = 'chat-mod chat-mod-q';
+  card.innerHTML =
+    '<button class="cm-close" onclick="chatModClose(this)">✕</button>' +
+    '<div class="cm-kicker" style="color:#b48cff;">💬 Moderator asks</div>' +
+    '<div style="font-size:13.5px;font-weight:600;color:rgba(255,255,255,0.92);line-height:1.45;padding-right:16px;">' + q + '</div>';
+  const el = _mountMod(card);
+  if (el) el._timer = setTimeout(() => {
+    el.classList.add('out');
+    setTimeout(() => { try { el.remove(); } catch (e) {} }, 300);
+  }, 45000);
+  _modNudge('question');
+  return el;
+}
+function chatModClose(btn) {
+  const card = btn.closest('.chat-mod');
+  if (!card) return;
+  if (card._timer) clearTimeout(card._timer);
+  card.classList.add('out');
+  setTimeout(() => { try { card.remove(); } catch (e) {} }, 300);
+}
+window.chatPollVote = chatPollVote;
+window.chatModClose = chatModClose;
+
 // ── SIMULATE ──
 function toggleSim() {
   document.getElementById('sim-menu').classList.toggle('open');
@@ -386,13 +677,18 @@ function simulate(evt) {
     case 'goto-inactive':  matchState='inactive'; navigate('home-inactive','takeover',true); break;
     case 'goto-pre-match': matchState='pre-match'; pmGo(1); navigate('home-pre-match','takeover',true); break;
     case 'kickoff':    matchState='live'; navigate('home-live','takeover'); break;
-    case 'goal':       navigate('goal-scored','takeover'); break;
-    case 'var':        showOverlay('var'); break;
-    case 'sub':        showOverlay('sub-card'); break;
-    case 'yellow':
-      showOverlay('yellow-toast');
-      setTimeout(() => hideOverlay('yellow-toast'), 3000);
-      break;
+    // Match moments now flash up briefly over the feed instead of taking
+    // over the screen or lingering as inline cards (per fan-view review).
+    case 'goal':       flashEvent('goal'); break;
+    case 'var':        flashEvent('var'); break;
+    case 'sub':        flashEvent('sub'); break;
+    case 'yellow':     flashEvent('yellow'); break;
+    case 'motm':       motmVote(); break;
+    case 'mod-poll':     chatModPoll(); break;
+    case 'mod-question': chatModQuestion(); break;
+    case 'mod-close':    _clearMod(); break;
+    case 'flash':      flashSale(); break;
+    case 'announce':   announce(); break;
     case 'halftime':   matchState='halftime'; navigate('home-halftime','fade'); break;
     case 'second-half':matchState='live'; navigate('home-live','fade'); break;
     case 'fulltime':   matchState='post-match'; navigate('home-post-match','fade'); break;
@@ -421,18 +717,19 @@ function startAutopilot() {
   matchState = 'inactive';
   navigate('home-inactive', 'fade', true);
 
+  // Events flash up as transient banners over the live view (no takeovers).
   _at(2200,  () => { matchState = 'pre-match'; navigate('home-pre-match', 'takeover', true); });
   _at(7000,  () => { matchState = 'live';      navigate('home-live', 'takeover'); });
-  _at(11000, () => navigate('goal-scored', 'takeover'));            // built-in scorer card ~5s later
-  _at(19000, () => { hideOverlay('scorer-card'); navigate('home-live', 'fade'); });
-  _at(22500, () => showOverlay('var'));
-  _at(27000, () => hideOverlay('var'));
+  _at(10000, () => navigate('chat-live', 'up'));
+  _at(12000, () => flashEvent('goal'));
+  _at(19000, () => flashSale());
+  _at(24000, () => flashEvent('var'));
   _at(30000, () => { matchState = 'halftime'; navigate('home-halftime', 'fade'); });
-  _at(36000, () => { matchState = 'live';     navigate('home-live', 'fade'); });
-  _at(39000, () => showOverlay('sub-card'));
-  _at(43000, () => hideOverlay('sub-card'));
-  _at(46000, () => navigate('goal-scored', 'takeover'));
-  _at(54000, () => { hideOverlay('scorer-card'); navigate('home-live', 'fade'); });
+  _at(33000, () => announce({ title: 'Half-time: 2-for-1 at the kiosks', sub: 'North Stand · concourse level' }));
+  _at(37000, () => { matchState = 'live'; navigate('chat-live', 'fade'); });
+  _at(40000, () => flashEvent('sub'));
+  _at(46000, () => flashEvent('goal'));
+  _at(51000, () => motmVote());
   _at(57000, () => { matchState = 'post-match'; navigate('home-post-match', 'fade'); });
   _at(64000, () => startAutopilot()); // loop
 }
@@ -442,6 +739,82 @@ function stopAutopilot() {
   _autoTimers.forEach(clearTimeout);
   _autoTimers = [];
 }
+
+// ── FAN REACTIONS ──
+// A hybrid real-time reactions surface: in-app taps (reactTap) plus a live
+// feed sourced from the match hashtags. The social posts are mocked (no
+// backend) but stream in like a real hashtag firehose while you're on screen.
+const _REACT_POOL = [
+  {pf:'x',  n:'CityZoneSam',    av:'CS', t:'now', txt:'Haaland is UNPLAYABLE today 🔵 #MCIRMA #Haaland', likes:'1.2k'},
+  {pf:'ig', n:'bluemoon.katie', av:'BK', t:'4s',  txt:'the noise in here right now 😤 #ManCity', likes:'844'},
+  {pf:'tt', n:'kdb_edits17',    av:'KE', t:'9s',  txt:'Rodri running the whole midfield, casually #MCIRMA', likes:'2.1k'},
+  {pf:'x',  n:'EstadioVista',   av:'EV', t:'15s', txt:"Madrid can't get near them. Ruthless. #UCL #ManCity", likes:'506'},
+  {pf:'x',  n:'NorthStandNance',av:'NN', t:'22s', txt:'Foden with the assist AGAIN 🅰️ #MCIRMA', likes:'933'},
+  {pf:'ig', n:'ttv_bluearmy',   av:'BA', t:'31s', txt:'City are a different gravy in Europe 🔥 #Haaland', likes:'1.7k'},
+  {pf:'tt', n:'matchdaymolly',  av:'MM', t:'40s', txt:'scenes when that went in 🙌🔵 #ManCity #MCIRMA', likes:'3.4k'},
+  {pf:'x',  n:'PepInTheZone',   av:'PZ', t:'52s', txt:'Tactical masterclass again from Pep. #UCL', likes:'612'},
+  {pf:'x',  n:'RealFanCarlos',  av:'RC', t:'1m',  txt:'Tough night for us but City are elite. Respect. #UCL', likes:'288'},
+  {pf:'ig', n:'etihad.echo',    av:'EE', t:'1m',  txt:'best atmosphere all season honestly 💙 #ManCity', likes:'1.1k'},
+];
+let _reactTimer = 0, _reactIdx = 4, _reactCount = 2431;
+
+function _reactBadge(pf) {
+  if (pf === 'x')  return '<span style="width:16px;height:16px;border-radius:4px;background:#000;border:1px solid rgba(255,255,255,0.2);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;">𝕏</span>';
+  if (pf === 'ig') return '<span style="width:16px;height:16px;border-radius:4px;background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#fff;">IG</span>';
+  return '<span style="width:16px;height:16px;border-radius:4px;background:#111;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#25f4ee;">TT</span>';
+}
+function _reactCard(o, isNew) {
+  const txt = o.txt.replace(/#(\w+)/g, '<span style="color:#6CABDD;font-weight:600;">#$1</span>');
+  return '<div class="react-post' + (isNew ? ' react-in' : '') + '" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 12px;flex-shrink:0;">'
+    + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
+    +   '<div style="width:26px;height:26px;border-radius:50%;background:#1a2238;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#9fd0f2;">' + o.av + '</div>'
+    +   '<span style="font-size:12.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">@' + o.n + '</span>'
+    +   _reactBadge(o.pf)
+    +   '<span style="font-size:10.5px;color:rgba(255,255,255,0.3);margin-left:auto;flex-shrink:0;">' + (isNew ? 'now' : (o.t || 'now')) + '</span>'
+    + '</div>'
+    + '<div style="font-size:13px;color:rgba(255,255,255,0.82);line-height:1.4;">' + txt + '</div>'
+    + '<div style="margin-top:7px;font-size:11px;color:rgba(255,255,255,0.35);">❤ ' + o.likes + '</div>'
+    + '</div>';
+}
+function _reactBump(n) {
+  _reactCount += n;
+  const c = document.getElementById('react-count');
+  if (c) c.textContent = _reactCount.toLocaleString();
+}
+function startReactions() {
+  const feed = document.getElementById('react-feed');
+  if (!feed) return;
+  if (!feed.childElementCount) {
+    for (let i = 0; i < 5; i++) feed.insertAdjacentHTML('beforeend', _reactCard(_REACT_POOL[i]));
+    _reactIdx = 4;
+  }
+  if (_reactTimer) return;
+  _reactTimer = setInterval(() => {
+    const f = document.getElementById('react-feed');
+    if (!f) { stopReactions(); return; }
+    _reactIdx = (_reactIdx + 1) % _REACT_POOL.length;
+    f.insertAdjacentHTML('afterbegin', _reactCard(_REACT_POOL[_reactIdx], true));
+    while (f.childElementCount > 14) f.removeChild(f.lastElementChild);
+    _reactBump(3 + Math.floor(Math.random() * 12));
+  }, 2600);
+}
+function stopReactions() { if (_reactTimer) { clearInterval(_reactTimer); _reactTimer = 0; } }
+function reactTap(btn, emoji) {
+  try {
+    const host = document.getElementById('device') || document.body;
+    const hr = host.getBoundingClientRect();
+    const r = btn.getBoundingClientRect();
+    const s = document.createElement('span');
+    s.textContent = emoji;
+    s.className = 'react-float';
+    s.style.left = (r.left - hr.left + r.width / 2 - 11) + 'px';
+    s.style.top  = (r.top - hr.top - 6) + 'px';
+    host.appendChild(s);
+    setTimeout(() => s.remove(), 1200);
+    _reactBump(1);
+  } catch (e) {}
+}
+window.reactTap = reactTap;
 
 // ── CONTROL BRIDGE ──
 // Lets the BoltOS control room drive this football panel live, exactly
@@ -485,12 +858,24 @@ function stopAutopilot() {
     telemetry();
   }
 
-  function fire(type) {
+  function fire(evt) {
+    // Accepts either an event object ({type, meta}) or a bare type string, so
+    // operator-authored poll/question copy rides along in evt.meta.
+    const type = evt && evt.type ? evt.type : evt;
+    const meta = (evt && evt.meta) || {};
+    // Operator-driven events now flash up as transient banners on the fan
+    // panel (match the in-app pop-up behaviour), not screen takeovers.
     switch (type) {
-      case 'goal': navigate('goal-scored', 'takeover'); break;
-      case 'var': showOverlay('var'); setTimeout(() => hideOverlay('var'), 5000); break;
-      case 'sub': showOverlay('sub-card'); setTimeout(() => hideOverlay('sub-card'), 5000); break;
-      case 'yellow': simulate('yellow'); break;
+      case 'goal':     flashEvent('goal'); break;
+      case 'var':      flashEvent('var'); break;
+      case 'sub':      flashEvent('sub'); break;
+      case 'yellow':   flashEvent('yellow'); break;
+      case 'motm':     motmVote(); break;
+      case 'poll':     chatModPoll({ q: meta.q, opts: meta.opts }); break;
+      case 'question': chatModQuestion({ q: meta.q }); break;
+      case 'mod-close': _clearMod(); break;
+      case 'flash':    flashSale(); break;
+      case 'announce': announce(); break;
       default: break;
     }
   }
@@ -537,7 +922,7 @@ function stopAutopilot() {
       case 'restart': startAutopilot(); break;
       case 'jumpState': stopAutopilot(); go(c.stateId); break;
       case 'advance': { const i = ORDER.indexOf(curStateFromScreen()); if (ORDER[i + 1]) { stopAutopilot(); go(ORDER[i + 1]); } break; }
-      case 'fireEvent': fire(c.event && c.event.type); break;
+      case 'fireEvent': fire(c.event); break;
       case 'setModule': setModule(c.module, c.on); break;
       case 'requestState': telemetry(); break;
       // late-join: snap to the operator's current state. If the operator is
@@ -585,6 +970,7 @@ const SCREEN_PARTIALS = [
   'screens/pre-match.html',
   'screens/iris-cards.html',
   'screens/live.html',
+  'screens/fan-reactions.html',
   'screens/halftime-post.html',
   'screens/post-misc.html',
   'screens/stadium.html',
