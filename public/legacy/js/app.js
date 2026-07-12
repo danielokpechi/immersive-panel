@@ -740,41 +740,73 @@ function stopAutopilot() {
   _autoTimers = [];
 }
 
-// ── FAN REACTIONS ──
-// A hybrid real-time reactions surface: in-app taps (reactTap) plus a live
-// feed sourced from the match hashtags. The social posts are mocked (no
-// backend) but stream in like a real hashtag firehose while you're on screen.
-const _REACT_POOL = [
-  {pf:'x',  n:'CityZoneSam',    av:'CS', t:'now', txt:'Haaland is UNPLAYABLE today 🔵 #MCIRMA #Haaland', likes:'1.2k'},
-  {pf:'ig', n:'bluemoon.katie', av:'BK', t:'4s',  txt:'the noise in here right now 😤 #ManCity', likes:'844'},
-  {pf:'tt', n:'kdb_edits17',    av:'KE', t:'9s',  txt:'Rodri running the whole midfield, casually #MCIRMA', likes:'2.1k'},
-  {pf:'x',  n:'EstadioVista',   av:'EV', t:'15s', txt:"Madrid can't get near them. Ruthless. #UCL #ManCity", likes:'506'},
-  {pf:'x',  n:'NorthStandNance',av:'NN', t:'22s', txt:'Foden with the assist AGAIN 🅰️ #MCIRMA', likes:'933'},
-  {pf:'ig', n:'ttv_bluearmy',   av:'BA', t:'31s', txt:'City are a different gravy in Europe 🔥 #Haaland', likes:'1.7k'},
-  {pf:'tt', n:'matchdaymolly',  av:'MM', t:'40s', txt:'scenes when that went in 🙌🔵 #ManCity #MCIRMA', likes:'3.4k'},
-  {pf:'x',  n:'PepInTheZone',   av:'PZ', t:'52s', txt:'Tactical masterclass again from Pep. #UCL', likes:'612'},
-  {pf:'x',  n:'RealFanCarlos',  av:'RC', t:'1m',  txt:'Tough night for us but City are elite. Respect. #UCL', likes:'288'},
-  {pf:'ig', n:'etihad.echo',    av:'EE', t:'1m',  txt:'best atmosphere all season honestly 💙 #ManCity', likes:'1.1k'},
+// ── FAN REACTION REELS ──
+// A reel-style live reactions wall: in-app emoji taps (reactTap) plus a stream
+// of short fan reaction *videos* sourced from the match hashtags. Clips are
+// mocked (no real video / no backend) but stream in like a hashtag firehose
+// while you're on screen. Fans record their own reaction (openRecord); the
+// operator can push/feature an approved clip live via the control bridge
+// ('reaction' event) — the real-world path is a moderated feed, not raw
+// auto-ingest, so nothing goes live until it's approved.
+const _REEL_POOL = [
+  {pf:'tt', n:'CityZoneSam',    av:'CS', img:'Mancity vs Real Madrid.jpeg',                dur:'0:12', views:'48.2k', likes:'3.1k', cap:'HAALAND ARE YOU KIDDING ME 🔵🔥 #MCIRMA', live:true},
+  {pf:'ig', n:'bluemoon.katie', av:'BK', img:'Manchester city vs Real Madrid.jpeg',        dur:'0:08', views:'12.4k', likes:'844',  cap:'the noise in here right now 😤 #ManCity', live:true},
+  {pf:'tt', n:'kdb_edits17',    av:'KE', img:'Erling Haaland _ Manchester City _ Fútbol _ Wallpaper _ By @livtorresec.jpeg', dur:'0:21', views:'96.7k', likes:'8.2k', cap:'Rodri running the whole midfield, casually #MCIRMA'},
+  {pf:'ig', n:'etihad.echo',    av:'EE', img:'_Real Madrid Vs Man City_ Matchday design.jpeg', dur:'0:15', views:'21.9k', likes:'1.1k', cap:'best atmosphere all season honestly 💙 #ManCity'},
+  {pf:'tt', n:'matchdaymolly',  av:'MM', img:'Poster MatchDay Champions League.jpeg',      dur:'0:18', views:'134k',  likes:'11.3k',cap:'scenes when that went in 🙌🔵 #ManCity #MCIRMA', live:true},
+  {pf:'x',  n:'NorthStandNance',av:'NN', img:'223068987790622209.jpeg',                    dur:'0:09', views:'7.8k',  likes:'933',  cap:'Foden with the assist AGAIN 🅰️ #MCIRMA'},
+  {pf:'ig', n:'ttv_bluearmy',   av:'BA', img:'Rayan Cherki Manchester City 2026.jpeg',      dur:'0:24', views:'58.1k', likes:'4.6k', cap:'City are a different gravy in Europe 🔥 #Haaland'},
+  {pf:'tt', n:'PepInTheZone',   av:'PZ', img:'POSTER FOOTBALL MANCHESTER CITY.jpeg',        dur:'0:11', views:'33.0k', likes:'2.7k', cap:'Tactical masterclass again from Pep 🎯 #UCL'},
+  {pf:'x',  n:'RealFanCarlos',  av:'RC', img:'25614291625815684.jpeg',                      dur:'0:07', views:'5.2k',  likes:'288',  cap:'Tough night for us but City are elite. Respect. #UCL'},
+  {pf:'ig', n:'bluemoon_liv',   av:'BL', img:'manchester city.jpeg',                        dur:'0:16', views:'40.5k', likes:'3.9k', cap:'my reaction says it all 💙🔵 #MCIRMA'},
 ];
-let _reactTimer = 0, _reactIdx = 4, _reactCount = 2431;
+const _REEL_IMG_DIR = 'man%20city%20images%20/';
+let _reactTimer = 0, _reelIdx = 4, _reactCount = 2431;
+let _reelWall = [];      // data backing every tile currently on the wall (index 0 = top)
+let _reelViewTimer = 0;
 
-function _reactBadge(pf) {
+function _reelSrc(f) { return _REEL_IMG_DIR + encodeURI(f); }
+function _platBadge(pf) {
   if (pf === 'x')  return '<span style="width:16px;height:16px;border-radius:4px;background:#000;border:1px solid rgba(255,255,255,0.2);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;">𝕏</span>';
   if (pf === 'ig') return '<span style="width:16px;height:16px;border-radius:4px;background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#fff;">IG</span>';
+  if (pf === 'you')return '<span style="width:16px;height:16px;border-radius:4px;background:#C9A84C;display:inline-flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#000;">✦</span>';
   return '<span style="width:16px;height:16px;border-radius:4px;background:#111;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#25f4ee;">TT</span>';
 }
-function _reactCard(o, isNew) {
-  const txt = o.txt.replace(/#(\w+)/g, '<span style="color:#6CABDD;font-weight:600;">#$1</span>');
-  return '<div class="react-post' + (isNew ? ' react-in' : '') + '" style="background:#0d1118;border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:10px 12px;flex-shrink:0;">'
-    + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
-    +   '<div style="width:26px;height:26px;border-radius:50%;background:#1a2238;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#9fd0f2;">' + o.av + '</div>'
-    +   '<span style="font-size:12.5px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">@' + o.n + '</span>'
-    +   _reactBadge(o.pf)
-    +   '<span style="font-size:10.5px;color:rgba(255,255,255,0.3);margin-left:auto;flex-shrink:0;">' + (isNew ? 'now' : (o.t || 'now')) + '</span>'
+function _reelCard(o, isNew, idx) {
+  const cap = (o.cap || '').replace(/#(\w+)/g, '<span style="color:#6CABDD;font-weight:600;">#$1</span>');
+  const topRight = o.dur
+    ? '<span class="reel-dur">' + o.dur + '</span>'
+    : '';
+  const topLeft = o.featured
+    ? ''  // the centred FEATURED tag carries the status on featured tiles
+    : (o.you
+      ? '<span class="reel-live" style="background:rgba(201,168,76,0.95);color:#1a1206;"><i style="background:#1a1206;"></i>YOU · LIVE</span>'
+      : (o.live ? '<span class="reel-live"><i></i>LIVE</span>' : _platBadge(o.pf)));
+  return '<div class="reel' + (isNew ? ' reel-anim' : '') + (o.featured ? ' featured' : '') + '" onclick="openReel(' + idx + ')">'
+    + '<img class="reel-thumb" src="' + _reelSrc(o.img) + '" onerror="this.style.opacity=0">'
+    + '<div class="reel-grad"></div>'
+    + (o.featured ? '<div class="reel-tag">FEATURED ON SCREEN</div>' : '')
+    + '<div class="reel-top">' + topLeft + topRight + '</div>'
+    + '<div class="reel-play"><svg viewBox="0 0 24 24" width="14" height="14" fill="#fff"><path d="M8 5v14l11-7z"/></svg></div>'
+    + '<div class="reel-bot">'
+    +   '<div class="reel-user"><span class="reel-av' + (o.you ? ' you' : '') + '">' + o.av + '</span><span class="reel-handle">@' + o.n + '</span></div>'
+    +   '<div class="reel-cap">' + cap + '</div>'
+    +   '<div class="reel-meta">▶ ' + (o.views || '0') + ' · ❤ ' + (o.likes || '0') + '</div>'
     + '</div>'
-    + '<div style="font-size:13px;color:rgba(255,255,255,0.82);line-height:1.4;">' + txt + '</div>'
-    + '<div style="margin-top:7px;font-size:11px;color:rgba(255,255,255,0.35);">❤ ' + o.likes + '</div>'
     + '</div>';
+}
+// Count the run of pinned reels (fan's own + operator-featured) at the top of
+// the wall — new streamed clips insert below them so pins never get buried.
+function _pinnedTop() {
+  let i = 0;
+  while (i < _reelWall.length && (_reelWall[i].you || _reelWall[i].featured)) i++;
+  return i;
+}
+function _renderWall() {
+  const f = document.getElementById('react-feed');
+  if (!f) return;
+  f.innerHTML = _reelWall.map((o, i) => _reelCard(o, o._new, i)).join('');
+  _reelWall.forEach((o) => { o._new = false; });
 }
 function _reactBump(n) {
   _reactCount += n;
@@ -784,21 +816,164 @@ function _reactBump(n) {
 function startReactions() {
   const feed = document.getElementById('react-feed');
   if (!feed) return;
-  if (!feed.childElementCount) {
-    for (let i = 0; i < 5; i++) feed.insertAdjacentHTML('beforeend', _reactCard(_REACT_POOL[i]));
-    _reactIdx = 4;
+  if (!_reelWall.length) {
+    _reelWall = _REEL_POOL.slice(0, 6).map((o) => ({ ...o }));
+    _reelIdx = 5;
+    _renderWall();
   }
   if (_reactTimer) return;
   _reactTimer = setInterval(() => {
     const f = document.getElementById('react-feed');
     if (!f) { stopReactions(); return; }
-    _reactIdx = (_reactIdx + 1) % _REACT_POOL.length;
-    f.insertAdjacentHTML('afterbegin', _reactCard(_REACT_POOL[_reactIdx], true));
-    while (f.childElementCount > 14) f.removeChild(f.lastElementChild);
+    _reelIdx = (_reelIdx + 1) % _REEL_POOL.length;
+    // Stream new clips in just BELOW any pinned reels (the fan's own + any the
+    // operator has featured), so those stay at the top instead of being buried.
+    _reelWall.splice(_pinnedTop(), 0, { ...(_REEL_POOL[_reelIdx]), _new: true });
+    while (_reelWall.length > 12) _reelWall.pop();
+    _renderWall();
     _reactBump(3 + Math.floor(Math.random() * 12));
-  }, 2600);
+  }, 3200);
 }
 function stopReactions() { if (_reactTimer) { clearInterval(_reactTimer); _reactTimer = 0; } }
+
+// Fullscreen reel viewer — mock "playback" with an auto-advancing progress bar.
+function openReel(i) {
+  const o = _reelWall[i];
+  if (!o) return;
+  closeReel();
+  const host = document.getElementById('device') || document.body;
+  const v = document.createElement('div');
+  v.className = 'reelview';
+  v.id = 'reelview';
+  v.innerHTML =
+      '<div class="reelview-media"><img src="' + _reelSrc(o.img) + '" onerror="this.style.opacity=0"></div>'
+    + '<div class="reelview-shade"></div>'
+    + '<div class="reelview-prog"><i id="reelview-bar"></i></div>'
+    + '<div class="reelview-close" onclick="closeReel()">✕</div>'
+    + '<div class="reelview-nav" style="left:0" onclick="stepReel(-1)"></div>'
+    + '<div class="reelview-nav" style="right:0" onclick="stepReel(1)"></div>'
+    + '<div style="position:absolute;left:16px;right:60px;bottom:26px;z-index:3;">'
+    +   '<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;"><span class="reel-av' + (o.you ? ' you' : '') + '" style="width:30px;height:30px;font-size:11px;">' + o.av + '</span><span style="font-size:15px;font-weight:800;color:#fff;">@' + o.n + '</span>' + _platBadge(o.pf) + '</div>'
+    +   '<div style="font-size:14px;color:#fff;line-height:1.4;margin-bottom:10px;">' + (o.cap || '').replace(/#(\w+)/g, '<span style="color:#6CABDD;font-weight:700;">#$1</span>') + '</div>'
+    +   '<div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">▶ ' + (o.views || '0') + ' views  ·  ❤ ' + (o.likes || '0') + '</div>'
+    + '</div>'
+    + '<div style="position:absolute;right:14px;bottom:30px;z-index:3;display:flex;flex-direction:column;gap:16px;align-items:center;">'
+    +   '<div onclick="event.stopPropagation();reactTap(this.querySelector(\'span\'),\'❤️\')" style="text-align:center;cursor:pointer;"><span style="font-size:26px;">❤️</span></div>'
+    +   '<div onclick="event.stopPropagation();reactTap(this.querySelector(\'span\'),\'🔥\')" style="text-align:center;cursor:pointer;"><span style="font-size:26px;">🔥</span></div>'
+    + '</div>';
+  v.dataset.idx = i;
+  host.appendChild(v);
+  // animate the progress bar over ~7s, then advance to the next reel.
+  requestAnimationFrame(() => {
+    const bar = document.getElementById('reelview-bar');
+    if (bar) { bar.style.transition = 'width 7s linear'; bar.style.width = '100%'; }
+  });
+  clearTimeout(_reelViewTimer);
+  _reelViewTimer = setTimeout(() => stepReel(1), 7000);
+}
+function stepReel(dir) {
+  const v = document.getElementById('reelview');
+  if (!v) return;
+  const next = (parseInt(v.dataset.idx, 10) + dir + _reelWall.length) % _reelWall.length;
+  openReel(next);
+}
+function closeReel() {
+  clearTimeout(_reelViewTimer); _reelViewTimer = 0;
+  const v = document.getElementById('reelview');
+  if (v) v.remove();
+}
+
+// Record-your-reaction flow — mock capture (no camera/upload): a viewfinder,
+// a 3-2-1 countdown, a fake "recording" bar, then the clip is prepended to the
+// wall as the fan's own live reel.
+function openRecord() {
+  closeRecord();
+  const host = document.getElementById('device') || document.body;
+  const s = document.createElement('div');
+  s.className = 'reel-record-sheet';
+  s.id = 'reel-record-sheet';
+  s.innerHTML =
+      '<div style="display:flex;justify-content:center;padding-top:12px;margin-bottom:4px;"><div style="width:36px;height:4px;background:rgba(255,255,255,0.15);border-radius:2px;"></div></div>'
+    + '<div style="padding:6px 18px 0;display:flex;align-items:center;justify-content:space-between;"><span style="font-size:17px;font-weight:800;color:#fff;">Record your reaction</span><span onclick="closeRecord()" style="font-size:13px;color:rgba(255,255,255,0.5);cursor:pointer;">Cancel</span></div>'
+    + '<div class="reel-viewfinder" id="reel-viewfinder">'
+    +   '<div id="reel-vf-hint" style="text-align:center;color:rgba(255,255,255,0.5);font-size:13px;padding:0 24px;">📸  Selfie camera preview<br><span style="font-size:11px;color:rgba(255,255,255,0.3);">(demo — no real capture)</span></div>'
+    + '</div>'
+    + '<div id="reel-rec-caption" style="text-align:center;font-size:12px;color:rgba(255,255,255,0.4);margin-top:12px;">Tap to record up to 15s · goes live once approved</div>'
+    + '<button class="reel-rec-btn" id="reel-rec-btn" onclick="doRecord()"></button>';
+  host.appendChild(s);
+}
+function closeRecord() { const s = document.getElementById('reel-record-sheet'); if (s) s.remove(); }
+function doRecord() {
+  const vf = document.getElementById('reel-viewfinder');
+  const hint = document.getElementById('reel-vf-hint');
+  const cap = document.getElementById('reel-rec-caption');
+  const btn = document.getElementById('reel-rec-btn');
+  if (!vf || !btn) return;
+  btn.style.display = 'none';
+  let n = 3;
+  if (hint) hint.innerHTML = '<div style="font-size:64px;font-weight:900;color:#fff;">' + n + '</div>';
+  const tick = setInterval(() => {
+    n -= 1;
+    if (n > 0) { if (hint) hint.innerHTML = '<div style="font-size:64px;font-weight:900;color:#fff;">' + n + '</div>'; return; }
+    clearInterval(tick);
+    // "recording" phase
+    if (hint) hint.innerHTML = '<div style="display:flex;align-items:center;gap:8px;color:#ef4444;font-weight:800;font-size:15px;"><span style="width:11px;height:11px;border-radius:50%;background:#ef4444;" class="reel-record-dot"></span>REC</div>';
+    if (cap) cap.textContent = 'Recording your reaction…';
+    const rbar = document.createElement('div');
+    rbar.style.cssText = 'position:absolute;left:0;bottom:0;height:4px;background:#ef4444;width:0;transition:width 2.4s linear;';
+    vf.appendChild(rbar);
+    requestAnimationFrame(() => { rbar.style.width = '100%'; });
+    setTimeout(() => {
+      // posted → prepend the fan's own reel, flagged as pending→live.
+      const mine = {
+        pf: 'you', n: (typeof fanName === 'function' ? fanName() : 'you'), av: 'YOU', you: true,
+        img: 'Mancity vs Real Madrid.jpeg', dur: '0:11', views: '1', likes: '0',
+        cap: 'My matchday reaction 🔵💙 #MCIRMA',
+      };
+      _reelWall.unshift(mine);
+      while (_reelWall.length > 12) _reelWall.pop();
+      _renderWall();
+      _reactBump(1);
+      if (hint) hint.innerHTML = '<div style="text-align:center;color:#22c55e;font-weight:800;font-size:15px;">✓ Posted to the wall</div>';
+      if (cap) cap.textContent = 'Live once the moderator approves it';
+      setTimeout(closeRecord, 1100);
+    }, 2500);
+  }, 700);
+}
+window.openReel = openReel; window.stepReel = stepReel; window.closeReel = closeReel;
+window.openRecord = openRecord; window.closeRecord = closeRecord; window.doRecord = doRecord;
+
+// Operator push: an approved reaction reel featured live on every fan's wall.
+function pushOperatorReaction(meta) {
+  meta = meta || {};
+  const src = _REEL_POOL[Math.floor(Math.random() * _REEL_POOL.length)];
+  const reel = { ...src, featured: true, live: true, _new: true,
+    cap: meta.cap || src.cap, views: src.views, likes: src.likes };
+  _reelWall.unshift(reel);
+  while (_reelWall.length > 12) _reelWall.pop();
+  // If the fan is already on the reactions screen, it just streams in; otherwise
+  // nudge them toward it with a transient banner (matches other operator pushes).
+  if (curScreen === 'fan-reactions') { _renderWall(); }
+  else {
+    const card = _banner({ variant: 'reaction', ic: '🎥', kicker: 'Featured Reaction',
+      title: 'A fan reaction is live', sub: 'Tap to watch the wall', progress: true });
+    if (card) {
+      const ms = 5500;
+      const prog = card.querySelector('.flash-prog');
+      if (prog) {
+        prog.style.transform = 'scaleX(1)';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          prog.style.transition = 'transform ' + ms + 'ms linear';
+          prog.style.transform = 'scaleX(0)';
+        }));
+      }
+      card._timer = setTimeout(() => dismissBanner(card), ms);
+      card.onclick = () => { dismissBanner(card); navigate('fan-reactions', 'up'); };
+    }
+  }
+  _reactBump(5);
+}
+window.pushOperatorReaction = pushOperatorReaction;
 function reactTap(btn, emoji) {
   try {
     const host = document.getElementById('device') || document.body;
@@ -874,6 +1049,7 @@ window.reactTap = reactTap;
       case 'poll':     chatModPoll({ q: meta.q, opts: meta.opts }); break;
       case 'question': chatModQuestion({ q: meta.q }); break;
       case 'mod-close': _clearMod(); break;
+      case 'reaction': pushOperatorReaction(meta); break;
       case 'flash':    flashSale(); break;
       case 'announce': announce(); break;
       default: break;

@@ -37,16 +37,17 @@
         <button class="react-emoji" onclick="reactTap(this,'😤')">😤</button>
         <button class="react-emoji" onclick="reactTap(this,'🙌')">🙌</button>
       </div>
+      <button class="reel-record" onclick="openRecord()"><span class="reel-record-dot"></span>Record your reaction</button>
     </div>
 
     <!-- feed header -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:0 16px 8px;flex-shrink:0;">
-      <div style="font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Live from the hashtags</div>
+      <div style="font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Live reaction reels</div>
       <div style="display:flex;align-items:center;gap:5px;"><div style="width:5px;height:5px;border-radius:50%;background:#22c55e;animation:livePulse 1.4s ease-in-out infinite;"></div><span style="font-size:10px;font-weight:700;color:rgba(34,197,94,0.85);">streaming</span></div>
     </div>
 
-    <!-- streaming social feed (posts injected by startReactions()) -->
-    <div id="react-feed" style="flex:1;min-height:0;overflow-y:auto;padding:0 14px 16px;display:flex;flex-direction:column;gap:8px;" data-ns></div>
+    <!-- streaming reaction-reel wall (tiles injected by startReactions()) -->
+    <div id="react-feed" style="flex:1;min-height:0;overflow-y:auto;padding:0 14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:9px;align-content:start;" data-ns></div>
 
   </div>
 </div>

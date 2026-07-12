@@ -30,6 +30,7 @@ export const TRIGGERS: Record<Sport, Trigger[]> = {
     { label: 'Man of the Match', emoji: '🏅', event: ev('motm', 'Man of the Match', 'Fans vote for today’s standout.', true) },
     { label: 'Push poll', emoji: '📊', event: ev('poll', 'Fan poll', 'Push a poll into the fan chat.', false, { q: 'Who’s been City’s standout so far?', opts: ['Haaland', 'Rodri', 'Foden'] }) },
     { label: 'Ask question', emoji: '💬', event: ev('question', 'Moderator question', 'Prompt the chat during a lull.', false, { q: 'Quiet moment — what’s your score prediction for the second half? 👀' }) },
+    { label: 'Push reaction', emoji: '🎥', event: ev('reaction', 'Featured reaction', 'Feature an approved fan reaction reel live.', false, { cap: 'My matchday reaction 🔵💙 #MCIRMA' }) },
     { label: 'Clear prompt', emoji: '✕', event: ev('mod-close', 'Clear prompt', 'Remove the active poll / question.') },
     { label: 'Flash sale', emoji: '🛒', event: ev('flash', 'Flash sale', 'Limited-time drop in the shop.', true) },
     { label: 'Announcement', emoji: '📣', event: ev('announce', 'Announcement', 'Message from the club.', true) },

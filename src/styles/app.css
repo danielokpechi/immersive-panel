@@ -1382,7 +1382,7 @@ code {
 /* ── operator cockpit: master controls (lead) + live monitor (~1/4, right) ── */
 .console__cockpit {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
+  grid-template-columns: minmax(0, 1fr) 390px;
   gap: 26px;
   align-items: start;
 }
@@ -1416,7 +1416,7 @@ code {
 }
 .monitor__device {
   position: relative;
-  width: 360px;
+  width: 390px;
   max-width: 100%;
   height: min(760px, 80vh);
   background: #0d0d0d;
@@ -1426,7 +1426,7 @@ code {
   overflow: hidden;
 }
 .monitor__frame {
-  width: 360px;
+  width: 390px;
   max-width: 100%;
   height: min(760px, 80vh);
   border: none;
