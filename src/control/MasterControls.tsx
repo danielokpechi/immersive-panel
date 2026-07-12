@@ -28,8 +28,8 @@ export function MasterControls({
   onPopOut: () => void;
 }) {
   const send = (cmd: Command) => bus.send(cmd);
-  const mode = telemetry?.mode ?? 'auto';
-  const running = telemetry?.running ?? true;
+  const mode = telemetry?.mode ?? 'manual';
+  const running = telemetry?.running ?? false;
   const speed = telemetry?.speed ?? 60;
 
   // local view of module on/off (seeded from config, reconciled with telemetry)

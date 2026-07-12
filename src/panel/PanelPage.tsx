@@ -62,8 +62,9 @@ export function PanelPage() {
 
 /**
  * The original Man City matchday prototype (image slider, live score/clock,
- * countdown, shop, quests). Runs its full self-playing matchday and still
- * takes operator commands relayed from the bus via postMessage.
+ * countdown, shop, quests). Starts MANUAL: it holds at the pre-match screen
+ * and waits for the operator, taking commands relayed from the bus via
+ * postMessage. No self-playing fallback — nothing advances until the operator drives it.
  */
 function LegacyFanPanel({ config }: { config: PanelConfig }) {
   const ref = useRef<HTMLIFrameElement>(null);
@@ -73,8 +74,7 @@ function LegacyFanPanel({ config }: { config: PanelConfig }) {
       if (msg.type !== 'state' && msg.type !== 'chat') ref.current?.contentWindow?.postMessage(msg, '*');
     });
     // When the iframe signals it's loaded + listening, ask the operator for the
-    // current state. If they're driving in manual, the sync reply stops the
-    // panel's demo and snaps it to their state (no more "fan on auto").
+    // current state so the panel snaps to whatever the operator is showing.
     const onReady = (e: MessageEvent) => {
       if (e.data?.type === '__ready') bus.send({ type: 'requestState' });
     };
@@ -90,7 +90,7 @@ function LegacyFanPanel({ config }: { config: PanelConfig }) {
       ref={ref}
       className="fan__legacy"
       title={config.name}
-      src={legacyUrl(config.id, { auto: true, bridge: 'post', ...legacyTeam(config) })}
+      src={legacyUrl(config.id, { bridge: 'post', ...legacyTeam(config) })}
     />
   );
 }
