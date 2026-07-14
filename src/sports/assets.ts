@@ -10,6 +10,7 @@ const pack = (team: string, files: string[]): string[] =>
   files.map((f) => `${BASE_URL}assets/${team}/${f}`);
 
 export const ASSET_PACKS: Record<string, string[]> = {
+  england: pack('england', ['eng_01.jpg','eng_02.jpg','eng_03.jpg','eng_04.jpg','eng_05.jpg','eng_06.jpg','eng_07.jpg','eng_08.jpg','arg_01.jpg','arg_02.jpg','arg_03.jpg','arg_04.jpg']),
   f1_ferrari: pack('f1_ferrari', ['ferrari_01.jpg','ferrari_02.jpg','ferrari_03.jpg','ferrari_04.jpg','ferrari_05.jpg','ferrari_07.jpg','ferrari_08.jpg','ferrari_09.jpg']),
   f1_haas: pack('f1_haas', ['haas_01.jpg','haas_03.jpg','haas_04.jpg','haas_06.jpg','haas_07.jpg','haas_08.jpg','haas_09.jpg','haas_10.jpg']),
   f1_mclaren: pack('f1_mclaren', ['mclaren_01.jpg','mclaren_02.jpg','mclaren_04.jpg','mclaren_06.jpg','mclaren_08.jpg','mclaren_10.jpg']),

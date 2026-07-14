@@ -11,6 +11,7 @@ import type { ControlBus } from './bus';
 import { MODULE_META } from '../theme/tokens';
 import { derivePanelStates } from '../sports/registry';
 import { TRIGGERS } from './triggers';
+import { reskinEvent } from '../panel/legacyReskin';
 
 const SPEEDS = [60, 120, 300, 600];
 
@@ -132,7 +133,7 @@ export function MasterControls({
       <Section title="Trigger event">
         <div className="mc__triggers">
           {(TRIGGERS[pack.id] ?? []).map((t) => (
-            <button key={t.label} className="mc__trigger" onClick={() => send({ type: 'fireEvent', event: t.event })}>
+            <button key={t.label} className="mc__trigger" onClick={() => send({ type: 'fireEvent', event: reskinEvent(t.event, config) })}>
               <span>{t.emoji}</span>
               {t.label}
             </button>

@@ -20,7 +20,7 @@ import { reskinNamesFor } from './legacyReskin';
 import { usePanelRuntime } from '../engine/usePanelRuntime';
 import { applySportTheme } from '../theme/tokens';
 import { ControlBus } from '../control/bus';
-import { legacyUrl } from '../config';
+import { BASE_URL, legacyUrl } from '../config';
 import { PanelShell } from './PanelShell';
 
 export function PanelPage() {
@@ -100,12 +100,18 @@ function LegacyFanPanel({ config }: { config: PanelConfig }) {
 function legacyTeam(config: PanelConfig) {
   const b = config.branding;
   if (!b?.name || b.name === 'Man City') return {};
+  // Packs that ship a badge/home-ground image swap the baked-in City PNGs too.
+  const extras =
+    config.assetKey === 'england'
+      ? { crest: `${BASE_URL}assets/england/crest.png`, stadium: `${BASE_URL}assets/england/stadium.jpg` }
+      : {};
   return {
     team: b.name,
     opp: b.competitors?.[1],
     color: b.primary,
     imgs: assetsFor(config.assetKey),
     names: reskinNamesFor(b.name),
+    ...extras,
   };
 }
 

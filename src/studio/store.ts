@@ -12,6 +12,15 @@ const KEY = 'boltos.panels.v1';
 function seed(): PanelConfig[] {
   return [
     makePanelConfig('football', {
+      id: 'pnl_england',
+      name: 'England vs Argentina — Wembley Live',
+      experience: 'stream',
+      description: 'Three Lions matchday hub — England vs Argentina at Wembley.',
+      status: 'deployed',
+      assetKey: 'england',
+      branding: { name: 'England', emoji: '🦁', primary: '#3B63E0', accent: '#CE1124', competitors: ['England', 'Argentina'] },
+    }),
+    makePanelConfig('football', {
       id: 'pnl_mcfc',
       name: 'Manchester City FanZone',
       experience: 'stream',
@@ -132,7 +141,17 @@ export function loadPanels(): PanelConfig[] {
       localStorage.setItem(KEY, JSON.stringify(seeded));
       return seeded;
     }
-    return JSON.parse(raw) as PanelConfig[];
+    const stored = JSON.parse(raw) as PanelConfig[];
+    // Seeds added after this browser first stored its list (e.g. pnl_england)
+    // would otherwise never appear — merge the missing ones in, newest on top.
+    const have = new Set(stored.map((p) => p.id));
+    const missing = seed().filter((p) => !have.has(p.id));
+    if (missing.length) {
+      const merged = [...missing, ...stored];
+      persist(merged);
+      return merged;
+    }
+    return stored;
   } catch {
     return seed();
   }

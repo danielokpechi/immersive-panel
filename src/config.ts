@@ -44,6 +44,10 @@ export function legacyUrl(
     imgs?: string[];
     /** per-club name remap (players/manager/venue/abbrev) */
     names?: Record<string, string>;
+    /** club badge — swaps the baked-in City crest PNG */
+    crest?: string;
+    /** home-ground photo — swaps the baked-in Etihad PNG */
+    stadium?: string;
   } = {},
 ): string {
   const p = new URLSearchParams({ v: '4', id });
@@ -54,6 +58,8 @@ export function legacyUrl(
   if (opts.opp) p.set('opp', opts.opp);
   if (opts.color) p.set('color', opts.color.replace('#', ''));
   if (opts.imgs && opts.imgs.length) p.set('imgs', opts.imgs.join('|'));
+  if (opts.crest) p.set('crest', opts.crest);
+  if (opts.stadium) p.set('stadium', opts.stadium);
   if (opts.names && Object.keys(opts.names).length) p.set('names', JSON.stringify(opts.names));
   return `${BASE_URL}legacy/index.html?${p.toString()}`;
 }

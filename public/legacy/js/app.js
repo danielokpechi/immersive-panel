@@ -247,7 +247,7 @@ function fullCardNav(n) {
 function shareCurrentCard() {
   const text = _cardShare[_cardN - 1];
   if (navigator.share) {
-    navigator.share({ title: 'Man City vs Real Madrid', text, url: window.location.href }).catch(()=>{});
+    navigator.share({ title: reskin('Man City vs Real Madrid'), text, url: window.location.href }).catch(()=>{});
   } else {
     window._shareText = text;
     showOverlay('share-sheet');
@@ -327,14 +327,14 @@ function setPickup(mode) {
   const btn = document.getElementById('place-order-btn');
   if (seat && ht) {
     if (mode === 'halftime') {
-      ht.style.background = 'rgba(108,171,221,0.1)'; ht.style.border = '1.5px solid rgba(108,171,221,0.4)';
-      ht.querySelector('div').style.color = '#6CABDD';
+      ht.style.background = 'rgba(' + BRAND_RGB + ',0.1)'; ht.style.border = '1.5px solid rgba(' + BRAND_RGB + ',0.4)';
+      ht.querySelector('div').style.color = '' + BRAND + '';
       seat.style.background = 'rgba(255,255,255,0.04)'; seat.style.border = '1px solid rgba(255,255,255,0.1)';
       seat.querySelector('div').style.color = 'rgba(255,255,255,0.5)';
       if (btn) btn.textContent = 'Order for Halftime Pickup →';
     } else {
-      seat.style.background = 'rgba(108,171,221,0.1)'; seat.style.border = '1.5px solid rgba(108,171,221,0.4)';
-      seat.querySelector('div').style.color = '#6CABDD';
+      seat.style.background = 'rgba(' + BRAND_RGB + ',0.1)'; seat.style.border = '1.5px solid rgba(' + BRAND_RGB + ',0.4)';
+      seat.querySelector('div').style.color = '' + BRAND + '';
       ht.style.background = 'rgba(255,255,255,0.04)'; ht.style.border = '1px solid rgba(255,255,255,0.1)';
       ht.querySelector('div').style.color = 'rgba(255,255,255,0.5)';
       if (btn) btn.textContent = 'Place Order — Seat Delivery →';
@@ -362,8 +362,8 @@ function selectMood(el) {
     s.style.border = '1px solid rgba(255,255,255,0.1)';
     s.style.color = 'rgba(255,255,255,0.7)';
   });
-  el.style.background = 'rgba(108,171,221,0.12)';
-  el.style.border = '1.5px solid #6CABDD';
+  el.style.background = 'rgba(' + BRAND_RGB + ',0.12)';
+  el.style.border = '1.5px solid ' + BRAND + '';
   el.style.color = '#fff';
 }
 
@@ -394,7 +394,13 @@ function hideOverlay(id) {
 // wrapper / in-app browser), not a native re-build. Loads lazily.
 function openFoodWrapper() {
   const f = document.getElementById('food-frame');
-  if (f && !f.getAttribute('src')) f.setAttribute('src', 'partner-food.html');
+  if (f && !f.getAttribute('src')) {
+    f.setAttribute('src', 'partner-food.html');
+    // same-origin: reskin the partner page's own copy once it loads
+    if (TEAM.team) f.addEventListener('load', () => {
+      try { const d = f.contentDocument; d.body.innerHTML = reskin(d.body.innerHTML); d.title = reskin(d.title); } catch (e) {}
+    }, { once: true });
+  }
   showOverlay('food-wrapper');
 }
 
@@ -428,9 +434,9 @@ function _banner(o) {
   card.innerHTML =
     '<div class="flash-ic">' + o.ic + '</div>' +
     '<div class="flash-body">' +
-      '<div class="flash-kicker">' + o.kicker + '</div>' +
-      '<div class="flash-title">' + o.title + '</div>' +
-      (o.sub ? '<div class="flash-sub">' + o.sub + '</div>' : '') +
+      '<div class="flash-kicker">' + reskin(o.kicker) + '</div>' +
+      '<div class="flash-title">' + reskin(o.title) + '</div>' +
+      (o.sub ? '<div class="flash-sub">' + reskin(o.sub) + '</div>' : '') +
     '</div>' +
     (o.right || '') +
     (o.progress ? '<div class="flash-prog"></div>' : '');
@@ -503,7 +509,7 @@ function motmVote() {
   const opts = [['Haaland', 'Striker'], ['Rodri', 'Mid'], ['Foden', 'Wing']];
   const card = document.createElement('div');
   card.className = 'flash-card fc-motm';
-  card.innerHTML =
+  card.innerHTML = reskin(
     '<div class="motm-head">' +
       '<div class="flash-ic" style="background:rgba(201,168,76,0.16)">⭐</div>' +
       '<div class="flash-body"><div class="flash-kicker" style="color:#C9A84C">Man of the Match · vote now</div><div class="flash-title">Who won it for City?</div></div>' +
@@ -511,7 +517,7 @@ function motmVote() {
     '</div>' +
     '<div class="motm-opts">' +
       opts.map(o => '<div class="motm-opt" onclick="motmPick(this)"><div class="mo-name">' + o[0] + '</div><div class="mo-sub">' + o[1] + '</div></div>').join('') +
-    '</div>';
+    '</div>');
   stack.appendChild(card);
   requestAnimationFrame(() => card.classList.add('in'));
 }
@@ -559,6 +565,65 @@ function initChatEphemerals() {
   });
 }
 
+// ── FAN-SENT CHAT ──
+// The live-chat input bar is now real: a fan can actually post into the feed.
+// Prototype-local only (messages aren't broadcast to other devices). A canned
+// fan reply drops in a beat later so the room still feels alive during a test.
+const _CHAT_REPLIES = [
+  ['BlueMoonRising', 'BM', 'Spot on 🔵'],
+  ['NorthEndBlue', 'NE', 'Haha yes get in 🔥'],
+  ['CityFan_Mk', 'CF', 'Agreed mate 👏'],
+  ['MikeNorthEnd', 'MN', 'This. Exactly this.'],
+  ['BlueHazeMcr', 'BH', 'Feeling this one 💙'],
+];
+let _chatReplyIdx = 0;
+function _chatScrollDown(feed) {
+  const s = feed && feed.parentElement;
+  if (s) s.scrollTop = s.scrollHeight;
+}
+function _chatBubbleYou(text) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;justify-content:flex-end;';
+  wrap.innerHTML =
+    '<div><div style="font-size:10px;color:rgba(' + BRAND_RGB + ',0.5);margin-bottom:2px;text-align:right;">You · now</div>' +
+    '<div style="background:rgba(' + BRAND_RGB + ',0.18);border:1px solid rgba(' + BRAND_RGB + ',0.3);border-radius:10px 10px 3px 10px;padding:8px 11px;max-width:220px;">' +
+    '<span style="font-size:13px;color:#fff;"></span></div></div>';
+  wrap.querySelector('span').textContent = text; // text-safe (no HTML injection)
+  return wrap;
+}
+function _chatBubbleOther(name, initials, text) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'display:flex;gap:8px;align-items:flex-end;';
+  wrap.innerHTML =
+    '<div style="width:28px;height:28px;border-radius:50%;background:#1a2238;flex-shrink:0;display:flex;align-items:center;justify-content:center;">' +
+    '<span style="font-size:8px;font-weight:700;color:' + BRAND + ';"></span></div>' +
+    '<div><div class="_who" style="font-size:10px;color:rgba(255,255,255,0.28);margin-bottom:2px;"></div>' +
+    '<div style="background:#111520;border:1px solid rgba(255,255,255,0.07);border-radius:10px 10px 10px 3px;padding:8px 11px;max-width:240px;">' +
+    '<span style="font-size:13px;color:rgba(255,255,255,0.82);"></span></div></div>';
+  wrap.querySelectorAll('span')[0].textContent = initials;
+  wrap.querySelector('._who').textContent = name + ' · now';
+  wrap.querySelectorAll('span')[1].textContent = text;
+  return wrap;
+}
+function chatSend() {
+  const input = document.getElementById('chat-input');
+  const feed = _chatFeed();
+  if (!input || !feed) return;
+  const text = (input.value || '').trim();
+  if (!text) return;
+  feed.appendChild(_chatBubbleYou(text));
+  input.value = '';
+  _chatScrollDown(feed);
+  const r = _CHAT_REPLIES[_chatReplyIdx++ % _CHAT_REPLIES.length];
+  setTimeout(() => {
+    const f = _chatFeed();
+    if (!f) return;
+    f.appendChild(_chatBubbleOther(r[0], r[1], r[2]));
+    _chatScrollDown(f);
+  }, 1400);
+}
+window.chatSend = chatSend;
+
 // Only one moderator prompt lives in the chat at a time.
 function _clearMod() {
   const feed = _chatFeed();
@@ -598,18 +663,18 @@ function _modNudge(kind) {
 // closes it, then shows the result split.
 function chatModPoll(opts) {
   opts = opts || {};
-  const q = opts.q || 'Who’s been City’s standout so far?';
-  const options = opts.opts || ['Haaland', 'Rodri', 'Foden'];
+  const q = reskin(opts.q || 'Who’s been City’s standout so far?');
+  const options = (opts.opts || ['Haaland', 'Rodri', 'Foden']).map((o) => reskin(o));
   const card = document.createElement('div');
   card.className = 'chat-mod chat-mod-poll';
   card.innerHTML =
     '<button class="cm-close" onclick="chatModClose(this)">✕</button>' +
-    '<div class="cm-kicker" style="color:#6CABDD;">📊 Moderator poll</div>' +
+    '<div class="cm-kicker" style="color:' + BRAND + ';">📊 Moderator poll</div>' +
     '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:9px;padding-right:20px;">' + q + '</div>' +
     '<div style="display:flex;gap:6px;">' +
       options.map((o) => '<div class="cm-poll-opt" onclick="chatPollVote(this)"><div class="cmo-bar"></div><div class="cmo-name">' + o + '</div><div class="cmo-pct">0%</div></div>').join('') +
     '</div>' +
-    '<div class="cm-foot" style="text-align:center;margin-top:8px;font-size:10px;font-weight:700;color:rgba(108,171,221,0.75);">Tap to vote · +50 XP</div>';
+    '<div class="cm-foot" style="text-align:center;margin-top:8px;font-size:10px;font-weight:700;color:rgba(' + BRAND_RGB + ',0.75);">Tap to vote · +50 XP</div>';
   const el = _mountMod(card);
   _modNudge('poll');
   return el;
@@ -629,8 +694,8 @@ function chatPollVote(el) {
     o.querySelector('.cmo-pct').textContent = pcts[i] + '%';
     o.querySelector('.cmo-bar').style.width = pcts[i] + '%';
     if (i === pickIdx) {
-      o.style.borderColor = 'rgba(108,171,221,0.55)';
-      o.querySelector('.cmo-bar').style.background = 'rgba(108,171,221,0.34)';
+      o.style.borderColor = 'rgba(' + BRAND_RGB + ',0.55)';
+      o.querySelector('.cmo-bar').style.background = 'rgba(' + BRAND_RGB + ',0.34)';
     }
   });
   const foot = card.querySelector('.cm-foot');
@@ -765,7 +830,7 @@ let _reactTimer = 0, _reelIdx = 4, _reactCount = 2431;
 let _reelWall = [];      // data backing every tile currently on the wall (index 0 = top)
 let _reelViewTimer = 0;
 
-function _reelSrc(f) { return _REEL_IMG_DIR + encodeURI(f); }
+function _reelSrc(f) { return f.indexOf('/') === -1 ? _REEL_IMG_DIR + encodeURI(f) : f; }
 function _platBadge(pf) {
   if (pf === 'x')  return '<span style="width:16px;height:16px;border-radius:4px;background:#000;border:1px solid rgba(255,255,255,0.2);display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;">𝕏</span>';
   if (pf === 'ig') return '<span style="width:16px;height:16px;border-radius:4px;background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#fff;">IG</span>';
@@ -773,7 +838,7 @@ function _platBadge(pf) {
   return '<span style="width:16px;height:16px;border-radius:4px;background:#111;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#25f4ee;">TT</span>';
 }
 function _reelCard(o, isNew, idx) {
-  const cap = (o.cap || '').replace(/#(\w+)/g, '<span style="color:#6CABDD;font-weight:600;">#$1</span>');
+  const cap = (o.cap || '').replace(/#(\w+)/g, '<span style="color:' + BRAND + ';font-weight:600;">#$1</span>');
   const topRight = o.dur
     ? '<span class="reel-dur">' + o.dur + '</span>'
     : '';
@@ -854,7 +919,7 @@ function openReel(i) {
     + '<div class="reelview-nav" style="right:0" onclick="stepReel(1)"></div>'
     + '<div style="position:absolute;left:16px;right:60px;bottom:26px;z-index:3;">'
     +   '<div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;"><span class="reel-av' + (o.you ? ' you' : '') + '" style="width:30px;height:30px;font-size:11px;">' + o.av + '</span><span style="font-size:15px;font-weight:800;color:#fff;">@' + o.n + '</span>' + _platBadge(o.pf) + '</div>'
-    +   '<div style="font-size:14px;color:#fff;line-height:1.4;margin-bottom:10px;">' + (o.cap || '').replace(/#(\w+)/g, '<span style="color:#6CABDD;font-weight:700;">#$1</span>') + '</div>'
+    +   '<div style="font-size:14px;color:#fff;line-height:1.4;margin-bottom:10px;">' + (o.cap || '').replace(/#(\w+)/g, '<span style="color:' + BRAND + ';font-weight:700;">#$1</span>') + '</div>'
     +   '<div style="font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);">▶ ' + (o.views || '0') + ' views  ·  ❤ ' + (o.likes || '0') + '</div>'
     + '</div>'
     + '<div style="position:absolute;right:14px;bottom:30px;z-index:3;display:flex;flex-direction:column;gap:16px;align-items:center;">'
@@ -927,8 +992,9 @@ function doRecord() {
       // posted → prepend the fan's own reel, flagged as pending→live.
       const mine = {
         pf: 'you', n: (typeof fanName === 'function' ? fanName() : 'you'), av: 'YOU', you: true,
-        img: 'Mancity vs Real Madrid.jpeg', dur: '0:11', views: '1', likes: '0',
-        cap: 'My matchday reaction 🔵💙 #MCIRMA',
+        img: TEAM.imgs.length ? TEAM.imgs[0] : 'Mancity vs Real Madrid.jpeg',
+        dur: '0:11', views: '1', likes: '0',
+        cap: reskin('My matchday reaction 🔵💙 #MCIRMA'),
       };
       _reelWall.unshift(mine);
       while (_reelWall.length > 12) _reelWall.pop();
@@ -1171,8 +1237,15 @@ const TEAM = (function () {
   try { names = JSON.parse(p.get('names') || 'null'); } catch (e) { names = null; }
   // apply longest keys first so "Bernardo Silva" wins over "Silva", etc.
   const nameKeys = names ? Object.keys(names).sort((a, b) => b.length - a.length) : [];
-  return { team: p.get('team'), opp: p.get('opp'), color: hex ? '#' + hex : null, rgb, imgs, names, nameKeys };
+  return {
+    team: p.get('team'), opp: p.get('opp'), color: hex ? '#' + hex : null, rgb,
+    imgs, names, nameKeys, crest: p.get('crest'), stadium: p.get('stadium'),
+  };
 })();
+
+// Brand colour for JS-built markup (falls back to the baked-in City blue).
+const BRAND = TEAM.color || '#6CABDD';
+const BRAND_RGB = TEAM.rgb;
 
 function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
@@ -1185,9 +1258,16 @@ function reskin(html) {
     let i = 0;
     out = out.replace(/(man%20city%20images%20|man city images )\/[^"')]+\.jpe?g/gi, () => TEAM.imgs[i++ % TEAM.imgs.length]);
   }
-  // 2) per-club names: players, manager, venue, abbreviation.
+  // 1b) badge + home ground (PNGs, skipped by the photo pass above).
+  if (TEAM.crest) out = out.replace(/(man%20city%20images%20|man city images )\/man_city_transparent\.png/gi, () => TEAM.crest);
+  if (TEAM.stadium) out = out.replace(/(man%20city%20images%20|man city images )\/ethihad\.png/gi, () => TEAM.stadium);
+  // 2) per-club names: players, manager, venue, abbreviation. Short all-caps
+  //    keys are word-bounded so "RMA" never matches inside "CONFIRMATION".
   for (const k of TEAM.nameKeys) {
-    out = out.replace(new RegExp(escapeRe(k), 'g'), TEAM.names[k]);
+    const re = /^[A-Z0-9]{2,6}$/.test(k)
+      ? new RegExp('\\b' + escapeRe(k) + '\\b', 'g')
+      : new RegExp(escapeRe(k), 'g');
+    out = out.replace(re, TEAM.names[k]);
   }
   // 3) team / opponent / generic "City" → team name. One pass over all variants
   //    so the inserted name (which may itself contain "City") isn't re-matched.
@@ -1200,7 +1280,38 @@ function reskin(html) {
   return out;
 }
 
-function applyTeamColorCss() {
+// Strings injected from JS (expanded cards, share texts, canned chat replies)
+// bypass the HTML reskin pass — run them through it once at boot so a
+// reskinned panel never leaks City content via script-built UI.
+function reskinInjected() {
+  if (!TEAM.team) return;
+  // The static shell (index.html overlays: scorer card, VAR, sub, yellow
+  // toast, food browser) never passes through the partial loader — reskin it
+  // in place. Safe pre-mount: handlers are inline attributes, no listeners yet.
+  const device = document.getElementById('device');
+  if (device) device.innerHTML = reskin(device.innerHTML);
+  document.title = reskin(document.title);
+  if (TEAM.imgs.length) {
+    // shared counter so the image pool cycles instead of repeating imgs[0]
+    let n = 0;
+    _cardImgs.forEach((_, i) => {
+      _cardImgs[i] = _cardImgs[i].replace(/(man%20city%20images%20|man city images )\/[^"')]+\.jpe?g/gi,
+        () => TEAM.imgs[n++ % TEAM.imgs.length]);
+    });
+  }
+  [_cardLabels, _cardTitles, _cardSubs, _cardShare].forEach((arr) => {
+    arr.forEach((v, i) => { arr[i] = reskin(v); });
+  });
+  _CHAT_REPLIES.forEach((r) => { r[0] = reskin(r[0]); r[2] = reskin(r[2]); });
+  // Reaction reels: swap thumbnails to the team pool, reskin handles/captions.
+  _REEL_POOL.forEach((o, i) => {
+    if (TEAM.imgs.length) o.img = TEAM.imgs[i % TEAM.imgs.length];
+    o.n = reskin(o.n);
+    o.cap = reskin(o.cap);
+  });
+}
+
+async function applyTeamColorCss() {
   if (!TEAM.color) return;
   const s = document.createElement('style');
   s.textContent = `
@@ -1209,6 +1320,14 @@ function applyTeamColorCss() {
     .sb.blue{background:rgba(${TEAM.rgb},0.12)!important;border-color:rgba(${TEAM.rgb},0.25)!important;color:${TEAM.color}!important;}
     .ph-badge{color:${TEAM.color}!important;background:rgba(${TEAM.rgb},0.1)!important;border-color:rgba(${TEAM.rgb},0.2)!important;}`;
   document.head.appendChild(s);
+  // Re-inject the whole stylesheet with the brand blue swapped, so EVERY rule
+  // (pulses, polls, badges…) recolours — not just the four overrides above.
+  try {
+    const css = await (await fetch('css/styles.css')).text();
+    const full = document.createElement('style');
+    full.textContent = css.replace(/#6CABDD/gi, TEAM.color).replace(/108,\s*171,\s*221/g, TEAM.rgb);
+    document.head.appendChild(full);
+  } catch (e) { /* keep the baked-in blue if the sheet can't be refetched */ }
 }
 
 async function loadAllScreens() {
@@ -1227,6 +1346,7 @@ async function loadAllScreens() {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
+  reskinInjected();
   await loadAllScreens();
   OB.forEach((id,i) => {
     const el = document.getElementById('screen-' + id);
@@ -1283,7 +1403,7 @@ function toggleLightMode() {
   const track = document.getElementById('lm-track');
   const thumb = document.getElementById('lm-thumb');
   const label = document.getElementById('lm-label');
-  if (track) track.style.background = on ? '#6CABDD' : 'rgba(255,255,255,0.12)';
+  if (track) track.style.background = on ? '' + BRAND + '' : 'rgba(255,255,255,0.12)';
   if (thumb) thumb.style.transform  = on ? 'translateX(18px)' : 'translateX(2px)';
   if (label) label.textContent      = on ? 'Light mode' : 'Dark mode';
 }
@@ -1295,7 +1415,7 @@ function toggleLightMode() {
       const track = document.getElementById('lm-track');
       const thumb = document.getElementById('lm-thumb');
       const label = document.getElementById('lm-label');
-      if (track) track.style.background = '#6CABDD';
+      if (track) track.style.background = '' + BRAND + '';
       if (thumb) thumb.style.transform  = 'translateX(18px)';
       if (label) label.textContent      = 'Light mode';
     });
@@ -1318,8 +1438,8 @@ function _syncHomeNavBtn() {
   const btn = document.getElementById('sim-nav-btn');
   if (btn) {
     btn.textContent = on ? '🔲 Nav: Home' : '⬜ Nav: Bar';
-    btn.style.background = on ? 'rgba(108,171,221,0.25)' : '';
-    btn.style.borderColor = on ? 'rgba(108,171,221,0.5)' : '';
+    btn.style.background = on ? 'rgba(' + BRAND_RGB + ',0.25)' : '';
+    btn.style.borderColor = on ? 'rgba(' + BRAND_RGB + ',0.5)' : '';
   }
 }
 
