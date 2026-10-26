@@ -3,311 +3,427 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0b1823">
+<meta name="theme-color" content="#080c12">
 <link rel="icon" href="assets/logo-aurora.svg">
 <title>Aurora Nova · Live Launch</title>
-<meta name="description" content="Aurora Motors × Enigma X: a car launch as showroom, specialist and lead engine. Connect platform demo.">
+<meta name="description" content="Aurora Motors × Enigma X: a car launch on the Connect fan panel. Before, during and after the reveal.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/car-hero.jpg">
 <link rel="stylesheet" href="styles/tokens.css">
 <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
 <div class="backdrop">
-<div id="phone">
+<div id="device">
 <div id="screen">
 
-  <!-- Fake iOS status bar, desktop frame only -->
+  <!-- ═══ Status bar: phase pill in the middle, like the matchday LIVE pill ═══ -->
   <div id="statusbar">
-    <span>9:41</span>
-    <span class="sb-ico">
-      <svg width="18" height="11" viewBox="0 0 18 11" fill="#fff"><rect x="0" y="7" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="6" rx="1"/><rect x="10" y="2.5" width="3" height="8.5" rx="1"/><rect x="15" y="0" width="3" height="11" rx="1"/></svg>
-      <svg width="16" height="11" viewBox="0 0 16 11" fill="#fff"><path d="M8 2.2c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 8 .6 9.6 9.6 0 0 0 1.2 3.4l1.1 1.1A8 8 0 0 1 8 2.2Zm0 3.2c1.3 0 2.5.5 3.4 1.4l1.1-1.1A6.4 6.4 0 0 0 8 3.8a6.4 6.4 0 0 0-4.5 1.9l1.1 1.1c.9-.9 2.1-1.4 3.4-1.4Zm0 3.2c-.5 0-.9.2-1.2.5L8 10.3l1.2-1.2c-.3-.3-.7-.5-1.2-.5Z"/></svg>
-      <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3.5" stroke="#fff" opacity=".4"/><rect x="2" y="2" width="17" height="8" rx="2" fill="#fff"/><rect x="24" y="4" width="1.5" height="4" rx=".75" fill="#fff" opacity=".4"/></svg>
+    <span class="sb-time">9:41</span>
+    <span class="phase-pill" id="phase-pill"></span>
+    <span class="sb-right">
+      <button id="auto-chip" aria-label="Autoplay"><i></i><span>AUTO</span></button>
+      <svg width="16" height="11" viewBox="0 0 16 11"><rect x="0" y="7" width="3" height="4" rx=".5" fill="currentColor"/><rect x="4.3" y="4.5" width="3" height="6.5" rx=".5" fill="currentColor"/><rect x="8.6" y="2" width="3" height="9" rx=".5" fill="currentColor"/></svg>
+      <span class="batt"><i></i></span>
     </span>
   </div>
 
-  <header id="topbar">
-    <div class="brand">
-      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 23a12 12 0 0 1 24 0" stroke="#2fe7d8" stroke-width="2.6" stroke-linecap="round"/><path d="M9.5 23a6.5 6.5 0 0 1 13 0" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="23" r="2.2" fill="#ff6b4a"/></svg>
-      <div>
-        <div class="brand-word">AURORA</div>
-        <div class="brand-sub">MOTORS · NOVA LAUNCH</div>
-      </div>
+  <!-- ═══ Header: brand + title on the left, shell nav on the right ═══ -->
+  <header id="hdr">
+    <div class="hdr-home">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M4 23a12 12 0 0 1 24 0" stroke="#2fe7d8" stroke-width="2.6" stroke-linecap="round"/><path d="M9.5 23a6.5 6.5 0 0 1 13 0" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="16" cy="23" r="2.2" fill="#ff6b4a"/></svg>
+      <span class="hdr-title" id="hdr-title">Nova Launch</span>
     </div>
-    <button id="auto-chip" aria-label="Autoplay"><i></i><span>AUTO</span></button>
+    <div class="hdr-sub">
+      <button class="back" id="back" aria-label="Back"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <span class="hdr-title" id="sub-title"></span>
+    </div>
+    <div id="shell-top">
+      <button class="st-btn" id="nav-chat" aria-label="Launch chat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Chat</span><i class="st-dot"></i></button>
+      <button class="st-btn ai" id="nav-ai" aria-label="Ask Aurora"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.4" opacity=".4"/></svg><span>Aurora</span></button>
+      <button class="st-ico" id="nav-me" aria-label="My Nova"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+    </div>
+    <span class="xp-chip" id="sub-xp"></span>
   </header>
 
   <nav id="stagebar" aria-label="Launch stages">
-    <button class="sg on" data-i="0"><div class="sg-track"><div class="sg-fill"></div></div><div class="sg-lbl"><b>01</b>BEFORE</div></button>
-    <button class="sg" data-i="1"><div class="sg-track"><div class="sg-fill"></div></div><div class="sg-lbl"><b>02</b>DURING</div></button>
-    <button class="sg" data-i="2"><div class="sg-track"><div class="sg-fill"></div></div><div class="sg-lbl"><b>03</b>AFTER</div></button>
+    <button class="sg on" data-i="0"><i><b></b></i><span>Before</span></button>
+    <button class="sg" data-i="1"><i><b></b></i><span>Live reveal</span></button>
+    <button class="sg" data-i="2"><i><b></b></i><span>After</span></button>
   </nav>
 
-  <main id="views">
+  <!-- ════════════════ 01 BEFORE · HOME ════════════════ -->
+  <section class="screen home on" id="home-before" data-stage="0">
 
-    <!-- ═════════════ 01 BEFORE ═════════════ -->
-    <section class="view on" id="v-before" data-stage="0">
-      <div class="tease">
-        <div class="tease-car"></div>
-        <div class="tease-veil"></div>
-        <div class="tease-rim"></div>
-        <div class="tease-top">
-          <div class="kicker">Aurora Nova · World premiere</div>
-        </div>
-        <div class="tease-bot">
-          <h1 class="h1">Something<br>is coming.</h1>
-          <div class="cd" id="countdown">
-            <div><b data-u="d">03</b><span>DAYS</span></div>
-            <div><b data-u="h">14</b><span>HRS</span></div>
-            <div><b data-u="m">00</b><span>MIN</span></div>
-            <div><b data-u="s">00</b><span>SEC</span></div>
-          </div>
-          <button class="btn" id="cta-seat">Reserve your seat</button>
-        </div>
-      </div>
-
-      <div class="sec" id="sec-register">
-        <div class="sec-hd"><span class="num">01</span><h2 class="h3">Register interest</h2></div>
-        <div class="card top-t" id="register">
-          <div class="form-state">
-            <p class="p" style="margin-bottom:14px">Tell us what you're after and we'll shape your launch night around it.</p>
-            <div class="field"><label for="r-variant">Preferred variant</label>
-              <select class="inp" id="r-variant"></select></div>
-            <div class="field"><label>Budget</label><div class="seg" id="r-budget"></div></div>
-            <div class="field"><label for="r-city">Location</label><select class="inp" id="r-city"></select></div>
-            <div class="fin-row">
-              <div class="field"><label for="r-name">Name</label><input class="inp" id="r-name" placeholder="Your name" autocomplete="off"></div>
-              <div class="field"><label for="r-email">Email</label><input class="inp" id="r-email" type="email" placeholder="you@mail.com" autocomplete="off"></div>
-            </div>
-            <button class="btn" id="r-submit" style="margin-top:4px">Register interest</button>
-          </div>
-          <div class="done-state">
-            <div class="tick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></div>
-            <div><div class="h3" id="r-done-title">You're on the list.</div><p class="p" id="r-done-sub" style="margin-top:4px"></p></div>
+    <div class="hero" id="hero">
+      <div class="hero-card on" data-c="0">
+        <div class="hero-img tease"></div>
+        <div class="hero-shade"></div>
+        <div class="hero-body">
+          <div class="kick">World premiere · Aurora Nova</div>
+          <div class="hero-h">Something<br>is coming.</div>
+          <div class="tiles">
+            <div class="tile"><span>Reveal</span><b class="brand" id="h-date">Sat 20:00</b></div>
+            <div class="tile"><span>Seat</span><b id="h-seat">Not yet</b></div>
+            <button class="tile cta" id="cta-seat"><span>Reserve</span><b>Your seat →</b></button>
           </div>
         </div>
       </div>
-
-      <div class="sec" id="sec-question">
-        <div class="sec-hd o"><span class="num">02</span><h2 class="h3">Shape the reveal</h2></div>
-        <div class="card top-o" id="question">
-          <div class="form-state">
-            <div class="field"><label for="q-text">What do you want to know about the Nova?</label>
-              <textarea class="inp" id="q-text" placeholder="Ask the design team anything…"></textarea></div>
-            <div class="chips" id="q-chips" style="margin-bottom:14px"></div>
-            <button class="btn orange" id="q-submit">Submit question</button>
-          </div>
-          <div class="done-state">
-            <div class="tick" style="background:var(--orange);color:#250b04"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></div>
-            <div><div class="h3">Thank you. It's in the queue.</div><p class="p" id="q-done-sub" style="margin-top:4px"></p>
-              <button class="link" id="q-another" style="margin-top:10px">Ask another</button></div>
+      <div class="hero-card" data-c="1">
+        <div class="hero-img lights"></div>
+        <div class="hero-shade"></div>
+        <div class="hero-body">
+          <div class="kick">Design story · Light Blade</div>
+          <div class="hero-h">One line<br>of light.</div>
+          <div class="tiles">
+            <div class="tile"><span>LEDs</span><b>2,400</b></div>
+            <div class="tile"><span>Length</span><b>1.6 m</b></div>
+            <div class="tile"><span>Wakes at</span><b>3 m</b></div>
           </div>
         </div>
       </div>
-
-      <div class="sec" id="sec-reserve">
-        <div class="sec-hd"><span class="num">03</span><h2 class="h3">Reserve launch access</h2></div>
-        <div class="card top-t" id="reserve">
-          <div class="form-state">
-            <div class="seat-opts">
-              <button class="seat on" data-seat="virtual"><div class="ico">📱</div><b>Virtual seat</b><span>Free · watch live on your phone</span></button>
-              <button class="seat" data-seat="physical"><div class="ico">🏟️</div><b>Physical seat</b><span>Limited · 3 studios</span></button>
-            </div>
-            <div class="venues" id="venues"></div>
-            <button class="btn" id="s-confirm">Confirm my seat</button>
-          </div>
-          <div class="ticket">
-            <div class="ticket-top">
-              <div><div class="kicker">Launch pass</div><div class="h2" style="margin-top:6px" id="t-type">Virtual seat</div><div class="small" id="t-where" style="margin-top:3px">Live on this page</div></div>
-              <div class="live-pill" style="background:var(--teal);color:var(--teal-ink)">CONFIRMED</div>
-            </div>
-            <div class="ticket-cut"></div>
-            <div class="ticket-bot">
-              <div><span>DATE</span><b id="t-date">Sat 31 Oct</b></div>
-              <div><span>DOORS</span><b>20:00 MYT</b></div>
-              <div><span>PASS</span><b id="t-ref">NV-0428</b></div>
-            </div>
+      <div class="hero-card" data-c="2">
+        <div class="hero-img side"></div>
+        <div class="hero-shade"></div>
+        <div class="hero-body">
+          <div class="kick ai-k">Aurora says</div>
+          <div class="hero-big">610 km</div>
+          <div class="hero-note">Expected Nova Pro range · confirmed on stage</div>
+          <div class="tiles">
+            <div class="tile"><span>0–100</span><b>4.4 s</b></div>
+            <div class="tile"><span>Charge</span><b>18 min</b></div>
+            <button class="tile ai" data-ask><span>Ask</span><b>Aurora →</b></button>
           </div>
         </div>
       </div>
+      <div class="dots-nav" id="hero-dots"><i class="on"></i><i></i><i></i></div>
+    </div>
 
-      <button class="skip" id="skip-live">
-        <div><div class="kicker o">Demo shortcut</div><div class="h3" style="margin-top:5px">Skip to the live reveal</div></div>
-        <span style="font-size:22px;color:var(--orange)">→</span>
-      </button>
-    </section>
-
-    <!-- ═════════════ 02 DURING ═════════════ -->
-    <section class="view" id="v-during" data-stage="1">
-      <div class="live-stage" id="live-stage">
-        <div class="car-box" id="car-box">
-          <img class="car-img" src="assets/car-hero.jpg" alt="Aurora Nova on the reveal stage" width="1264" height="848">
-          <div class="paint hue"></div>
-          <div class="paint depth"></div>
-          <div class="sweep"></div>
-        </div>
-        <div class="stage-fade"></div>
-        <div class="live-badge">
-          <span class="live-pill"><i></i>LIVE</span>
-          <span class="viewers"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg><span id="viewers">18,240</span></span>
-        </div>
-        <div class="on-stage" id="on-stage"><b>ON STAGE</b><span>Design chief Mei Lin Tan</span></div>
-        <div class="hs-hint" id="hs-hint">TAP THE GLOWING POINTS TO EXPLORE</div>
+    <div class="kick-card" id="countdown">
+      <div>
+        <div class="lbl">Reveal</div>
+        <div class="kc-t">Aurora Nova world premiere</div>
+        <div class="kc-s" id="cd-sub">Live on Connect · 20:00 MYT</div>
       </div>
-
-      <div class="picker">
-        <div class="vtabs" id="vtabs"></div>
-        <div class="swatch-row">
-          <div class="swatches" id="swatches"></div>
-          <div class="paint-name" id="paint-name">Pearl Frost<span>RM159,000</span></div>
-        </div>
+      <div class="cd">
+        <b id="cd-val">3d 14:00:00</b>
+        <span>DAYS · HRS · MIN · SEC</span>
       </div>
+    </div>
 
-      <div class="feed" id="feed">
-        <div class="sec" id="sec-poll">
-          <div class="sec-hd o"><span class="num">LIVE POLL</span><h2 class="h3" id="poll-q"></h2></div>
-          <div class="card top-o" id="poll">
-            <div id="poll-opts"></div>
-            <div class="small" style="display:flex;justify-content:space-between;margin-top:4px"><span id="poll-total"></span><span style="color:var(--orange);font-family:var(--mono);font-size:9px;letter-spacing:.14em">● VOTES COMING IN</span></div>
+    <div class="row-hd"><h3>Get launch-ready</h3><span class="gold" id="xp-left">450 XP</span></div>
+    <div class="quests">
+      <button class="quest" id="q-register" data-go="scr-register"><span class="qi">🔔</span><div><b>Register interest</b><small id="q-register-s">Tell us what you're after</small></div><span class="qx">+150 XP</span></button>
+      <button class="quest" id="q-question" data-go="scr-question"><span class="qi">💬</span><div><b>Ask the design team</b><small id="q-question-s">Top questions answered on stage</small></div><span class="qx">+100 XP</span></button>
+      <button class="quest" id="q-seat" data-go="scr-seat"><span class="qi">🎟️</span><div><b>Reserve your launch seat</b><small id="q-seat-s">Virtual or in a studio</small></div><span class="qx">+200 XP</span></button>
+    </div>
+
+    <div class="row-hd"><h3>Aurora says</h3><button class="link" data-ask>Ask now →</button></div>
+    <button class="says" data-ask>
+      <span class="orb sm"></span>
+      <div><b>Pro is the early favourite</b><small>53% of registrations so far · tap to see why</small></div>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <div class="row-hd"><h3>Stories</h3><span class="link">See all →</span></div>
+    <div class="news">
+      <div class="nw"><div class="nw-img a"><em>Design</em></div><b>Inside the Light Blade studio</b></div>
+      <div class="nw"><div class="nw-img b"><em class="o">Tech</em></div><b>800 volts, explained in 90 seconds</b></div>
+      <div class="nw"><div class="nw-img c"><em>Behind the scenes</em></div><b>Shipping 500 Launch Editions</b></div>
+    </div>
+
+    <button class="go-live" id="skip-live">
+      <span class="gl-ic">●</span>
+      <div><b>Skip to the live reveal</b><small>Demo shortcut · 18,240 watching</small></div>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </section>
+
+  <!-- ── Before · sub-screens ── -->
+  <section class="screen sub" id="scr-register" data-stage="0" data-title="Register interest" data-xp="+150 XP">
+    <div class="pad" id="register">
+      <div class="form-state">
+        <p class="lead">Tell us what you're after and we'll shape your launch night around it.</p>
+        <div class="field"><label for="r-variant">Preferred variant</label><select class="inp" id="r-variant"></select></div>
+        <div class="field"><label>Budget</label><div class="opts" id="r-budget"></div></div>
+        <div class="field"><label for="r-city">Location</label><select class="inp" id="r-city"></select></div>
+        <div class="field"><label for="r-name">Name</label><input class="inp" id="r-name" placeholder="Your name" autocomplete="off"></div>
+        <div class="field"><label for="r-email">Email</label><input class="inp" id="r-email" type="email" placeholder="you@mail.com" autocomplete="off"></div>
+        <button class="btn" id="r-submit">Register interest</button>
+      </div>
+      <div class="done-state">
+        <div class="done-card">
+          <div class="tick">✓</div>
+          <div class="h" id="r-done-title">You're on the list.</div>
+          <p id="r-done-sub"></p>
+          <div class="earned">+150 XP</div>
+        </div>
+        <button class="btn ghost done-back">Back to the launch</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen sub" id="scr-question" data-stage="0" data-title="Ask the design team" data-xp="+100 XP">
+    <div class="pad" id="question">
+      <div class="form-state">
+        <p class="lead">The design team answers the top questions live on stage.</p>
+        <div class="field"><label for="q-text">What do you want to know about the Nova?</label><textarea class="inp" id="q-text" placeholder="Ask anything…"></textarea></div>
+        <div class="chips" id="q-chips"></div>
+        <button class="btn" id="q-submit">Submit question</button>
+      </div>
+      <div class="done-state">
+        <div class="done-card">
+          <div class="tick">✓</div>
+          <div class="h">Thank you. It's in the queue.</div>
+          <p id="q-done-sub"></p>
+          <div class="earned">+100 XP</div>
+        </div>
+        <button class="btn ghost done-back">Back to the launch</button>
+        <button class="link center" id="q-another">Ask another</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen sub" id="scr-seat" data-stage="0" data-title="Reserve your seat" data-xp="+200 XP">
+    <div class="pad" id="reserve">
+      <div class="form-state">
+        <p class="lead">Watch on your phone, or join us in one of three Aurora studios.</p>
+        <div class="seat-opts">
+          <button class="seat on" data-seat="virtual"><span class="ico">📱</span><b>Virtual seat</b><small>Free · live on this panel</small></button>
+          <button class="seat" data-seat="physical"><span class="ico">🏟️</span><b>Studio seat</b><small>Limited · 3 cities</small></button>
+        </div>
+        <div class="venues" id="venues"></div>
+        <button class="btn" id="s-confirm">Confirm my seat</button>
+      </div>
+      <div class="done-state">
+        <div class="ticket">
+          <div class="ticket-top">
+            <div><div class="lbl brand">Launch pass</div><div class="h" id="t-type">Virtual seat</div><small id="t-where">Live on this panel</small></div>
+            <span class="ok-pill">CONFIRMED</span>
+          </div>
+          <div class="ticket-cut"></div>
+          <div class="ticket-bot">
+            <div><span>Date</span><b id="t-date">Sat 31 Oct</b></div>
+            <div><span>Doors</span><b>19:30</b></div>
+            <div><span>Pass</span><b id="t-ref">NV-0428</b></div>
           </div>
         </div>
+        <div class="earned center">+200 XP</div>
+        <button class="btn ghost done-back">Back to the launch</button>
+      </div>
+    </div>
+  </section>
 
-        <div class="sec" id="sec-finance">
-          <div class="sec-hd"><span class="num">OWN IT</span><h2 class="h3">Finance &amp; ownership cost</h2></div>
-          <div class="card top-t" id="finance">
-            <div class="kicker m" id="f-model">NOVA STANDARD · RM159,000</div>
-            <div class="money"><div class="big" id="f-monthly">RM0<small>/mo</small></div><div class="small" style="text-align:right">2.49% p.a. flat<br>indicative</div></div>
-            <div class="field"><label for="f-dep-range">Deposit · <span id="f-dep-pct">20%</span></label>
-              <input type="range" id="f-dep-range" min="10" max="50" step="1" value="20"></div>
-            <div class="fin-row">
-              <div class="field"><label for="f-dep">Deposit (RM)</label><input class="inp" id="f-dep" inputmode="numeric"></div>
-              <div class="field"><label for="f-term">Term</label>
-                <select class="inp" id="f-term"><option value="5">5 years</option><option value="7" selected>7 years</option><option value="9">9 years</option></select></div>
-            </div>
-            <div class="small">Charging at home costs about <b style="color:var(--text)" id="f-charge">RM95</b> a month for 1,500 km.</div>
+  <!-- ════════════════ 02 LIVE · HOME ════════════════ -->
+  <section class="screen home live" id="home-live" data-stage="1">
+    <div class="live-stage" id="live-stage">
+      <div class="car-box" id="car-box">
+        <img class="car-img" src="assets/car-hero.jpg" alt="Aurora Nova on the reveal stage" width="1264" height="848">
+        <div class="paint hue"></div>
+        <div class="paint depth"></div>
+        <div class="sweep"></div>
+      </div>
+      <div class="stage-fade"></div>
+      <div class="live-badge"><span class="viewers"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg><span id="viewers">18,240</span> watching</span></div>
+      <div class="hs-hint" id="hs-hint">Tap the glowing points to explore</div>
+    </div>
+
+    <div class="card picker">
+      <div class="vtabs" id="vtabs"></div>
+      <div class="swatch-row">
+        <div class="swatches" id="swatches"></div>
+        <div class="paint-name" id="paint-name"></div>
+      </div>
+    </div>
+
+    <div class="feed-card poll-c" id="sec-poll">
+      <div class="fc-hd"><div><span class="fc-ic">📊</span><b>Live Poll</b><span class="chip-live o"><i></i><span id="poll-total">0 votes</span></span></div></div>
+      <div class="fc-q" id="poll-q"></div>
+      <div id="poll"><div id="poll-opts"></div></div>
+    </div>
+
+    <div class="feed-card chat-c" id="sec-chat">
+      <div class="fc-hd"><div><span class="fc-ic">💬</span><b>Launch Chat</b><span class="chip-live g"><i></i><span id="chat-n">1,204 live</span></span></div><span class="open">#AuroraNova</span></div>
+      <div class="lines" id="lines"></div>
+    </div>
+
+    <div class="grid2">
+      <button class="tile2" id="t-finance" data-go="scr-finance"><span class="t2-ic">💰</span><div><b>Finance</b><small id="t-finance-s">From RM1,600/mo</small></div></button>
+      <button class="tile2 ai" id="ask" data-ask><span class="orb xs"></span><div><b>Ask Aurora</b><small>Answers in seconds</small></div></button>
+      <button class="tile2" id="t-drive" data-go="scr-drive"><span class="t2-ic">🚗</span><div><b>Test drive</b><small id="t-drive-s">Next 7 days</small></div></button>
+      <button class="tile2" id="t-spec"><span class="t2-ic">📋</span><div><b>Spec sheet</b><small>Range · 0–100</small></div></button>
+    </div>
+
+    <div class="moments" id="moments"></div>
+
+    <div class="row-hd"><h3>Launch night <span class="deal">TONIGHT ONLY</span></h3></div>
+    <button class="offer" id="offer">
+      <div class="of-ic">⚡</div>
+      <div><b>Reserve tonight, lock the price</b><small>RM1,000 refundable · free wallbox · 30-day lock</small></div>
+      <span class="of-go" id="offer-go">Reserve</span>
+    </button>
+    <div style="height:84px"></div>
+  </section>
+
+  <!-- ── Live · sub-screens ── -->
+  <section class="screen sub" id="scr-finance" data-stage="1" data-title="Finance" data-xp="Indicative">
+    <div class="pad" id="finance">
+      <div class="money-card">
+        <div class="lbl" id="f-model">NOVA STANDARD · RM159,000</div>
+        <div class="big" id="f-monthly">RM0<small>/mo</small></div>
+        <div class="kc-s">2.49% p.a. flat · indicative, confirmed by your dealer</div>
+      </div>
+      <div class="field"><label for="f-dep-range">Deposit · <span id="f-dep-pct">20%</span></label><input type="range" id="f-dep-range" min="10" max="50" step="1" value="20"></div>
+      <div class="two">
+        <div class="field"><label for="f-dep">Deposit (RM)</label><input class="inp" id="f-dep" inputmode="numeric"></div>
+        <div class="field"><label for="f-term">Term</label><select class="inp" id="f-term"><option value="5">5 years</option><option value="7" selected>7 years</option><option value="9">9 years</option></select></div>
+      </div>
+      <div class="note">⚡ Charging at home costs about <b id="f-charge">RM95</b> a month for 1,500 km.</div>
+      <button class="btn ghost done-back" style="margin-top:16px">Back to the reveal</button>
+    </div>
+  </section>
+
+  <section class="screen sub" id="scr-drive" data-stage="1" data-title="Book a test drive" data-xp="+250 XP">
+    <div class="pad" id="drive">
+      <div class="form-state">
+        <div class="field"><label>Pick a day</label></div>
+        <div class="dates" id="dates"></div>
+        <div class="field"><label>Pick a dealer</label></div>
+        <div class="venues show" id="dealers"></div>
+        <button class="btn" id="d-confirm" disabled>Confirm test drive</button>
+      </div>
+      <div class="done-state">
+        <div class="done-card">
+          <div class="tick">✓</div>
+          <div class="h">Test drive booked</div>
+          <p id="d-done"></p>
+          <div class="earned">+250 XP</div>
+        </div>
+        <button class="btn" id="to-after">See what Aurora learned about you →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ask Aurora: full-screen assistant, slides up like IRIS -->
+  <section class="screen sub up" id="scr-ai" data-title="Aurora" data-xp="">
+    <div class="ai-hd"><span class="orb"></span><div><b>Ask Aurora</b><small>Answers from approved Nova data</small></div></div>
+    <div class="msgs" id="msgs"></div>
+    <div class="qs" id="qs"></div>
+  </section>
+
+  <!-- ════════════════ 03 AFTER · HOME ════════════════ -->
+  <section class="screen home" id="home-after" data-stage="2">
+    <div class="hero after">
+      <div class="hero-card on">
+        <div class="build-car"><div class="car-box"><img class="car-img" src="assets/car-hero.jpg" alt="" width="1264" height="848"><div class="paint hue"></div><div class="paint depth"></div></div></div>
+        <div class="hero-shade"></div>
+        <div class="hero-body">
+          <div class="kick">Revealed · Your build</div>
+          <div class="hero-h" id="a-title">Nova Pro</div>
+          <div class="hero-note" id="a-sub">Ember Orange · Dual motor, AWD</div>
+          <div class="tiles">
+            <div class="tile"><span>Lead score</span><b class="brand" id="a-score">0</b></div>
+            <div class="tile"><span>XP today</span><b class="gold" id="a-xp">+0</b></div>
+            <div class="tile"><span>From</span><b id="a-month">RM0</b></div>
           </div>
         </div>
-
-        <div class="sec" id="sec-drive">
-          <div class="sec-hd"><span class="num">DRIVE IT</span><h2 class="h3">Book a test drive</h2></div>
-          <div class="card top-t" id="drive">
-            <div class="form-state">
-              <div class="field"><label>Pick a day</label></div>
-              <div class="dates" id="dates"></div>
-              <div class="field"><label>Pick a dealer</label></div>
-              <div class="venues show" id="dealers" style="animation:none"></div>
-              <button class="btn" id="d-confirm" disabled>Confirm test drive</button>
-            </div>
-            <div class="confirm-card">
-              <div style="display:flex;gap:12px;align-items:flex-start">
-                <div class="tick"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></div>
-                <div><div class="h3">Test drive booked</div><p class="p" id="d-done" style="margin-top:4px"></p></div>
-              </div>
-              <button class="btn ghost sm" id="to-after" style="margin-top:14px">See what Aurora learned about you →</button>
-            </div>
-          </div>
-        </div>
       </div>
+    </div>
 
-      <button class="ask" id="ask"><span class="orb"></span>Ask Aurora</button>
-      <div class="react-bar">
-        <button class="rx" data-rx="🔥" aria-label="Fire">🔥</button>
-        <button class="rx" data-rx="❤️" aria-label="Love">❤️</button>
-        <button class="rx" data-rx="🤯" aria-label="Mind blown">🤯</button>
-        <button class="rx" data-rx="😮" aria-label="Wow">😮</button>
-        <div class="rx-count"><b id="rx-total">48,912</b><span>REACTIONS</span></div>
+    <div class="score-card">
+      <div class="ring">
+        <svg viewBox="0 0 100 100"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fe7d8"/><stop offset="1" stop-color="#ff6b4a"/></linearGradient></defs><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" id="ring-fg" cx="50" cy="50" r="42"/></svg>
+        <div class="val"><b id="score">0</b><span>/ 100</span></div>
       </div>
-    </section>
+      <div>
+        <span class="heat" id="heat">● HOT LEAD</span>
+        <div class="kc-t" style="margin-top:8px">Aurora knows you now.</div>
+        <div class="kc-s">Every tap built this profile, with your consent.</div>
+      </div>
+    </div>
 
-    <!-- ═════════════ 03 AFTER ═════════════ -->
-    <section class="view" id="v-after" data-stage="2">
-      <div class="sec" style="padding-top:12px">
-        <div class="kicker">Your Nova, after the reveal</div>
-        <h1 class="h1" style="font-size:30px;margin-top:8px">Here's what<br>you explored.</h1>
-        <div class="score">
-          <div class="ring">
-            <svg viewBox="0 0 100 100"><defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fe7d8"/><stop offset="1" stop-color="#ff6b4a"/></linearGradient></defs><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" id="ring-fg" cx="50" cy="50" r="42"/></svg>
-            <div class="val"><b id="score">0</b><span>LEAD SCORE</span></div>
-          </div>
-          <div>
-            <span class="heat" id="heat">● HOT LEAD</span>
-            <p class="p" style="margin-top:8px">The brand knows you now. Every tap built this profile, with your consent.</p>
-          </div>
-        </div>
-      </div>
-      <div class="sec">
-        <div class="card"><div class="explored" id="explored"></div></div>
-      </div>
+    <div class="row-hd"><h3>Here's what you explored</h3></div>
+    <div class="card recap" id="explored"></div>
 
-      <div class="sec">
-        <div class="sec-hd"><span class="num">ASSIGN</span><h2 class="h3">Your dealer</h2></div>
-        <div class="card top-t">
-          <p class="p" style="color:var(--text);margin-bottom:14px" id="dealer-line">Your dealer, Aurora KL, will be in touch within 24 hours.</p>
-          <div class="dealer">
-            <div class="avatar" id="sp-init">FI</div>
-            <div style="flex:1;min-width:0"><div class="h3" id="sp-name"></div><div class="small" id="sp-role"></div><div class="small" id="sp-phone" style="margin-top:3px;color:var(--teal)"></div></div>
-          </div>
-          <button class="btn sm" id="book-call" style="margin-top:14px">Book a call with Farah</button>
-        </div>
-      </div>
+    <div class="reward">
+      <div class="rw-ic">✦</div>
+      <div><b>Launch Insider unlocked</b><small id="rw-sub">+0 XP today · free wallbox with your reservation</small></div>
+    </div>
 
-      <div class="sec">
-        <div class="sec-hd"><span class="num">RETARGET</span><h2 class="h3">Your next moves</h2></div>
-        <button class="rt" data-rt="Extended feature film"><div class="rt-thumb play"></div><div><b>Watch the 6-minute feature film</b><span id="rt-film">Deep dive on the Light Blade and Sky glass you explored.</span></div><span class="go">›</span></button>
-        <button class="rt" data-rt="Model comparison"><div class="rt-thumb cmp">VS</div><div><b>Nova vs the current Aurora Vela</b><span>Range, space and running costs side by side.</span></div><span class="go">›</span></button>
-        <button class="rt" data-rt="Weekend test drive"><div class="rt-thumb cal">🗓️</div><div><b>Take it for a weekend</b><span>48-hour test drive, charger included.</span></div><span class="go">›</span></button>
+    <div class="row-hd"><h3>Your dealer</h3></div>
+    <div class="card dealer-c">
+      <p id="dealer-line">Your dealer, Aurora KL, will be in touch within 24 hours.</p>
+      <div class="dealer">
+        <div class="avatar" id="sp-init">FI</div>
+        <div><b id="sp-name"></b><small id="sp-role"></small><small class="brand" id="sp-phone"></small></div>
       </div>
+      <button class="btn sm" id="book-call">Book a call with Farah</button>
+    </div>
 
-      <div class="sec" style="padding-bottom:34px">
-        <button class="btn orange" id="share-btn">Share your Nova build</button>
-        <button class="btn ghost" id="restart" style="margin-top:8px">Replay the launch</button>
-      </div>
-    </section>
-  </main>
+    <div class="row-hd"><h3>Your next moves</h3></div>
+    <div class="quests">
+      <button class="quest rt" data-rt="Extended feature film"><span class="qi img play"></span><div><b>Watch the 6-minute feature film</b><small id="rt-film">Deep dive on the features you explored</small></div><span class="qx">+50 XP</span></button>
+      <button class="quest rt" data-rt="Model comparison"><span class="qi">⚖️</span><div><b>Nova vs the Aurora Vela</b><small>Range, space and running costs</small></div><span class="qx">+50 XP</span></button>
+      <button class="quest rt" data-rt="Weekend test drive"><span class="qi">🗓️</span><div><b>Take it for a weekend</b><small>48-hour drive, charger included</small></div><span class="qx">+300 XP</span></button>
+    </div>
 
-  <!-- Overlays -->
+    <div class="pad" style="padding-top:6px;padding-bottom:30px">
+      <button class="btn orange" id="share-btn">Share your Nova build</button>
+      <button class="btn ghost" id="restart" style="margin-top:8px">Replay the launch</button>
+    </div>
+  </section>
+
+  <!-- ═══ Overlays ═══ -->
+  <div id="flash-stack"></div>
   <div id="floaters"></div>
-  <div class="scrim" id="scrim"></div>
 
+  <div class="react-bar" id="react-bar">
+    <button class="rx" data-rx="🔥" aria-label="Fire">🔥</button>
+    <button class="rx" data-rx="❤️" aria-label="Love">❤️</button>
+    <button class="rx" data-rx="🤯" aria-label="Mind blown">🤯</button>
+    <button class="rx" data-rx="😮" aria-label="Wow">😮</button>
+    <div class="rx-count"><b id="rx-total">48,912</b><span>reactions</span></div>
+    <button class="fab" data-ask aria-label="Ask Aurora"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="12" r="4.5" fill="#032321"/><circle cx="12" cy="12" r="8.5" stroke="#032321" stroke-width="1.2" opacity=".45"/></svg></button>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
   <div class="sheet" id="hs-sheet">
     <div class="grab"></div>
     <button class="x" data-close aria-label="Close">✕</button>
-    <div class="kicker" id="hs-k">FEATURE 01 / 05</div>
-    <div class="h2" id="hs-name" style="margin-top:8px"></div>
-    <p class="p" id="hs-desc" style="margin-top:6px"></p>
-    <div class="hs-stat"><b id="hs-stat"></b><span class="small" id="hs-unit"></span></div>
+    <div class="lbl brand" id="hs-k">FEATURE 01 / 05</div>
+    <div class="h" id="hs-name"></div>
+    <p id="hs-desc"></p>
+    <div class="hs-stat"><b id="hs-stat"></b><small id="hs-unit"></small></div>
   </div>
-
-  <div class="sheet" id="chat">
+  <div class="sheet" id="spec-sheet">
     <div class="grab"></div>
     <button class="x" data-close aria-label="Close">✕</button>
-    <div class="chat-hd"><span class="orb"></span><div><div class="h3">Ask Aurora</div><div class="small">Answers from approved Aurora data</div></div></div>
-    <div class="msgs" id="msgs"></div>
-    <div class="qs" id="qs"></div>
+    <div class="lbl brand">Spec sheet</div>
+    <div class="h" id="spec-name"></div>
+    <div class="spec-grid" id="spec-grid"></div>
   </div>
 
   <div id="share">
     <div class="sc" id="sc">
-      <div class="sc-car"><div class="car-box"><img class="car-img" src="assets/car-hero.jpg" alt="" width="1264" height="848"><div class="paint hue"></div><div class="paint depth"></div></div><div class="stage-fade" style="background:linear-gradient(0deg,#0f1f2e,transparent)"></div></div>
+      <div class="sc-car"><div class="car-box"><img class="car-img" src="assets/car-hero.jpg" alt="" width="1264" height="848"><div class="paint hue"></div><div class="paint depth"></div></div><div class="sc-fade"></div></div>
       <div class="sc-body">
-        <div class="kicker">My Aurora Nova build</div>
-        <div class="h2" style="margin-top:6px" id="sc-title">Nova Pro</div>
-        <div class="small" id="sc-paint" style="margin-top:3px"></div>
+        <div class="lbl brand">My Aurora Nova build</div>
+        <div class="h" id="sc-title">Nova Pro</div>
+        <small id="sc-paint"></small>
         <div class="sc-grid">
-          <div><span>RANGE</span><b id="sc-range"></b></div>
+          <div><span>Range</span><b id="sc-range"></b></div>
           <div><span>0–100</span><b id="sc-sprint"></b></div>
-          <div><span>FROM</span><b id="sc-month"></b></div>
+          <div><span>From</span><b id="sc-month"></b></div>
         </div>
       </div>
     </div>
-    <div class="caption" style="display:block">Screenshot to share · #AuroraNova</div>
+    <div class="sc-cap">Screenshot to share · #AuroraNova</div>
     <button class="btn ghost sm" id="share-close" style="max-width:200px">Done</button>
   </div>
 
-  <div id="golive"><div class="kicker o">The reveal is starting</div><div class="n" id="golive-n">3</div></div>
+  <div id="golive"><div class="lbl o">The reveal is starting</div><div class="n" id="golive-n">3</div></div>
   <div id="signals"></div>
   <div id="tap"></div>
 </div>

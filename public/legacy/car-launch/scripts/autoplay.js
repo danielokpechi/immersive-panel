@@ -33,14 +33,18 @@ function ringAt(el) {
 
 async function reveal(sel, at) {
   const el = typeof sel === 'string' ? $(sel) : sel;
-  // After a hands-on detour, bring back the stage this step belongs to.
-  const view = el.closest('.view');
-  if (view && !view.classList.contains('on')) { await goStage(+view.dataset.stage); await wait(500); }
-  const box = el.closest('.feed, .view');
-  if (box) {
-    const er = el.getBoundingClientRect(), br = box.getBoundingClientRect();
-    const visible = er.top >= br.top + 8 && er.bottom <= br.bottom - (box.id === 'feed' ? 80 : 8);
-    if (!visible || at != null) { scrollIntoViewIn(el, at ?? 0.22); await wait(700); }
+  // After a hands-on detour, bring back the screen this step belongs to.
+  const scr = el.closest('.screen');
+  if (scr && !scr.classList.contains('on')) {
+    if (scr.classList.contains('home') && +scr.dataset.stage !== S.stage) await goStage(+scr.dataset.stage);
+    else show(scr.id, scr.classList.contains('home') ? 'left' : 'right');
+    await wait(450);
+  }
+  if (scr) {
+    const er = el.getBoundingClientRect(), br = scr.getBoundingClientRect();
+    const foot = scr.id === 'home-live' ? 84 : 8;
+    const visible = er.top >= br.top + 8 && er.bottom <= br.bottom - foot * fitScale();
+    if (!visible || at != null) { scrollIntoViewIn(el, at ?? 0.3); await wait(700); }
   }
   return el;
 }
@@ -91,57 +95,60 @@ async function slide(sel, to) {
 }
 
 async function script() {
-  // ── 01 BEFORE (~17s) ──
+  // ── 01 BEFORE (~19s) ──
   await gate();
   await goStage(0);
-  await wait(2800);
-  await reveal('#sec-register', 0.04);
+  await wait(2600);
+  await tap('#q-register', 600);
   await choose('#r-variant', 'pro');
-  await tap('#r-budget [data-i="1"]', 300);
+  await tap('#r-budget [data-i="1"]', 250);
   await type('#r-name', 'Aisyah Rahman');
   await type('#r-email', 'aisyah@mail.my');
-  await tap('#r-submit', 1300);
-  await reveal('#sec-question', 0.04);
-  await tap('#q-chips .chip', 450);
-  await tap('#q-submit', 1300);
-  await reveal('#sec-reserve', 0.04);
-  await tap('#s-confirm', 1500);
+  await tap('#r-submit', 1200);
+  await tap('#register .done-back', 500);
+  await tap('#q-question', 500);
+  await tap('#q-chips .chip', 350);
+  await tap('#q-submit', 1100);
+  await tap('#question .done-back', 500);
+  await tap('#q-seat', 500);
+  await tap('#s-confirm', 1300);
+  await tap('#reserve .done-back', 700);
 
-  // ── 02 DURING (~30s) ──
+  // ── 02 LIVE (~30s) ──
   await tap('#skip-live', 0);
   while (!$('.hs.show:last-child')) await sleep(100);
   await wait(400);
-  for (const id of ['lights', 'wheels', 'cabin', 'charge']) await tap(`.hs[data-hs="${id}"]`, 1500);
+  for (const id of ['lights', 'wheels', 'cabin', 'charge']) await tap(`.hs[data-hs="${id}"]`, 1400);
   closeSheets();
   await wait(400);
-  await tap('.sw[data-p="ember"]', 1200);
-  await tap('.sw[data-p="night"]', 1000);
-  await tap('.sw[data-p="ember"]', 700);
+  await tap('.sw[data-p="ember"]', 1100);
+  await tap('.sw[data-p="night"]', 900);
+  await tap('.sw[data-p="ember"]', 600);
   for (const r of ['🔥', '🔥', '❤️', '🤯']) await tap(`.rx[data-rx="${r}"]`, 140);
-  await tap('.poll-opt[data-id="pro"]', 1300);
+  await tap('.poll-opt[data-id="pro"]', 1400);
   await tap('#ask', 600);
   await tap('#qs [data-q="range"]', 0);
   while (chatBusy) await sleep(100);
-  await wait(1500);
-  closeSheets();
-  await wait(300);
-  await reveal('#sec-finance', 0.02);
+  await wait(1300);
+  await tap('#back', 500);
+  await tap('#t-finance', 600);
   await slide('#f-dep-range', 30);
-  await choose('#f-term', '5', 900);
-  await reveal('#sec-drive', 0.02);
-  await tap('#dates [data-i="3"]', 300);
-  await tap('#dealers [data-id="kl"]', 300);
-  await tap('#d-confirm', 1400);
+  await choose('#f-term', '5', 800);
+  await tap('#finance .done-back', 500);
+  await tap('#t-drive', 600);
+  await tap('#dates [data-i="3"]', 250);
+  await tap('#dealers [data-id="kl"]', 250);
+  await tap('#d-confirm', 1300);
   await tap('#to-after', 0);
 
-  // ── 03 AFTER (~12s) ──
-  await wait(3200);
-  await reveal('#v-after .sec:nth-child(3)', 0.04);
+  // ── 03 AFTER (~11s) ──
+  await wait(3000);
+  await reveal('#explored', 0.08);
   await wait(1800);
-  await reveal('#v-after .sec:nth-child(4)', 0.04);
-  await wait(1600);
-  await tap('#share-btn', 3400);
-  await tap('#share-close', 1000);
+  await reveal('.dealer-c', 0.08);
+  await wait(1500);
+  await tap('#share-btn', 3200);
+  await tap('#share-close', 900);
 }
 
 // A real touch takes over; the chip itself toggles.

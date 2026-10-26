@@ -17,6 +17,8 @@ function resetState() {
     deposit: 20,
     term: 7,
     reactions: 0,
+    xp: 0,
+    offer: false,
     revealed: false,
   });
 }
@@ -37,5 +39,6 @@ function leadScore() {
   if (S.chats.length) s += 4 + Math.min(S.chats.length - 1, 2) * 2;
   if (S.deposit !== 20 || S.term !== 7) s += 4;
   if (S.drive) s += 10;
+  if (S.offer) s += 6;
   return Math.min(s, 96);
 }

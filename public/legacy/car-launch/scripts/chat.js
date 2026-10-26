@@ -1,5 +1,5 @@
-// "Ask Aurora": canned Q&As that read the viewer's current build, streamed
-// word by word so they land like a live assistant.
+// "Ask Aurora": the panel's IRIS, for a car. Canned Q&As that read the
+// viewer's current build, streamed word by word like a live assistant.
 $('#qs').innerHTML = DATA.chat.map((c) => `<button class="chip" data-q="${c.id}">${c.q}</button>`).join('');
 
 let chatBusy = false;
@@ -9,7 +9,7 @@ function openChat() {
     const name = S.register ? `, ${S.register.name.split(' ')[0]}` : '';
     addMsg('ai', `Hi${name}. I'm Aurora, trained only on approved Nova data. You're looking at the ${variantOf().full} in ${paintOf().name}. What would you like to know?`);
   }
-  openSheet('chat');
+  show('scr-ai', 'up');
 }
 
 function addMsg(who, html) {
@@ -43,5 +43,6 @@ async function askChat(id) {
   chatBusy = false;
 }
 
-$('#ask').addEventListener('click', openChat);
+$$('[data-ask]').forEach((b) => b.addEventListener('click', (e) => { e.stopPropagation(); openChat(); }));
+$('#nav-ai').addEventListener('click', openChat);
 $('#qs').addEventListener('click', (e) => { const b = e.target.closest('[data-q]'); if (b) askChat(b.dataset.q); });

@@ -46,6 +46,29 @@ window.DATA = {
 
   questionChips: ['Range?', 'Charging time?', 'Price?'],
 
+  // Launch chat: rolling fan lines while the reveal is on. `host` lines are
+  // the Aurora team posting into the room.
+  chatLines: [
+    ['AR', 'AzmanRides', 'that light bar though 😮'],
+    ['NK', 'nadia.kl', 'Ember Orange is the one. Done. Sold.'],
+    ['AU', 'Aurora team', 'Light Blade is 2,400 individually lit LEDs ✨', 'host'],
+    ['JS', 'JunSheng88', '800V charging?? in this price range??'],
+    ['FH', 'farhan_h', 'Pro AWD for me, need it for Genting runs'],
+    ['PL', 'PenangLyn', 'watching from Gurney studio 👋'],
+    ['TM', 'tmk_ev', 'range in KL traffic is what I need to hear'],
+    ['AU', 'Aurora team', 'Ask Aurora anything, answers are from the spec sheet', 'host'],
+    ['RS', 'rachel.s', 'the roof!! 🤯'],
+    ['ZI', 'zul_ikhwan', 'Launch Edition 1 of 500, reserve button where'],
+  ],
+
+  // Launch timeline: the matchday event strip, for a reveal.
+  moments: [
+    ['20:00', 'Doors open · studios in KL, Penang, JB'],
+    ['20:04', 'Aurora Nova unveiled', 'hot'],
+    ['20:07', 'Light Blade walkthrough'],
+    ['20:11', 'Price revealed · from RM159,000', 'hot'],
+  ],
+
   poll: {
     q: 'Which trim speaks to you?',
     opts: [
